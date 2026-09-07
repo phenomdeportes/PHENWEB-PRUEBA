@@ -4,287 +4,1172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phenom Uruguay - Tienda Oficial FUB</title>
+    <!-- Fuentes e Iconos Internacionales -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&family=Oswald:wght@500;700&family=Poppins:wght@400;600;800&family=Roboto:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* --- VARIABLES GLOBALES DINÁMICAS --- */
         :root {
-            --bg-color: #ffffff;
-            --primary-color: #e5b80b;
-            --text-color: #111111;
+            --primary-color: #111111;
+            --accent-color: #d4af37; /* Dorado Premium Phenom */
+            --bg-color: #f4f4f4;
+            --card-bg: #ffffff;
+            --text-color: #222222;
+            
+            /* Header */
+            --header-bg: rgba(17, 17, 17, 1);
+            --header-border: 0px solid #d4af37;
+            --header-radius: 0px;
+            --header-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+            /* Logo */
+            --logo-width: 170px;
+            --logo-text-font: 'Impact', sans-serif;
+            --logo-text-color: #ffffff;
+            --logo-text-size: 24px;
+            --logo-text-spacing: 2px;
+            --logo-text-weight: bold;
+            --logo-text-style: normal;
+            --logo-text-decor: none;
+
+            /* Tipografía Títulos */
+            --title-font: 'Segoe UI', sans-serif;
+            --title-color: #111111;
+            --title-size: 28px;
+            --title-spacing: 0px;
+            --title-weight: bold;
+            --title-style: normal;
+            --title-decor: none;
+
+            /* Botones */
+            --ws-bg: #25D366;
+            --ws-color: #ffffff;
+            --mp-bg: #009EE3;
+            --mp-color: #ffffff;
+            --ws-size: 1.1rem;
+            --ws-font: 'Segoe UI', sans-serif;
+            --ws-border: none;
+            --ws-radius: 6px;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); transition: background 0.3s, color 0.3s; }
 
-        /* Barra FUB Superior */
-        .fub-bar { background: #000; color: #fff; text-align: center; padding: 8px; font-size: 0.85rem; font-weight: bold; letter-spacing: 1px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* Header Principal */
-        header { display: flex; justify-content: space-between; align-items: center; background: #111; padding: 15px 30px; color: white; position: relative; }
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .logo-area { display: flex; align-items: center; gap: 15px; }
-        .logo-text { font-family: 'Impact', sans-serif; font-size: 24px; letter-spacing: 7px; color: #fff; text-decoration: none; }
-        
-        /* Botón Hamburguesa Celular */
-        .hamburger-btn { display: none; background: none; border: none; color: white; font-size: 26px; cursor: pointer; padding: 5px; }
-
-        /* Menú de Navegación PC */
-        nav.pc-nav { display: flex; gap: 20px; }
-        nav.pc-nav a { color: white; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.2s; }
-        nav.pc-nav a:hover { color: var(--primary-color); }
-
-        /* Menú Desplegable Móvil (Oculto por defecto) */
-        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #111; flex-direction: column; border-top: 1px solid #333; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .mobile-menu a { color: white; text-decoration: none; padding: 15px 20px; font-weight: 600; border-bottom: 1px solid #222; transition: background 0.2s; }
-        .mobile-menu a:hover { background: #222; color: var(--primary-color); }
-        .mobile-menu.active { display: flex; }
-
-        .cart-indicator { color: white; font-weight: bold; font-size: 0.9rem; }
-
-        /* Contenedor Principal / Tienda */
-        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        h2.section-title { font-size: 1.8rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        .subtitle { color: #666; margin-bottom: 30px; font-size: 1rem; }
-
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .product-card { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.2s; }
-        .product-card:hover { transform: translateY(-3px); }
-        .product-img-placeholder { background: #f4f4f4; height: 200px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #888; margin-bottom: 15px; font-weight: 500; }
-        .product-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; }
-        
-        /* Selectores de Talles y Onzas */
-        .options-container { margin: 15px 0; text-align: left; }
-        .options-label { font-size: 0.8rem; color: #555; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; display: block; }
-        .options-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
-        .opt-btn { background: #f8f8f8; border: 1px solid #ccc; padding: 6px 12px; font-size: 0.85rem; border-radius: 4px; cursor: pointer; font-weight: 600; }
-        .opt-btn.selected { background: #000; color: #fff; border-color: #000; }
-
-        .price-box { margin: 15px 0; font-size: 1.2rem; font-weight: bold; color: #111; }
-        .old-price { text-decoration: line-through; color: #888; font-size: 0.9rem; margin-right: 8px; }
-        
-        .btn-action { display: block; width: 100%; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; border: none; margin-top: 8px; text-decoration: none; text-align: center; font-size: 0.9rem; }
-        .btn-cart { background: #111; color: #fff; }
-        .btn-cart:hover { background: #333; }
-        .btn-mp { background: #009ee3; color: #fff; }
-        .btn-mp:hover { background: #0082be; }
-
-        /* Panel de Edición Dinámico */
-        #editor-panel { background: #1a1a1a; color: #fff; padding: 25px; margin-top: 60px; border-top: 4px solid var(--primary-color); }
-        #editor-panel h3 { margin-bottom: 15px; color: var(--primary-color); display: flex; justify-content: space-between; align-items: center; }
-        .editor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .editor-group label { display: block; font-size: 0.8rem; color: #aaa; margin-bottom: 5px; }
-        .editor-group input, .editor-group select { width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 4px; }
-        
-        .btn-save-all { background: #28a745; color: #fff; padding: 12px 20px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; }
-        .btn-save-all:hover { background: #218838; }
-
-        /* Simulador Celular Integrado */
-        .simulator-container { border: 8px solid #333; border-radius: 25px; max-width: 380px; margin: 30px auto; background: #fff; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: none; }
-        .simulator-header { background: #111; color: #fff; padding: 10px; text-align: center; font-size: 0.8rem; }
-
-        /* Responsive Mobile Styles */
-        @media (max-width: 768px) {
-            nav.pc-nav { display: none; }
-            .hamburger-btn { display: block; }
-            header { padding: 10px 15px; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 60px;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            font-family: var(--ws-font);
         }
+
+        #app-wrapper {
+            width: 100%;
+            max-width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        body.editor-active #app-wrapper {
+            margin-right: 380px;
+            width: calc(100% - 380px);
+        }
+
+        body.mobile-view #app-wrapper {
+            max-width: 414px;
+            margin: 20px auto;
+            border: 12px solid #222;
+            border-radius: 36px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            background: white;
+        }
+
+        /* BANNER FUB */
+        .fub-bar {
+            background: linear-gradient(90deg, #0038a8, #002266);
+            color: #fff;
+            text-align: center;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--header-bg);
+            border: var(--header-border);
+            border-radius: var(--header-radius);
+            box-shadow: var(--header-shadow);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-svg { width: var(--logo-width); height: auto; max-height: 70px; }
+
+        .logo-text {
+            color: var(--logo-text-color);
+            font-size: var(--logo-text-size);
+            font-family: var(--logo-text-font);
+            letter-spacing: var(--logo-text-spacing);
+            font-weight: var(--logo-text-weight);
+            font-style: var(--logo-text-style);
+            text-decoration: var(--logo-text-decor);
+            display: inline-block;
+        }
+
+        .cart-status {
+            background: #222;
+            border: 1px solid var(--accent-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* NAVEGACIÓN */
+        nav.main-nav {
+            background: #1e1e1e;
+            display: flex;
+            justify-content: center;
+            border-bottom: 2px solid var(--accent-color);
+            overflow-x: auto;
+        }
+
+        nav.main-nav button {
+            background: transparent;
+            color: #ccc;
+            border: none;
+            padding: 15px 22px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        nav.main-nav button:hover, nav.main-nav button.active {
+            color: var(--accent-color);
+            background: #111111;
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        /* SECCIONES Y PANTALLAS */
+        .tab-content {
+            display: none;
+            min-height: 80vh;
+            padding: 40px 20px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        .tab-content.active { display: block; }
+
+        .tab-overlay {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 25px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .dynamic-title {
+            font-family: var(--title-font);
+            color: var(--title-color);
+            font-size: var(--title-size);
+            letter-spacing: var(--title-spacing);
+            font-weight: var(--title-weight);
+            font-style: var(--title-style);
+            text-decoration: var(--title-decor);
+            margin-bottom: 10px;
+        }
+
+        /* GRILLA Y TARJETAS */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .product-media-container {
+            width: 100%;
+            height: 230px;
+            background-color: #fafafa;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .product-media-container img, .product-media-container video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-thumbs {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+
+        .gallery-thumbs img, .gallery-thumbs video {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+
+        .product-sizes-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+
+        .size-badge {
+            background: #eee;
+            color: #333;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .price-crossed { text-decoration: line-through; color: #888; font-size: 0.9rem; margin-right: 8px; }
+        .price-current { font-size: 1.25rem; color: #b8860b; font-weight: bold; }
+
+        .btn-group-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+
+        .btn-action {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-mercadopago {
+            background-color: var(--mp-bg);
+            color: var(--mp-color);
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-whatsapp-custom {
+            background-color: var(--ws-bg);
+            color: var(--ws-color);
+            font-size: var(--ws-size);
+            font-family: var(--ws-font);
+            border: var(--ws-border);
+            border-radius: var(--ws-radius);
+            padding: 14px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* LIGHTBOX MODAL */
+        #lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.9);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #lightbox-modal img {
+            max-width: 90%; max-height: 90%; object-fit: contain;
+            border-radius: 8px; box-shadow: 0 0 25px rgba(255,255,255,0.2);
+        }
+
+        #lightbox-close {
+            position: absolute; top: 20px; right: 30px;
+            color: white; font-size: 35px; cursor: pointer; font-weight: bold;
+        }
+
+        /* PANEL EDITOR FLOTANTE (380px) */
+        #editor-panel {
+            display: none;
+            position: fixed;
+            top: 0; right: 0;
+            width: 380px; height: 100vh;
+            background: #181818;
+            color: #ffffff;
+            z-index: 9999;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: -6px 0 18px rgba(0,0,0,0.6);
+            border-left: 2px solid var(--accent-color);
+        }
+
+        #editor-panel h2 { color: var(--accent-color); font-size: 1.1rem; margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 6px; }
+        .editor-section { background: #252525; padding: 12px; border-radius: 6px; margin-bottom: 15px; }
+        .editor-section h3 { font-size: 0.85rem; color: #ddd; margin-bottom: 8px; text-transform: uppercase; }
+        .editor-field { margin-bottom: 10px; }
+        .editor-field label { display: block; font-size: 0.75rem; color: #aaa; margin-bottom: 4px; }
+        .editor-field input[type="text"], .editor-field input[type="number"], .editor-field textarea, .editor-field select {
+            width: 100%; padding: 6px; background: #111; border: 1px solid #444; color: white; border-radius: 4px; font-size: 0.8rem;
+        }
+        .editor-row { display: flex; gap: 8px; align-items: center; }
+
+        .btn-toggle-style {
+            background: #333; color: white; border: 1px solid #555; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;
+        }
+        .btn-toggle-style.active { background: var(--accent-color); color: black; font-weight: bold; }
+
+        /* MODAL PRODUCTO */
+        #modal-product {
+            display: none; position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); background: #222; color: white;
+            padding: 25px; border-radius: 8px; z-index: 10000; width: 440px;
+            max-height: 90vh; overflow-y: auto; border: 1px solid var(--accent-color);
+        }
+        #modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); z-index: 9999; }
     </style>
 </head>
 <body>
 
-    <!-- Barra FUB Superior -->
-    <div class="fub-bar" id="fubBarText">🛡️ SPONSOR OFICIAL DE LA FEDERACIÓN URUGUAYA DE BOXEO (FUB)</div>
-
-    <!-- Header Principal -->
-    <header>
-        <div class="header-left">
-            <!-- Botón Hamburguesa Celular -->
-            <button class="hamburger-btn" id="hamburgerToggle" aria-label="Abrir Menú">☰</button>
-            <div class="logo-area">
-                <a href="#" class="logo-text" id="brandLogoText">PHENOM</a>
-            </div>
+    <div id="app-wrapper">
+        <div class="fub-bar">
+            <i class="fa-solid fa-award"></i> SPONSOR OFICIAL DE LA FEDERACIÓN URUGUAYA DE BOXEO (FUB)
         </div>
 
-        <!-- Navegación PC -->
-        <nav class="pc-nav">
-            <a href="#inicio">INICIO</a>
-            <a href="#protectores">PROTECTORES</a>
-            <a href="#accesorios">ACCESORIOS</a>
-            <a href="#como-comprar">CÓMO COMPRAR</a>
-            <a href="#contacto">CONTACTO</a>
-            <a href="#fub-novedades" style="color: var(--primary-color);">FUB - NOVEDADES</a>
+        <!-- HEADER -->
+        <header id="main-header">
+            <div class="logo-container" onclick="handleLogoClick()" title="Presioná 5 veces para el Panel de Edición">
+                <svg id="main-logo-svg" class="logo-svg" viewBox="0 0 240 70" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="120" cy="35" rx="110" ry="30" fill="none" stroke="#FFFFFF" stroke-width="3.5"/>
+                    <text x="120" y="44" font-family="Impact, sans-serif" font-size="30" font-weight="bold" fill="#FFFFFF" text-anchor="middle" letter-spacing="3">PHENOM</text>
+                </svg>
+                <span id="main-logo-text" class="logo-text"></span>
+            </div>
+
+            <div class="cart-status">
+                🛒 Carrito: <span id="cart-count">0</span>
+            </div>
+        </header>
+
+        <!-- NAVEGACIÓN -->
+        <nav class="main-nav">
+            <button id="nav-inicio" class="active" onclick="switchTab('inicio')">INICIO</button>
+            <button id="nav-protectores" onclick="switchTab('protectores')">PROTECTORES</button>
+            <button id="nav-accesorios" onclick="switchTab('accesorios')">ACCESORIOS</button>
+            <button id="nav-comprar" onclick="switchTab('comprar')">CÓMO COMPRAR</button>
+            <button id="nav-contacto" onclick="switchTab('contacto')">CONTACTO</button>
         </nav>
 
-        <div class="cart-indicator">🛒 Carrito: <span id="cartCount">0</span></div>
+        <!-- 1. PESTAÑA INICIO -->
+        <main id="tab-inicio" class="tab-content active">
+            <div class="tab-overlay" id="overlay-inicio">
+                <h2 id="title-inicio" class="dynamic-title">PRODUCTOS MÁS VENDIDOS</h2>
+                <p id="sub-inicio" style="margin-bottom: 25px;">Sponsor Oficial de la Federación Uruguaya de Boxeo</p>
+                <div id="grid-inicio" class="products-grid"></div>
+            </div>
+        </main>
 
-        <!-- Menú Desplegable Celular -->
-        <div class="mobile-menu" id="mobileMenuDropdown">
-            <a href="#inicio" onclick="closeMobileMenu()">Inicio</a>
-            <a href="#protectores" onclick="closeMobileMenu()">Protectores</a>
-            <a href="#accesorios" onclick="closeMobileMenu()">Accesorios</a>
-            <a href="#como-comprar" onclick="closeMobileMenu()">Cómo Comprar</a>
-            <a href="#contacto" onclick="closeMobileMenu()">Contacto</a>
-            <a href="#fub-novedades" onclick="closeMobileMenu()" style="color: var(--primary-color);">FUB - Novedades</a>
-        </div>
-    </header>
-
-    <!-- Contenido de la Tienda -->
-    <div class="container" id="inicio">
-        <h2 class="section-title">Productos Más Vendidos</h2>
-        <p class="subtitle" id="subTitleText">Sponsor Oficial de la Federación Uruguaya de Boxeo</p>
-
-        <div class="products-grid">
-            <!-- Producto 1 -->
-            <div class="product-card">
-                <div class="product-img-placeholder">Guantes Blanco / Dorado</div>
-                <div class="product-title">Guantes de Boxeo Blanco / Dorado</div>
-                <div class="options-container">
-                    <span class="options-label">Seleccionar Opción:</span>
-                    <div class="options-buttons">
-                        <button class="opt-btn selected" onclick="selectOption(this)">12oz</button>
-                        <button class="opt-btn" onclick="selectOption(this)">14oz</button>
-                        <button class="opt-btn" onclick="selectOption(this)">16oz</button>
+        <!-- 2. PESTAÑA PROTECTORES -->
+        <section id="tab-protectores" class="tab-content">
+            <div class="tab-overlay" id="overlay-protectores">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div>
+                        <h2 id="title-protectores" class="dynamic-title">EQUIPAMIENTO DE PROTECCIÓN</h2>
+                        <p id="sub-protectores">Guantes, cabezales y tibiales de alto rendimiento</p>
                     </div>
+                    <button class="btn-add-product" style="display:none; background:#28a745; color:white; border:none; padding:10px 15px; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="openProductModal('protectores')">➕ Agregar Protector</button>
                 </div>
-                <div class="price-box"><span class="old-price">$2.500 UYU</span>$2.090 UYU</div>
-                <button class="btn-action btn-mp">Pagar con Mercado Pago</button>
-                <button class="btn-action btn-cart" onclick="addToCart()">Agregar al Carrito</button>
+                <div id="grid-protectores" class="products-grid"></div>
             </div>
+        </section>
 
-            <!-- Producto 2 -->
-            <div class="product-card">
-                <div class="product-img-placeholder">Cabezal Pro Negro</div>
-                <div class="product-title">Cabezal Sparring Pro Negro Mate</div>
-                <div class="options-container">
-                    <span class="options-label">Seleccionar Opción:</span>
-                    <div class="options-buttons">
-                        <button class="opt-btn selected" onclick="selectOption(this)">10oz</button>
-                        <button class="opt-btn" onclick="selectOption(this)">12oz</button>
+        <!-- 3. PESTAÑA ACCESORIOS -->
+        <section id="tab-accesorios" class="tab-content">
+            <div class="tab-overlay" id="overlay-accesorios">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div>
+                        <h2 id="title-accesorios" class="dynamic-title">ACCESORIOS Y COMPLEMENTOS</h2>
+                        <p id="sub-accesorios">Vendas, bucales, cuerdas y equipamiento táctico</p>
                     </div>
+                    <button class="btn-add-product" style="display:none; background:#28a745; color:white; border:none; padding:10px 15px; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="openProductModal('accesorios')">➕ Agregar Accesorio</button>
                 </div>
-                <div class="price-box">$2.350 UYU</div>
-                <button class="btn-action btn-cart" onclick="addToCart()">Agregar al Carrito</button>
+                <div id="grid-accesorios" class="products-grid"></div>
             </div>
+        </section>
 
-            <!-- Producto 3 -->
-            <div class="product-card">
-                <div class="product-img-placeholder">Vendas Pro 5 Metros</div>
-                <div class="product-title">Vendas Pro 5 Metros Phenom</div>
-                <div class="options-container">
-                    <span class="options-label">Seleccionar Opción:</span>
-                    <div class="options-buttons">
-                        <button class="opt-btn selected" onclick="selectOption(this)">5 Metros</button>
-                    </div>
+        <!-- 4. PESTAÑA CÓMO COMPRAR -->
+        <section id="tab-comprar" class="tab-content">
+            <div class="tab-overlay" id="overlay-comprar" style="background: white; max-width: 800px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <h2 id="title-comprar" class="dynamic-title">Indicaciones para Comprar en Phenom</h2>
+                <p id="sub-comprar" style="margin-bottom: 20px;">Procesá tu pedido directo con atención personalizada o mediante Mercado Pago:</p>
+                
+                <ol style="margin-bottom: 25px; padding-left: 20px; line-height: 1.8;">
+                    <li id="step-1">Navegá por las pestañas de Protectores y Accesorios.</li>
+                    <li id="step-2">Elegí pagarlo directo en cuotas con Mercado Pago o agregarlo al carrito.</li>
+                    <li id="step-3">Revisá el contador de tu carrito en la barra superior.</li>
+                    <li id="step-4">Presioná el botón para coordinar el envío rápido por WhatsApp.</li>
+                </ol>
+
+                <button id="btn-ws-main" class="btn-whatsapp-custom" onclick="checkoutWhatsApp()">
+                    <i class="fa-brands fa-whatsapp"></i> Finalizar Compra por WhatsApp
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. PESTAÑA CONTACTO -->
+        <section id="tab-contacto" class="tab-content">
+            <div class="tab-overlay" id="overlay-contacto" style="background: white; max-width: 650px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <h2 id="title-contacto" class="dynamic-title">Contacto Oficial Phenom Uruguay</h2>
+                <div style="line-height: 1.8; font-size: 1.1rem;">
+                    <p><strong>Teléfono / WhatsApp:</strong> <span id="contact-phone-val">+598 95 749 605</span></p>
+                    <p><strong>Email:</strong> <span id="contact-email-val">contacto@phenom.com.uy</span></p>
+                    <p><strong>Ubicación:</strong> <span id="contact-address-val">Montevideo, Uruguay</span></p>
+                    <p style="margin-top: 15px; font-size: 0.95rem; color: #666;" id="sub-contacto">Atención a Gimnasios Federados, Academias y Venta al Público.</p>
                 </div>
-                <div class="price-box"><span class="old-price">$500 UYU</span>$450 UYU</div>
-                <button class="btn-action btn-cart" onclick="addToCart()">Agregar al Carrito</button>
             </div>
-        </div>
+        </section>
     </div>
 
-    <!-- Sección Fub Novedades -->
-    <div class="container" id="fub-novedades" style="margin-top: 60px; padding-top: 20px; border-top: 2px solid #eee;">
-        <h2 class="section-title">FUB - Novedades</h2>
-        <p class="subtitle">Enterate de todas las competencias oficiales, indumentaria para jueces y torneos de la Federación Uruguaya de Boxeo.</p>
-        <div style="background: #f9f9f9; padding: 25px; border-radius: 8px; border-left: 4px solid var(--primary-color);">
-            <h3 style="margin-bottom: 10px;">👕 Nuevas camisetas oficiales de árbitros</h3>
-            <p style="color: #555; line-height: 1.6;">Desarrollo exclusivo en conjunto con la FUB para las transmisiones oficiales de boxeo uruguayo.</p>
-        </div>
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox-modal">
+        <span id="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="Vista Previa Tamaño Real">
     </div>
 
-    <!-- Panel de Edición Interactiva -->
-    <div id="editor-panel">
-        <h3>🛠️ Panel de Edición Phenom 
-            <div>
-                <button onclick="toggleSimulator()" style="background:#444; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:0.8rem;">📱 Toggle Simulador Celular</button>
-            </div>
-        </h3>
-        <div class="editor-grid">
-            <div class="editor-group">
-                <label>Texto Barra Superior (FUB):</label>
-                <input type="text" id="inputFubText" value="🛡️ SPONSOR OFICIAL DE LA FEDERACIÓN URUGUAYA DE BOXEO (FUB)" oninput="updateLiveContent()">
-            </div>
-            <div class="editor-group">
-                <label>Color Principal (Acentos):</label>
-                <input type="color" id="inputPrimaryColor" value="#e5b80b" oninput="updateLiveContent()">
-            </div>
-            <div class="editor-group">
-                <label>Nombre de Marca:</label>
-                <input type="text" id="inputBrandName" value="PHENOM" oninput="updateLiveContent()">
+    <!-- PANEL FLOTANTE DE EDICIÓN (380px) -->
+    <aside id="editor-panel">
+        <h2>PANEL DE EDICIÓN PHENOM</h2>
+
+        <!-- Vistas de Pantalla -->
+        <div class="editor-section">
+            <h3>Vista de Pantalla</h3>
+            <div class="editor-row">
+                <button style="flex:1; padding:6px; background:#007bff; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="toggleMobileView(false)">💻 Vista PC</button>
+                <button style="flex:1; padding:6px; background:#28a745; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="toggleMobileView(true)">📱 Vista Celular</button>
             </div>
         </div>
-        <button class="btn-save-all" onclick="saveConfiguration()">💾 Guardar Configuración Completa (Persistente)</button>
-    </div>
 
-    <!-- Simulador Celular (Oculto por defecto) -->
-    <div class="simulator-container" id="mobileSimulator">
-        <div class="simulator-header">📱 Vista Previa Celular Activa</div>
-        <div style="padding: 15px; font-size: 0.9rem; text-align: center; color: #333;">
-            <p>Simulador vertical en tiempo real cargado correctamente.</p>
+        <!-- Barra Superior Header -->
+        <div class="editor-section">
+            <h3>Barra Superior (Header)</h3>
+            <div class="editor-row">
+                <div class="editor-field" style="flex:1;">
+                    <label>Color Fondo</label>
+                    <input type="color" id="edit-header-color" value="#111111" onchange="updateHeaderSettings()">
+                </div>
+                <div class="editor-field" style="flex:1;">
+                    <label>Opacidad (0-1)</label>
+                    <input type="number" id="edit-header-opacity" min="0" max="1" step="0.1" value="1" oninput="updateHeaderSettings()">
+                </div>
+            </div>
+            <div class="editor-row">
+                <div class="editor-field" style="flex:1;">
+                    <label>Borde (px)</label>
+                    <input type="number" id="edit-header-border-w" value="0" oninput="updateHeaderSettings()">
+                </div>
+                <div class="editor-field" style="flex:1;">
+                    <label>Color Borde</label>
+                    <input type="color" id="edit-header-border-c" value="#d4af37" onchange="updateHeaderSettings()">
+                </div>
+            </div>
+            <div class="editor-field">
+                <label>Curvatura Bordes (px)</label>
+                <input type="number" id="edit-header-radius" value="0" oninput="updateHeaderSettings()">
+            </div>
         </div>
+
+        <!-- Logo & Tipografía -->
+        <div class="editor-section">
+            <h3>Logo & Texto Adyacente</h3>
+            <div class="editor-field">
+                <label>Ancho del Logo (px)</label>
+                <input type="number" id="edit-logo-width" value="170" oninput="updateLogoSettings()">
+            </div>
+            <div class="editor-field">
+                <label>Texto al Lado del Logo</label>
+                <input type="text" id="edit-logo-text-val" value="" placeholder="Ej: URUGUAY" oninput="updateLogoSettings()">
+            </div>
+            <div class="editor-field">
+                <label>Fuente del Texto</label>
+                <select id="edit-logo-font" onchange="updateLogoSettings()">
+                    <option value="'Impact', sans-serif">Impact / Bold</option>
+                    <option value="'Bebas Neue', cursive">Bebas Neue</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Oswald', sans-serif">Oswald</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                    <option value="'Roboto', sans-serif">Roboto</option>
+                </select>
+            </div>
+            <div class="editor-row">
+                <div class="editor-field" style="flex:1;">
+                    <label>Color</label>
+                    <input type="color" id="edit-logo-text-color" value="#ffffff" onchange="updateLogoSettings()">
+                </div>
+                <div class="editor-field" style="flex:1;">
+                    <label>Espaciado (px)</label>
+                    <input type="number" id="edit-logo-text-spacing" value="2" oninput="updateLogoSettings()">
+                </div>
+            </div>
+            <div class="editor-row">
+                <button id="btn-logo-bold" class="btn-toggle-style" onclick="toggleStyle('logo', 'bold')">B</button>
+                <button id="btn-logo-italic" class="btn-toggle-style" onclick="toggleStyle('logo', 'italic')">I</button>
+                <button id="btn-logo-strike" class="btn-toggle-style" onclick="toggleStyle('logo', 'strike')">S</button>
+            </div>
+        </div>
+
+        <!-- Edición de Fondos Independientes -->
+        <div class="editor-section">
+            <h3>Fondos de Pantalla</h3>
+            <div class="editor-field">
+                <label>Pantalla a Editar</label>
+                <select id="edit-screen-target" onchange="loadScreenSettings()">
+                    <option value="inicio">Inicio</option>
+                    <option value="protectores">Protectores</option>
+                    <option value="accesorios">Accesorios</option>
+                    <option value="comprar">Cómo Comprar</option>
+                    <option value="contacto">Contacto</option>
+                </select>
+            </div>
+            <div class="editor-field">
+                <label>Cargar Imagen de Fondo (Local)</label>
+                <input type="file" id="edit-screen-bg-file" accept="image/*" onchange="applyScreenBgImage(event)">
+            </div>
+            <div class="editor-field">
+                <label>Ajuste de Fondo</label>
+                <select id="edit-screen-bg-size" onchange="applyScreenStyles()">
+                    <option value="cover">Pantalla Completa (Cover)</option>
+                    <option value="contain">Ajustado Sin Recorte (Contain)</option>
+                    <option value="fixed">Fijo con Movimiento Parallax</option>
+                </select>
+            </div>
+            <div class="editor-field">
+                <label>Transparencia Tarjeta (0 a 1)</label>
+                <input type="number" id="edit-screen-overlay" min="0" max="1" step="0.1" value="0" oninput="applyScreenStyles()">
+            </div>
+        </div>
+
+        <!-- Tipografía de Títulos -->
+        <div class="editor-section">
+            <h3>Títulos de Pantalla</h3>
+            <div class="editor-field">
+                <label>Texto del Título</label>
+                <input type="text" id="edit-screen-title" oninput="applyScreenTexts()">
+            </div>
+            <div class="editor-field">
+                <label>Seleccionar Fuente</label>
+                <select id="edit-title-font" onchange="applyScreenTexts()">
+                    <option value="'Segoe UI', sans-serif">Segoe UI</option>
+                    <option value="'Bebas Neue', cursive">Bebas Neue</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Oswald', sans-serif">Oswald</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                    <option value="'Roboto', sans-serif">Roboto</option>
+                    <option value="'Impact', sans-serif">Impact</option>
+                    <option value="'Cinzel', serif">Cinzel</option>
+                    <option value="'Caveat', cursive">Caveat / Manuscrita</option>
+                </select>
+            </div>
+            <div class="editor-row">
+                <div class="editor-field" style="flex:1;">
+                    <label>Color</label>
+                    <input type="color" id="edit-title-color" value="#111111" onchange="applyScreenTexts()">
+                </div>
+                <div class="editor-field" style="flex:1;">
+                    <label>Espaciado (px)</label>
+                    <input type="number" id="edit-title-spacing" value="0" oninput="applyScreenTexts()">
+                </div>
+            </div>
+            <div class="editor-row" style="margin-top:5px;">
+                <button id="btn-title-bold" class="btn-toggle-style" onclick="toggleStyle('title', 'bold')">B</button>
+                <button id="btn-title-italic" class="btn-toggle-style" onclick="toggleStyle('title', 'italic')">I</button>
+                <button id="btn-title-strike" class="btn-toggle-style" onclick="toggleStyle('title', 'strike')">S</button>
+            </div>
+        </div>
+
+        <!-- Pantalla Cómo Comprar & Botón WhatsApp -->
+        <div class="editor-section">
+            <h3>Pantalla "Cómo Comprar"</h3>
+            <div class="editor-field"><label>Paso 1</label><input type="text" id="edit-step-1" oninput="updateGuideSection()"></div>
+            <div class="editor-field"><label>Paso 2</label><input type="text" id="edit-step-2" oninput="updateGuideSection()"></div>
+            <div class="editor-field"><label>Paso 3</label><input type="text" id="edit-step-3" oninput="updateGuideSection()"></div>
+            <div class="editor-field"><label>Paso 4</label><input type="text" id="edit-step-4" oninput="updateGuideSection()"></div>
+            
+            <h4 style="font-size:0.8rem; color:var(--accent-color); margin:10px 0 5px;">Botón de WhatsApp</h4>
+            <div class="editor-field">
+                <label>Fuente Botón</label>
+                <select id="edit-ws-font" onchange="updateWhatsAppBtn()">
+                    <option value="'Segoe UI', sans-serif">Segoe UI</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Bebas Neue', cursive">Bebas Neue</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                </select>
+            </div>
+            <div class="editor-row">
+                <div class="editor-field" style="flex:1;"><label>Fondo</label><input type="color" id="edit-ws-bg" value="#25D366" onchange="updateWhatsAppBtn()"></div>
+                <div class="editor-field" style="flex:1;"><label>Texto</label><input type="color" id="edit-ws-color" value="#ffffff" onchange="updateWhatsAppBtn()"></div>
+            </div>
+            <div class="editor-row">
+                <div class="editor-field" style="flex:1;"><label>Tamaño (rem)</label><input type="number" id="edit-ws-size" value="1.1" step="0.1" oninput="updateWhatsAppBtn()"></div>
+                <div class="editor-field" style="flex:1;"><label>Curva (px)</label><input type="number" id="edit-ws-radius" value="6" oninput="updateWhatsAppBtn()"></div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MODAL PRODUCTO -->
+    <div id="modal-overlay" onclick="closeProductModal()"></div>
+    <div id="modal-product">
+        <h3 id="modal-product-title" style="margin-bottom:15px; color:var(--accent-color);">Cargar Nuevo Producto</h3>
+        <input type="hidden" id="prod-id">
+        <input type="hidden" id="prod-category">
+
+        <div class="editor-field">
+            <label>Título del Producto</label>
+            <input type="text" id="prod-title" placeholder="Ej: Guantes Pro Blanco/Dorado">
+        </div>
+
+        <div class="editor-field">
+            <label>Talles / Onzas Disponibles</label>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; background: #111; padding: 8px; border-radius: 4px;">
+                <label style="color:white; font-size:0.8rem;"><input type="checkbox" class="size-checkbox" value="6oz"> 6oz</label>
+                <label style="color:white; font-size:0.8rem;"><input type="checkbox" class="size-checkbox" value="8oz"> 8oz</label>
+                <label style="color:white; font-size:0.8rem;"><input type="checkbox" class="size-checkbox" value="10oz"> 10oz</label>
+                <label style="color:white; font-size:0.8rem;"><input type="checkbox" class="size-checkbox" value="12oz"> 12oz</label>
+                <label style="color:white; font-size:0.8rem;"><input type="checkbox" class="size-checkbox" value="14oz"> 14oz</label>
+                <label style="color:white; font-size:0.8rem;"><input type="checkbox" class="size-checkbox" value="16oz"> 16oz</label>
+            </div>
+        </div>
+
+        <div class="editor-row">
+            <div class="editor-field" style="flex:1;"><label>Precio Tachado (UYU)</label><input type="text" id="prod-price-crossed" placeholder="$2.500"></div>
+            <div class="editor-field" style="flex:1;"><label>Precio Actual (UYU)</label><input type="text" id="prod-price-current" placeholder="$2.090"></div>
+        </div>
+
+        <div class="editor-field">
+            <label>Link de Pago Mercado Pago (Opcional)</label>
+            <input type="text" id="prod-mp-link" placeholder="https://mpago.la/tu-link-de-pago">
+        </div>
+
+        <div class="editor-field">
+            <label>Cargar Fotos (Hasta 9 desde PC)</label>
+            <input type="file" id="prod-images" accept="image/*" multiple onchange="handleImageSelection(event)">
+        </div>
+
+        <div class="editor-field">
+            <label>Cargar Video (1 desde PC)</label>
+            <input type="file" id="prod-video" accept="video/*" onchange="handleVideoSelection(event)">
+        </div>
+
+        <div class="editor-field">
+            <label>Archivos Cargados (Orden de Publicación):</label>
+            <div id="reorder-container" style="display:flex; flex-wrap:wrap; gap:8px; background:#111; padding:8px; border-radius:4px; min-height:50px;"></div>
+        </div>
+
+        <button style="width:100%; padding:10px; background:var(--accent-color); border:none; font-weight:bold; cursor:pointer; margin-top:10px;" onclick="saveProduct()">Guardar Publicación</button>
     </div>
 
+    <!-- JAVASCRIPT NATIVO -->
     <script>
-        // Funcionalidad del Menú Hamburguesa Móvil
-        const hamburgerBtn = document.getElementById('hamburgerToggle');
-        const mobileMenu = document.getElementById('mobileMenuDropdown');
-
-        hamburgerBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-        });
-
-        function closeMobileMenu() {
-            mobileMenu.classList.remove('active');
-        }
-
-        // Selección de Talles / Onzas en Tarjetas
-        function selectOption(button) {
-            const container = button.parentElement;
-            container.querySelectorAll('.opt-btn').forEach(btn => btn.classList.remove('selected'));
-            button.classList.add('selected');
-        }
-
-        // Contador de Carrito básico
-        let cartTotal = 0;
-        function addToCart() {
-            cartTotal++;
-            document.getElementById('cartCount').innerText = cartTotal;
-        }
-
-        // Editor dinámico en tiempo real con LocalStorage
-        function updateLiveContent() {
-            const fubText = document.getElementById('inputFubText').value;
-            const brandName = document.getElementById('inputBrandName').value;
-            const primaryColor = document.getElementById('inputPrimaryColor').value;
-
-            document.getElementById('fubBarText').innerText = fubText;
-            document.getElementById('brandLogoText').innerText = brandName;
-            document.documentElement.style.setProperty('--primary-color', primaryColor);
-        }
-
-        function saveConfiguration() {
-            const config = {
-                fubText: document.getElementById('inputFubText').value,
-                brandName: document.getElementById('inputBrandName').value,
-                primaryColor: document.getElementById('inputPrimaryColor').value
-            };
-            localStorage.setItem('phenom_config', JSON.stringify(config));
-            alert('¡Configuración guardada exitosamente en la memoria del navegador (localStorage)! Tus cambios no se perderán al actualizar.');
-        }
-
-        // Cargar configuración guardada al iniciar
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedConfig = localStorage.getItem('phenom_config');
-            if (savedConfig) {
-                const config = JSON.parse(savedConfig);
-                document.getElementById('inputFubText').value = config.fubText;
-                document.getElementById('inputBrandName').value = config.brandName;
-                document.getElementById('inputPrimaryColor').value = config.primaryColor;
-                updateLiveContent();
+        let products = [
+            {
+                id: 1,
+                category: 'protectores',
+                title: 'Guantes de Boxeo Blanco / Dorado',
+                sizes: ['12oz', '14oz', '16oz'],
+                priceCrossed: '$2.500 UYU',
+                priceCurrent: '$2.090 UYU',
+                mpLink: 'https://mpago.la/',
+                media: [{ type: 'image', src: 'https://via.placeholder.com/300x300/111111/FFFFFF?text=Guantes+Blanco+Dorado' }],
+                featured: true
+            },
+            {
+                id: 2,
+                category: 'protectores',
+                title: 'Cabezal Sparring Pro Negro Mate',
+                sizes: ['10oz', '12oz'],
+                priceCrossed: '',
+                priceCurrent: '$2.350 UYU',
+                mpLink: '',
+                media: [{ type: 'image', src: 'https://via.placeholder.com/300x300/222222/FFFFFF?text=Cabezal+Negro+Mate' }],
+                featured: true
+            },
+            {
+                id: 3,
+                category: 'accesorios',
+                title: 'Vendas Pro 5 Metros Phenom',
+                sizes: [],
+                priceCrossed: '$500 UYU',
+                priceCurrent: '$450 UYU',
+                mpLink: '',
+                media: [{ type: 'image', src: 'https://via.placeholder.com/300x300/333333/FFFFFF?text=Vendas+5M' }],
+                featured: true
             }
-        });
+        ];
 
-        // Alternar Simulador Celular
-        function toggleSimulator() {
-            const sim = document.getElementById('mobileSimulator');
-            sim.style.display = sim.style.display === 'block' ? 'none' : 'block';
+        let cart = [];
+        let isEditMode = false;
+        let logoClickCount = 0;
+        let logoClickTimer = null;
+
+        let styleState = {
+            logo: { bold: true, italic: false, strike: false },
+            title: { bold: true, italic: false, strike: false }
+        };
+
+        let tempMediaList = [];
+
+        window.onload = function() {
+            renderAllGrids();
+            loadScreenSettings();
+        };
+
+        // SISTEMA DE 5 CLICS
+        function handleLogoClick() {
+            logoClickCount++;
+            clearTimeout(logoClickTimer);
+            logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500);
+
+            if (logoClickCount === 5) {
+                toggleEditMode();
+                logoClickCount = 0;
+            }
+        }
+
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            document.getElementById('editor-panel').style.display = isEditMode ? 'block' : 'none';
+            document.body.classList.toggle('editor-active', isEditMode);
+
+            document.querySelectorAll('.btn-add-product').forEach(b => b.style.display = isEditMode ? 'block' : 'none');
+            document.querySelectorAll('.card-edit-controls').forEach(c => c.style.display = isEditMode ? 'flex' : 'none');
+        }
+
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-modal').style.display = 'flex';
+        }
+
+        function closeLightbox() { document.getElementById('lightbox-modal').style.display = 'none'; }
+        function toggleMobileView(isMobile) { document.body.classList.toggle('mobile-view', isMobile); }
+
+        function renderAllGrids() {
+            renderGrid('grid-inicio', products.filter(p => p.featured));
+            renderGrid('grid-protectores', products.filter(p => p.category === 'protectores'));
+            renderGrid('grid-accesorios', products.filter(p => p.category === 'accesorios'));
+        }
+
+        function renderGrid(containerId, productList) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            productList.forEach(prod => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+
+                const primaryMedia = prod.media && prod.media.length > 0 
+                    ? prod.media[0] 
+                    : { type: 'image', src: 'https://via.placeholder.com/300x300/111111/FFFFFF?text=Sin+Imagen' };
+
+                let mediaHTML = primaryMedia.type === 'video'
+                    ? `<video src="${primaryMedia.src}" controls></video>`
+                    : `<img src="${primaryMedia.src}" alt="${prod.title}" onclick="openLightbox('${primaryMedia.src}')">`;
+
+                let galleryHTML = '';
+                if(prod.media && prod.media.length > 1) {
+                    galleryHTML = `<div class="gallery-thumbs">`;
+                    prod.media.forEach((m, idx) => {
+                        galleryHTML += m.type === 'video'
+                            ? `<video src="${m.src}" onclick="changeCardMedia(${prod.id}, ${idx})"></video>`
+                            : `<img src="${m.src}" onclick="changeCardMedia(${prod.id}, ${idx})">`;
+                    });
+                    galleryHTML += `</div>`;
+                }
+
+                let sizesHTML = '';
+                if(prod.sizes && prod.sizes.length > 0) {
+                    sizesHTML = `<div class="product-sizes-badges">`;
+                    prod.sizes.forEach(s => { sizesHTML += `<span class="size-badge">${s}</span>`; });
+                    sizesHTML += `</div>`;
+                }
+
+                let mpButtonHTML = prod.mpLink ? 
+                    `<a href="${prod.mpLink}" target="_blank" class="btn-mercadopago"><i class="fa-solid fa-credit-card"></i> Pagar con Mercado Pago</a>` : '';
+
+                card.innerHTML = `
+                    <div>
+                        <div class="product-media-container" id="media-box-${prod.id}">
+                            ${mediaHTML}
+                        </div>
+                        ${galleryHTML}
+                        <div style="font-weight:bold; margin-bottom:6px;">${prod.title}</div>
+                        ${sizesHTML}
+                    </div>
+                    <div>
+                        <div style="margin-bottom:8px;">
+                            ${prod.priceCrossed ? `<span class="price-crossed">${prod.priceCrossed}</span>` : ''}
+                            <span class="price-current">${prod.priceCurrent}</span>
+                        </div>
+                        <div class="btn-group-actions">
+                            ${mpButtonHTML}
+                            <button class="btn-action" onclick="addToCart('${prod.title}')">Agregar al Carrito</button>
+                        </div>
+                        
+                        <div class="card-edit-controls" style="display: ${isEditMode ? 'flex' : 'none'}; gap:8px; margin-top:10px;">
+                            <button style="flex:1; background:#007bff; color:white; border:none; padding:6px; border-radius:4px; cursor:pointer;" onclick="editProduct(${prod.id})">✏️ Editar</button>
+                            <button style="flex:1; background:#dc3545; color:white; border:none; padding:6px; border-radius:4px; cursor:pointer;" onclick="deleteProduct(${prod.id})">🗑️ Eliminar</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function changeCardMedia(productId, mediaIndex) {
+            const prod = products.find(p => p.id === productId);
+            if(!prod || !prod.media[mediaIndex]) return;
+
+            const mediaBox = document.getElementById(`media-box-${productId}`);
+            const selected = prod.media[mediaIndex];
+
+            mediaBox.innerHTML = selected.type === 'video'
+                ? `<video src="${selected.src}" controls autoplay></video>`
+                : `<img src="${selected.src}" alt="${prod.title}" onclick="openLightbox('${selected.src}')">`;
+        }
+
+        function addToCart(title) {
+            cart.push(title);
+            document.getElementById('cart-count').innerText = cart.length;
+            alert(`"${title}" fue agregado al carrito.`);
+        }
+
+        function checkoutWhatsApp() {
+            if (cart.length === 0) { alert("El carrito está vacío."); return; }
+            let phone = "59895749605";
+            let message = "Hola Phenom! Quiero finalizar la compra de:%0A%0A";
+            cart.forEach((item, index) => { message += `${index + 1}. ${item}%0A`; });
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+        }
+
+        // CONTROLES DE HEADER Y LOGO
+        function updateHeaderSettings() {
+            const color = document.getElementById('edit-header-color').value;
+            const opacity = document.getElementById('edit-header-opacity').value;
+            const borderW = document.getElementById('edit-header-border-w').value;
+            const borderC = document.getElementById('edit-header-border-c').value;
+            const radius = document.getElementById('edit-header-radius').value;
+
+            let r = parseInt(color.slice(1,3), 16), g = parseInt(color.slice(3,5), 16), b = parseInt(color.slice(5,7), 16);
+            document.documentElement.style.setProperty('--header-bg', `rgba(${r}, ${g}, ${b}, ${opacity})`);
+            document.documentElement.style.setProperty('--header-border', `${borderW}px solid ${borderC}`);
+            document.documentElement.style.setProperty('--header-radius', `${radius}px`);
+        }
+
+        function updateLogoSettings() {
+            const width = document.getElementById('edit-logo-width').value;
+            const textVal = document.getElementById('edit-logo-text-val').value;
+            const font = document.getElementById('edit-logo-font').value;
+            const color = document.getElementById('edit-logo-text-color').value;
+            const spacing = document.getElementById('edit-logo-text-spacing').value;
+
+            document.documentElement.style.setProperty('--logo-width', width + 'px');
+            document.documentElement.style.setProperty('--logo-text-font', font);
+            document.documentElement.style.setProperty('--logo-text-color', color);
+            document.documentElement.style.setProperty('--logo-text-spacing', spacing + 'px');
+            document.getElementById('main-logo-text').innerText = textVal;
+        }
+
+        function toggleStyle(target, styleType) {
+            styleState[target][styleType] = !styleState[target][styleType];
+            const btn = document.getElementById(`btn-${target}-${styleType}`);
+            if(btn) btn.classList.toggle('active', styleState[target][styleType]);
+
+            if(target === 'logo') {
+                document.documentElement.style.setProperty('--logo-text-weight', styleState.logo.bold ? 'bold' : 'normal');
+                document.documentElement.style.setProperty('--logo-text-style', styleState.logo.italic ? 'italic' : 'normal');
+                document.documentElement.style.setProperty('--logo-text-decor', styleState.logo.strike ? 'line-through' : 'none');
+            } else if(target === 'title') {
+                document.documentElement.style.setProperty('--title-weight', styleState.title.bold ? 'bold' : 'normal');
+                document.documentElement.style.setProperty('--title-style', styleState.title.italic ? 'italic' : 'normal');
+                document.documentElement.style.setProperty('--title-decor', styleState.title.strike ? 'line-through' : 'none');
+            }
+        }
+
+        // CONTROLES PANTALLA Y FONDOS
+        function applyScreenBgImage(event) {
+            const screen = document.getElementById('edit-screen-target').value;
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('tab-' + screen).style.backgroundImage = `url('${e.target.result}')`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function applyScreenStyles() {
+            const screen = document.getElementById('edit-screen-target').value;
+            const bgSize = document.getElementById('edit-screen-bg-size').value;
+            const alpha = document.getElementById('edit-screen-overlay').value;
+
+            const tabElem = document.getElementById('tab-' + screen);
+            if(bgSize === 'fixed') {
+                tabElem.style.backgroundAttachment = 'fixed';
+                tabElem.style.backgroundSize = 'cover';
+            } else {
+                tabElem.style.backgroundAttachment = 'scroll';
+                tabElem.style.backgroundSize = bgSize;
+            }
+
+            const overlay = document.getElementById('overlay-' + screen);
+            if(overlay) overlay.style.backgroundColor = `rgba(255, 255, 255, ${alpha})`;
+        }
+
+        function applyScreenTexts() {
+            const screen = document.getElementById('edit-screen-target').value;
+            const titleText = document.getElementById('edit-screen-title').value;
+            const font = document.getElementById('edit-title-font').value;
+            const color = document.getElementById('edit-title-color').value;
+            const spacing = document.getElementById('edit-title-spacing').value;
+
+            document.documentElement.style.setProperty('--title-font', font);
+            document.documentElement.style.setProperty('--title-color', color);
+            document.documentElement.style.setProperty('--title-spacing', spacing + 'px');
+
+            const titleElem = document.getElementById('title-' + screen);
+            if(titleElem) titleElem.innerText = titleText;
+        }
+
+        function updateGuideSection() {
+            document.getElementById('step-1').innerText = document.getElementById('edit-step-1').value;
+            document.getElementById('step-2').innerText = document.getElementById('edit-step-2').value;
+            document.getElementById('step-3').innerText = document.getElementById('edit-step-3').value;
+            document.getElementById('step-4').innerText = document.getElementById('edit-step-4').value;
+        }
+
+        function updateWhatsAppBtn() {
+            const font = document.getElementById('edit-ws-font').value;
+            const bg = document.getElementById('edit-ws-bg').value;
+            const color = document.getElementById('edit-ws-color').value;
+            const size = document.getElementById('edit-ws-size').value;
+            const radius = document.getElementById('edit-ws-radius').value;
+
+            document.documentElement.style.setProperty('--ws-font', font);
+            document.documentElement.style.setProperty('--ws-bg', bg);
+            document.documentElement.style.setProperty('--ws-color', color);
+            document.documentElement.style.setProperty('--ws-size', size + 'rem');
+            document.documentElement.style.setProperty('--ws-radius', radius + 'px');
+        }
+
+        function loadScreenSettings() {
+            const screen = document.getElementById('edit-screen-target').value;
+            const titleElem = document.getElementById('title-' + screen);
+            if(titleElem) document.getElementById('edit-screen-title').value = titleElem.innerText;
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.main-nav button').forEach(b => b.classList.remove('active'));
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+            document.getElementById('nav-' + tabName).classList.add('active');
+            
+            document.getElementById('edit-screen-target').value = tabName;
+            loadScreenSettings();
+        }
+
+        // MODAL PRODUCTO
+        function openProductModal(category, productId = null) {
+            tempMediaList = [];
+            document.querySelectorAll('.size-checkbox').forEach(cb => cb.checked = false);
+
+            if(productId) {
+                const prod = products.find(p => p.id === productId);
+                document.getElementById('modal-product-title').innerText = "Editar Producto";
+                document.getElementById('prod-id').value = prod.id;
+                document.getElementById('prod-category').value = prod.category;
+                document.getElementById('prod-title').value = prod.title;
+                document.getElementById('prod-price-crossed').value = prod.priceCrossed || '';
+                document.getElementById('prod-price-current').value = prod.priceCurrent;
+                document.getElementById('prod-mp-link').value = prod.mpLink || '';
+                
+                if(prod.sizes) {
+                    document.querySelectorAll('.size-checkbox').forEach(cb => {
+                        cb.checked = prod.sizes.includes(cb.value);
+                    });
+                }
+                tempMediaList = [...prod.media];
+            } else {
+                document.getElementById('modal-product-title').innerText = "Cargar Nuevo Producto";
+                document.getElementById('prod-id').value = '';
+                document.getElementById('prod-category').value = category;
+                document.getElementById('prod-title').value = '';
+                document.getElementById('prod-price-crossed').value = '';
+                document.getElementById('prod-price-current').value = '';
+                document.getElementById('prod-mp-link').value = '';
+            }
+
+            renderReorderList();
+            document.getElementById('modal-overlay').style.display = 'block';
+            document.getElementById('modal-product').style.display = 'block';
+        }
+
+        function closeProductModal() {
+            document.getElementById('modal-overlay').style.display = 'none';
+            document.getElementById('modal-product').style.display = 'none';
+        }
+
+        function handleImageSelection(event) {
+            const files = Array.from(event.target.files);
+            if(tempMediaList.filter(m => m.type === 'image').length + files.length > 9) {
+                alert("Máximo 9 imágenes por producto.");
+                return;
+            }
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempMediaList.push({ type: 'image', src: e.target.result });
+                    renderReorderList();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function handleVideoSelection(event) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempMediaList = tempMediaList.filter(m => m.type !== 'video');
+                    tempMediaList.push({ type: 'video', src: e.target.result });
+                    renderReorderList();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function renderReorderList() {
+            const container = document.getElementById('reorder-container');
+            container.innerHTML = '';
+
+            tempMediaList.forEach((m, idx) => {
+                const item = document.createElement('div');
+                item.style.cssText = 'position:relative; width:50px; height:50px; border:1px solid #d4af37; border-radius:4px; overflow:hidden; background:#000;';
+
+                let mediaElem = m.type === 'video' ? `<video src="${m.src}" style="width:100%; height:100%; object-fit:cover;"></video>` : `<img src="${m.src}" style="width:100%; height:100%; object-fit:cover;">`;
+
+                item.innerHTML = `
+                    ${mediaElem}
+                    <button style="position:absolute; top:2px; right:2px; background:rgba(220,53,69,0.9); color:white; border:none; border-radius:50%; width:16px; height:16px; font-size:9px; cursor:pointer;" onclick="removeMediaItem(${idx})">✖</button>
+                    ${idx > 0 ? `<button style="position:absolute; bottom:2px; left:2px; background:rgba(0,0,0,0.7); color:white; border:none; width:16px; height:14px; font-size:8px; cursor:pointer;" onclick="moveMediaItem(${idx}, -1)">◀</button>` : ''}
+                    ${idx < tempMediaList.length - 1 ? `<button style="position:absolute; bottom:2px; right:2px; background:rgba(0,0,0,0.7); color:white; border:none; width:16px; height:14px; font-size:8px; cursor:pointer;" onclick="moveMediaItem(${idx}, 1)">▶</button>` : ''}
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function removeMediaItem(index) { tempMediaList.splice(index, 1); renderReorderList(); }
+        function moveMediaItem(index, direction) {
+            const targetIndex = index + direction;
+            if (targetIndex >= 0 && targetIndex < tempMediaList.length) {
+                const temp = tempMediaList[index];
+                tempMediaList[index] = tempMediaList[targetIndex];
+                tempMediaList[targetIndex] = temp;
+                renderReorderList();
+            }
+        }
+
+        function saveProduct() {
+            const id = document.getElementById('prod-id').value;
+            const category = document.getElementById('prod-category').value;
+            const title = document.getElementById('prod-title').value;
+            const priceCrossed = document.getElementById('prod-price-crossed').value;
+            const priceCurrent = document.getElementById('prod-price-current').value;
+            const mpLink = document.getElementById('prod-mp-link').value;
+
+            const sizes = [];
+            document.querySelectorAll('.size-checkbox:checked').forEach(cb => sizes.push(cb.value));
+
+            if(!title || !priceCurrent) { alert("Título y Precio Actual son obligatorios."); return; }
+            if(tempMediaList.length === 0) { tempMediaList.push({ type: 'image', src: 'https://via.placeholder.com/300x300/111111/FFFFFF?text=PHENOM' }); }
+
+            if(id) {
+                const prod = products.find(p => p.id === parseInt(id));
+                prod.title = title; prod.sizes = sizes; prod.priceCrossed = priceCrossed; prod.priceCurrent = priceCurrent; prod.mpLink = mpLink; prod.media = tempMediaList;
+            } else {
+                products.push({ id: Date.now(), category, title, sizes, priceCrossed, priceCurrent, mpLink, media: tempMediaList, featured: false });
+            }
+
+            renderAllGrids();
+            closeProductModal();
+        }
+
+        function editProduct(productId) {
+            const prod = products.find(p => p.id === productId);
+            if(prod) openProductModal(prod.category, prod.id);
+        }
+
+        function deleteProduct(productId) {
+            if(confirm("¿Estás seguro de eliminar este producto?")) {
+                products = products.filter(p => p.id !== productId);
+                renderAllGrids();
+            }
         }
     </script>
 </body>
