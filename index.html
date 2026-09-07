@@ -152,13 +152,17 @@
         .btn-save:hover { background: #333; }
         .btn-close { background: #e00; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; float: right; }
         
-        /* BOTÓN FLOTANTE PARA ABRIR SOLAPA DE HEADER */
+        /* SELECTOR DE PESTAÑAS EN EL PANEL LATERAL */
         .btn-panel-header-tab { background: #007bff; color: #fff; border: none; width: 100%; padding: 12px; font-weight: bold; text-transform: uppercase; cursor: pointer; margin-bottom: 15px; border-radius: 4px; }
         .btn-panel-header-tab:hover { background: #0056b3; }
         #header-tabs-container { background: #e9ecef; padding: 10px; border-radius: 4px; margin-bottom: 15px; display: none; }
         #header-tabs-container.active { display: block; }
         .header-tab-item { background: #fff; padding: 8px 12px; margin-bottom: 6px; cursor: pointer; font-weight: bold; font-size: 12px; border: 1px solid #ccc; border-radius: 3px; display: flex; justify-content: space-between; align-items: center; }
         .header-tab-item:hover { background: #f1f1f1; }
+        
+        /* CONTROLES DE PESTAÑA SELECCIONADA */
+        #tab-editor-controls { background: #fff; border: 1px solid #000; padding: 12px; border-radius: 4px; margin-top: 10px; display: none; }
+        #tab-editor-controls.active { display: block; }
 
         /* --- MODALES --- */
         .simple-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center; }
@@ -199,11 +203,11 @@
         </div>
         
         <nav class="nav-links" id="main-nav-links">
-            <a href="#">Guantes</a>
-            <a href="#">Protección</a>
-            <a href="#">Indumentaria</a>
-            <a href="#">Tinas de Recuperación</a>
-            <a href="#" class="highlight">Sale</a>
+            <a href="categoria.html?cat=Guantes">Guantes</a>
+            <a href="categoria.html?cat=Proteccion">Protección</a>
+            <a href="categoria.html?cat=Indumentaria">Indumentaria</a>
+            <a href="categoria.html?cat=Tinas">Tinas de Recuperación</a>
+            <a href="categoria.html?cat=Sale" class="highlight">Sale</a>
         </nav>
 
         <div class="header-icons">
@@ -322,7 +326,7 @@
         <div class="info-column" id="info-col-1">
             <button class="edit-info-btn" onclick="openInfoModal(1)">✎</button>
             <h2 id="text-info-title-1">HISTORIA, COMBATE Y EQUIPAMIENTO PHENOM</h2>
-            <p id="text-info-desc-1">El deporte nos mantiene alerta. Nos une y nos forja. A través del boxeo y los deportes de combate podemos cambiar vidas, inspirándote a subir al ring y superar tu mejor marca personal. Ofrecemos artículos deportivos con las últimas tecnologías para absorber el impacto y mejorar tu rendimiento en cada round. Phenom es el hogar del peleador amateur, del atleta profesional y del entusiasta del fitness que deja todo en el saco. Nuestra ropa y equipamiento te mantienen concentrado antes de que suene la campana. En el sparring, en la competencia y en la recuperación. Estamos aquí para apoyar a los verdaderos peleadores.</p>
+            <p id="text-info-desc-1">El deporte nos mantiene alerta. Nos une y nos forja. A través del boxeo y los deportes de combate podemos cambiar vidas, inspirándote a subir al ring y superar tu mejor marca personal. Ofrecemos artículos deportivos con las últimas tecnologías para absorber el impacto y mejorar tu rendimiento en каждый round. Phenom es el hogar del peleador amateur, del atleta profesional y del entusiasta del fitness que deja todo en el saco. Nuestra ropa y equipamiento te mantienen concentrado antes de que suene la campana. En el sparring, en la competencia y en la recuperación. Estamos aquí para apoyar a los verdaderos peleadores.</p>
         </div>
         <div class="info-column" id="info-col-2">
             <button class="edit-info-btn" onclick="openInfoModal(2)">✎</button>
@@ -390,13 +394,36 @@
         <button class="btn-close" onclick="toggleAdminMode(false)">X</button>
         <div class="admin-header">Control Omega</div>
         
-        <!-- BOTÓN Y SOLAPA PARA GESTIONAR PESTAÑAS DEL HEADER -->
+        <!-- SELECTOR Y SUBMENÚ DE GESTIÓN DE PESTAÑAS -->
         <button class="btn-panel-header-tab" onclick="toggleHeaderTabsSolapa()">Gestionar Pestañas Header</button>
         <div id="header-tabs-container">
             <div style="font-size: 11px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase;">Selecciona pestaña:</div>
             <div id="header-tabs-list"></div>
             <div style="margin-top: 10px; display: flex; gap: 5px;">
                 <button type="button" onclick="addNewHeaderTab()" style="background: #28a745; color:#fff; border:none; padding:6px; font-size:11px; font-weight:bold; cursor:pointer; flex:1;">+ Agregar</button>
+            </div>
+
+            <!-- CONTROLES DE LA PESTAÑA SELECCIONADA -->
+            <div id="tab-editor-controls">
+                <input type="hidden" id="selected-tab-index">
+                <div class="admin-group" style="margin-bottom: 8px;">
+                    <label>Nombre de Pestaña</label>
+                    <input type="text" id="sel-tab-name" oninput="updateSelectedTabLive()">
+                </div>
+                <div class="admin-group" style="margin-bottom: 8px;">
+                    <label>Título de Página (H1)</label>
+                    <input type="text" id="sel-tab-title" oninput="saveSelectedTabMeta()">
+                </div>
+                <div class="admin-group" style="margin-bottom: 8px;">
+                    <label>Subtítulo / Bajada</label>
+                    <input type="text" id="sel-tab-sub" oninput="saveSelectedTabMeta()">
+                </div>
+                <div class="admin-group" style="margin-bottom: 8px;">
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="checkbox" id="sel-tab-btn-prod" onchange="saveSelectedTabMeta()" style="width: auto;"> Mostrar Botón "Nuevo Producto"
+                    </label>
+                </div>
+                <button type="button" onclick="deleteSelectedTab()" style="background: #e00; color: #fff; border: none; width: 100%; padding: 6px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 5px;">Eliminar Pestaña</button>
             </div>
         </div>
 
@@ -423,34 +450,6 @@
         </div>
         
         <button class="btn-save" onclick="saveAllSettings()">GUARDAR CAMBIOS</button>
-    </div>
-
-    <!-- MODAL DE EDICIÓN DE PESTAÑA DEL HEADER -->
-    <div class="simple-modal-overlay" id="edit-header-tab-modal">
-        <div class="simple-modal-content">
-            <button class="simple-modal-close" onclick="closeHeaderTabModal()">X</button>
-            <div class="simple-modal-title" id="header-tab-modal-title">EDITAR PESTAÑA</div>
-            
-            <input type="hidden" id="edit-tab-index">
-            <div class="simple-group">
-                <label>Texto de la Pestaña</label>
-                <input type="text" id="edit-tab-text">
-            </div>
-            <div class="simple-group">
-                <label>Enlace (URL / #)</label>
-                <input type="text" id="edit-tab-link">
-            </div>
-            <div class="simple-group">
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                    <input type="checkbox" id="edit-tab-highlight" style="width: auto;"> Destacar en Rojo (Sale)
-                </label>
-            </div>
-            
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button class="btn-apply" style="background: #e00; flex: 1;" onclick="deleteHeaderTab()">Quitar</button>
-                <button class="btn-apply" style="background: #000; flex: 2; margin-top: 0;" onclick="applyHeaderTabChanges()">Modificar</button>
-            </div>
-        </div>
     </div>
 
     <!-- MODAL DE EDICIÓN DE PRODUCTO (CARRUSEL) -->
@@ -584,7 +583,7 @@
         </div>
     </div>
 
-    <!-- MODAL INTERACTIVO DE REGISTRO NEWSLETTER (NOMBRE, WHATSAPP Y/O MAIL) -->
+    <!-- MODAL INTERACTIVO DE REGISTRO NEWSLETTER -->
     <div class="simple-modal-overlay" id="newsletter-form-modal">
         <div class="simple-modal-content">
             <button class="simple-modal-close" onclick="closeNewsletterForm()">X</button>
@@ -619,6 +618,15 @@
         const adminPanel = document.getElementById('admin-panel');
         const mainHeader = document.getElementById('main-header');
 
+        // Estructura de metadatos avanzada para cada categoría de la tienda
+        let categoryMetadata = {
+            "Guantes": { title: "Guantes de Boxeo", sub: "Alta performance y protección profesional", showBtn: true },
+            "Protección": { title: "Equipamiento de Protección", sub: "Cabezales, tibiales y soportes", showBtn: true },
+            "Indumentaria": { title: "Indumentaria Oficial", sub: "Ropa de entrenamiento y competencia", showBtn: true },
+            "Tinas de Recuperación": { title: "Tinas de Recuperación", sub: "Crioterapia y recuperación avanzada", showBtn: true },
+            "Sale": { title: "Sale / Oportunidades", sub: "Descuentos exclusivos por tiempo limitado", showBtn: true }
+        };
+
         function toggleAdminMode(forceState) {
             if (forceState) {
                 adminPanel.classList.add('active');
@@ -643,7 +651,7 @@
             }
         });
 
-        // --- GESTIÓN DE PESTAÑAS DEL HEADER DESDE EL PANEL LATERAL ---
+        // --- GESTIÓN DE PESTAÑAS Y CONFIGURACIÓN POR PÁGINA DESDE EL PANEL ---
         function toggleHeaderTabsSolapa() {
             const container = document.getElementById('header-tabs-container');
             container.classList.toggle('active');
@@ -658,75 +666,97 @@
             const navLinks = document.querySelectorAll('.nav-links a');
             
             navLinks.forEach((a, index) => {
+                const catName = getCatNameFromLink(a);
                 const item = document.createElement('div');
                 item.className = 'header-tab-item';
-                item.innerHTML = `<span>${a.innerText} ${a.classList.contains('highlight') ? '(Highlight)' : ''}</span> <span>✎</span>`;
-                item.onclick = () => openHeaderTabModal(index);
+                item.innerHTML = `<span>${a.innerText}</span> <span>⚙️ Editar</span>`;
+                item.onclick = () => selectTabForEditing(index, a, catName);
                 listContainer.appendChild(item);
             });
         }
 
-        const headerTabModal = document.getElementById('edit-header-tab-modal');
+        function getCatNameFromLink(aTag) {
+            const href = aTag.getAttribute('href');
+            const urlParams = new URLSearchParams(href.split('?')[1]);
+            return urlParams.get('cat') || aTag.innerText;
+        }
 
-        function openHeaderTabModal(index) {
-            const navLinks = document.querySelectorAll('.nav-links a');
-            if(index >= 0 && index < navLinks.length) {
-                const a = navLinks[index];
-                document.getElementById('edit-tab-index').value = index;
-                document.getElementById('edit-tab-text').value = a.innerText;
-                document.getElementById('edit-tab-link').value = a.getAttribute('href');
-                document.getElementById('edit-tab-highlight').checked = a.classList.contains('highlight');
-                document.getElementById('header-tab-modal-title').innerText = "EDITAR PESTAÑA: " + a.innerText;
+        function selectTabForEditing(index, aTag, catName) {
+            document.getElementById('tab-editor-controls').classList.add('active');
+            document.getElementById('selected-tab-index').value = index;
+            document.getElementById('sel-tab-name').value = aTag.innerText;
+
+            if(!categoryMetadata[catName]) {
+                categoryMetadata[catName] = { title: catName, sub: "Descripción de categoría", showBtn: true };
             }
-            headerTabModal.classList.add('active');
+
+            document.getElementById('sel-tab-title').value = categoryMetadata[catName].title;
+            document.getElementById('sel-tab-sub').value = categoryMetadata[catName].sub;
+            document.getElementById('sel-tab-btn-prod').checked = categoryMetadata[catName].showBtn;
         }
 
-        function closeHeaderTabModal() {
-            headerTabModal.classList.remove('active');
-        }
-
-        function applyHeaderTabChanges() {
-            const index = parseInt(document.getElementById('edit-tab-index').value);
-            const newText = document.getElementById('edit-tab-text').value;
-            const newLink = document.getElementById('edit-tab-link').value;
-            const isHighlight = document.getElementById('edit-tab-highlight').checked;
-
-            const navContainer = document.getElementById('main-nav-links');
-            const navLinks = navContainer.querySelectorAll('a');
-
+        function updateSelectedTabLive() {
+            const index = parseInt(document.getElementById('selected-tab-index').value);
+            const newName = document.getElementById('sel-tab-name').value;
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
             if(index >= 0 && index < navLinks.length) {
-                navLinks[index].innerText = newText;
-                navLinks[index].setAttribute('href', newLink);
-                if(isHighlight) {
-                    navLinks[index].classList.add('highlight');
+                navLinks[index].innerText = newName;
+                const oldCat = getCatNameFromLink(navLinks[index]);
+                navLinks[index].setAttribute('href', `categoria.html?cat=${encodeURIComponent(newName)}`);
+                
+                if(categoryMetadata[oldCat]) {
+                    categoryMetadata[newName] = categoryMetadata[oldCat];
+                    if(oldCat !== newName) delete categoryMetadata[oldCat];
                 } else {
-                    navLinks[index].classList.remove('highlight');
+                    categoryMetadata[newName] = { title: newName, sub: "Detalle de categoría", showBtn: true };
                 }
             }
-            closeHeaderTabModal();
             renderHeaderTabsManager();
             saveAllSettings();
+        }
+
+        function saveSelectedTabMeta() {
+            const index = parseInt(document.getElementById('selected-tab-index').value);
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            if(index >= 0 && index < navLinks.length) {
+                const catName = getCatNameFromLink(navLinks[index]);
+                if(!categoryMetadata[catName]) {
+                    categoryMetadata[catName] = {};
+                }
+                categoryMetadata[catName].title = document.getElementById('sel-tab-title').value;
+                categoryMetadata[catName].sub = document.getElementById('sel-tab-sub').value;
+                categoryMetadata[catName].showBtn = document.getElementById('sel-tab-btn-prod').checked;
+                saveAllSettings();
+            }
         }
 
         function addNewHeaderTab() {
             const navContainer = document.getElementById('main-nav-links');
+            const newName = "Nueva Categoría";
+            categoryMetadata[newName] = { title: newName, sub: "Bajada descriptiva", showBtn: true };
+            
             const newA = document.createElement('a');
-            newA.setAttribute('href', '#');
-            newA.innerText = 'NUEVA SECCIÓN';
+            newA.setAttribute('href', `categoria.html?cat=${encodeURIComponent(newName)}`);
+            newA.innerText = newName;
             navContainer.appendChild(newA);
+            
             renderHeaderTabsManager();
             saveAllSettings();
         }
 
-        function deleteHeaderTab() {
-            const index = parseInt(document.getElementById('edit-tab-index').value);
+        function deleteSelectedTab() {
+            const index = parseInt(document.getElementById('selected-tab-index').value);
             const navContainer = document.getElementById('main-nav-links');
             const navLinks = navContainer.querySelectorAll('a');
 
             if(index >= 0 && index < navLinks.length) {
+                const catName = getCatNameFromLink(navLinks[index]);
+                delete categoryMetadata[catName];
                 navLinks[index].remove();
             }
-            closeHeaderTabModal();
+            document.getElementById('tab-editor-controls').classList.remove('active');
             renderHeaderTabsManager();
             saveAllSettings();
         }
@@ -753,7 +783,7 @@
             }
         });
 
-        // --- 3. LÓGICA MODAL DE EDICIÓN DE CARRUSEL (CON PERSISTENCIA) ---
+        // --- 3. LÓGICA MODAL DE EDICIÓN DE CARRUSEL ---
         let currentEditingCard = null;
         const editModal = document.getElementById('edit-product-modal');
         let tempNewImgBase64 = null;
@@ -800,7 +830,7 @@
             saveAllSettings(); 
         }
 
-        // --- 4. LÓGICA MODAL DE HERO (3 COLUMNAS + FUENTES + IMAGEN PERSISTIDA) ---
+        // --- 4. LÓGICA MODAL DE HERO ---
         let currentHeroColNum = null;
         const heroModal = document.getElementById('edit-hero-modal');
         let tempHeroImgBase64 = null;
@@ -860,7 +890,7 @@
             saveAllSettings();
         }
 
-        // --- 5. LÓGICA MODAL COLUMNAS INFO (FONDO CREMA) ---
+        // --- 5. LÓGICA MODAL COLUMNAS INFO ---
         let currentInfoColNum = null;
         const infoModal = document.getElementById('edit-info-modal');
 
@@ -954,7 +984,7 @@
             saveAllSettings();
         }
 
-        // --- 8. SISTEMA DE PERSISTENCIA MAESTRA (LOCALSTORAGE COMPLETO) ---
+        // --- 8. SISTEMA DE PERSISTENCIA MAESTRA ---
         function saveAllSettings() {
             const settings = {
                 fubBar: document.getElementById('fub-bar').innerText,
@@ -963,8 +993,8 @@
                 headerPad: mainHeader.style.padding,
                 logoSrc: logoTrigger.dataset.customLogo || logoTrigger.src,
                 headerNavHtml: document.getElementById('main-nav-links').innerHTML,
+                categoryMeta: categoryMetadata,
                 
-                // Hero Data (Textos, Fuentes y Fondos en Base64)
                 hero1Title: document.getElementById('text-col1-title').innerText,
                 hero1Sub: document.getElementById('text-col1-sub').innerText,
                 hero1Bg: document.getElementById('hero-col-1').style.backgroundImage,
@@ -980,7 +1010,6 @@
                 hero3Bg: document.getElementById('hero-col-3').style.backgroundImage,
                 hero3Font: document.getElementById('text-col3-title').style.fontFamily,
 
-                // Info Section Data
                 info1Title: document.getElementById('text-info-title-1').innerText,
                 info1Desc: document.getElementById('text-info-desc-1').innerText,
                 info1Font: document.getElementById('text-info-title-1').style.fontFamily,
@@ -989,14 +1018,12 @@
                 info2Desc: document.getElementById('text-info-desc-2').innerText,
                 info2Font: document.getElementById('text-info-title-2').style.fontFamily,
 
-                // Newsletter & Footer
                 newsTitle: document.getElementById('text-news-title').innerText,
                 footer1: document.getElementById('footer-col-1').innerHTML,
                 footer2: document.getElementById('footer-col-2').innerHTML,
                 footer3: document.getElementById('footer-col-3').innerHTML,
                 footer4: document.getElementById('footer-col-4').innerHTML,
 
-                // Carrusel
                 carouselHtml: document.getElementById('carousel-track-container').innerHTML
             };
 
@@ -1024,8 +1051,8 @@
                 if(data.headerPad) mainHeader.style.padding = data.headerPad;
                 if(data.logoSrc) { logoTrigger.src = data.logoSrc; logoTrigger.dataset.customLogo = data.logoSrc; }
                 if(data.headerNavHtml) document.getElementById('main-nav-links').innerHTML = data.headerNavHtml;
+                if(data.categoryMeta) categoryMetadata = data.categoryMeta;
 
-                // Hero
                 if(data.hero1Title) document.getElementById('text-col1-title').innerText = data.hero1Title;
                 if(data.hero1Sub) document.getElementById('text-col1-sub').innerText = data.hero1Sub;
                 if(data.hero1Bg) document.getElementById('hero-col-1').style.backgroundImage = data.hero1Bg;
@@ -1041,7 +1068,6 @@
                 if(data.hero3Bg) document.getElementById('hero-col-3').style.backgroundImage = data.hero3Bg;
                 if(data.hero3Font) { document.getElementById('text-col3-title').style.fontFamily = data.hero3Font; document.getElementById('text-col3-sub').style.fontFamily = data.hero3Font; }
 
-                // Info Sections
                 if(data.info1Title) document.getElementById('text-info-title-1').innerText = data.info1Title;
                 if(data.info1Desc) document.getElementById('text-info-desc-1').innerText = data.info1Desc;
                 if(data.info1Font) { document.getElementById('text-info-title-1').style.fontFamily = data.info1Font; document.getElementById('text-info-desc-1').style.fontFamily = data.info1Font; }
@@ -1050,14 +1076,12 @@
                 if(data.info2Desc) document.getElementById('text-info-desc-2').innerText = data.info2Desc;
                 if(data.info2Font) { document.getElementById('text-info-title-2').style.fontFamily = data.info2Font; document.getElementById('text-info-desc-2').style.fontFamily = data.info2Font; }
 
-                // Newsletter & Footer
                 if(data.newsTitle) document.getElementById('text-news-title').innerText = data.newsTitle;
                 if(data.footer1) document.getElementById('footer-col-1').innerHTML = data.footer1;
                 if(data.footer2) document.getElementById('footer-col-2').innerHTML = data.footer2;
                 if(data.footer3) document.getElementById('footer-col-3').innerHTML = data.footer3;
                 if(data.footer4) document.getElementById('footer-col-4').innerHTML = data.footer4;
 
-                // Carrusel
                 if(data.carouselHtml) document.getElementById('carousel-track-container').innerHTML = data.carouselHtml;
             } else {
                 document.getElementById('edit-fub-bar').value = document.getElementById('fub-bar').innerText;
