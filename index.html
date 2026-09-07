@@ -611,7 +611,7 @@
 
     <!-- SCRIPT DE MOTOR LÓGICO Y PERSISTENCIA -->
     <script>
-        // --- 1. LÓGICA GATILLO Y MODO ADMINISTRADOR (CORRECCIÓN DESPLAZAMIENTO) ---
+        // --- 1. LÓGICA GATILLO DE 5 CLICS Y MODO ADMINISTRADOR ---
         let clickCount = 0;
         let clickTimer;
         const logoTrigger = document.getElementById('logo-trigger');
@@ -656,13 +656,10 @@
         document.getElementById('edit-logo-file').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const base64 = event.target.result;
-                    logoTrigger.src = base64;
-                    logoTrigger.dataset.customLogo = base64; 
-                };
-                reader.readAsDataURL(file);
+                compressImage(file, 200, 200, 0.8, function(compressedBase64) {
+                    logoTrigger.src = compressedBase64;
+                    logoTrigger.dataset.customLogo = compressedBase64;
+                });
             }
         });
 
@@ -692,7 +689,6 @@
             emojiPicker.classList.remove('active');
         }
 
-        // Cerrar selector si hace click fuera
         window.addEventListener('click', function(e) {
             if (!e.target.closest('.btn-emoji-trigger') && !e.target.closest('.emoji-picker-modal')) {
                 emojiPicker.classList.remove('active');
@@ -702,17 +698,15 @@
         // --- 4. NAVEGACIÓN A VENTANA VACÍA (CATEGORÍAS) ---
         function navigateToCat(e, catName) {
             e.preventDefault();
-            // Creamos un estado o guardamos en sessionStorage la categoría actual para simular la página nueva vacía
             sessionStorage.setItem('current_cat', catName);
             window.location.href = 'categoria.html?cat=' + encodeURIComponent(catName);
         }
 
-        // --- 5. LÓGICA MODAL DE EDICIÓN DE CARRUSEL (CON PERSISTENCIA Y COMPRESOR DE IMAGEN) ---
+        // --- 5. COMPRESOR DE IMÁGENES & CARRUSEL ---
         let currentEditingCard = null;
         const editModal = document.getElementById('edit-product-modal');
         let tempNewImgBase64 = null;
 
-        // FUNCIÓN COMPRESOR DE IMÁGENES (Evita saturar el LocalStorage)
         function compressImage(file, maxWidth, maxHeight, quality, callback) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -758,7 +752,6 @@
         document.getElementById('edit-mod-file').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                // Comprimimos automáticamente la imagen a máx 600px y 80% de calidad para proteger LocalStorage
                 compressImage(file, 600, 600, 0.8, function(compressedBase64) {
                     tempNewImgBase64 = compressedBase64;
                 });
@@ -1026,7 +1019,7 @@
 
                 if(data.carouselHtml) document.getElementById('carousel-track-container').innerHTML = data.carouselHtml;
             } else {
-                document.getElementById('edit-fub-bar').value = document.getElementById('fub-bar'].innerText;
+                document.getElementById('edit-fub-bar').value = document.getElementById('fub-bar').innerText;
             }
         };
     </script>
