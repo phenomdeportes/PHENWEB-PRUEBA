@@ -18,11 +18,22 @@
         /* --- HEADER PRINCIPAL (AJUSTADO AL BORDE DEL LOGO) --- */
         .header { display: flex; justify-content: space-between; align-items: center; padding: 8px 40px; background: #fff; border-bottom: 1px solid #eaeaea; transition: padding 0.3s ease; }
         .logo-container { display: flex; align-items: center; }
-        .logo-container img { height: 45px; max-height: 60px; width: auto; object-fit: contain; cursor: pointer; transition: all 0.3s ease; }
-        .nav-links { display: flex; gap: 25px; }
+        .logo-container img { height: 45px; max-height: 80px; width: auto; object-fit: contain; display: block; cursor: pointer; transition: all 0.2s ease; }
+        
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-item-wrapper { display: flex; align-items: center; gap: 4px; position: relative; }
         .nav-links a { text-decoration: none; color: #000; font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
         .nav-links a:hover { color: #666; }
         .nav-links a.highlight { color: #e00; }
+
+        /* Botón Nuevo Producto en Categorías (Solo Modo Admin) */
+        .nav-add-btn {
+            background: #007bff; color: #fff; border: none; width: 20px; height: 20px;
+            border-radius: 50%; font-size: 12px; font-weight: bold; cursor: pointer;
+            display: none; align-items: center; justify-content: center; text-decoration: none;
+        }
+        body.admin-mode .nav-add-btn { display: inline-flex; }
+
         .header-icons { display: flex; align-items: center; gap: 20px; }
         .search-box { background: #f0f0f0; border: none; padding: 10px 15px; border-radius: 4px; font-size: 13px; width: 180px; outline: none; }
         .icon { font-size: 20px; cursor: pointer; }
@@ -204,11 +215,26 @@
         </div>
         
         <nav class="nav-links">
-            <a href="categoria.html?cat=guantes" onclick="navigateToCat(event, 'Guantes')">Guantes</a>
-            <a href="categoria.html?cat=proteccion" onclick="navigateToCat(event, 'Protección')">Protección</a>
-            <a href="categoria.html?cat=indumentaria" onclick="navigateToCat(event, 'Indumentaria')">Indumentaria</a>
-            <a href="categoria.html?cat=tinas" onclick="navigateToCat(event, 'Tinas')">Tinas de Recuperación</a>
-            <a href="categoria.html?cat=sale" onclick="navigateToCat(event, 'Sale')" class="highlight">Sale</a>
+            <div class="nav-item-wrapper">
+                <a href="categoria.html?cat=guantes" onclick="navigateToCat(event, 'Guantes')">Guantes</a>
+                <button class="nav-add-btn" onclick="openNewProductForCat('Guantes')" title="Nuevo producto en Guantes">+</button>
+            </div>
+            <div class="nav-item-wrapper">
+                <a href="categoria.html?cat=proteccion" onclick="navigateToCat(event, 'Protección')">Protección</a>
+                <button class="nav-add-btn" onclick="openNewProductForCat('Protección')" title="Nuevo producto en Protección">+</button>
+            </div>
+            <div class="nav-item-wrapper">
+                <a href="categoria.html?cat=indumentaria" onclick="navigateToCat(event, 'Indumentaria')">Indumentaria</a>
+                <button class="nav-add-btn" onclick="openNewProductForCat('Indumentaria')" title="Nuevo producto en Indumentaria">+</button>
+            </div>
+            <div class="nav-item-wrapper">
+                <a href="categoria.html?cat=tinas" onclick="navigateToCat(event, 'Tinas')">Tinas de Recuperación</a>
+                <button class="nav-add-btn" onclick="openNewProductForCat('Tinas')" title="Nuevo producto en Tinas">+</button>
+            </div>
+            <div class="nav-item-wrapper">
+                <a href="categoria.html?cat=sale" onclick="navigateToCat(event, 'Sale')" class="highlight">Sale</a>
+                <button class="nav-add-btn" onclick="openNewProductForCat('Sale')" title="Nuevo producto en Sale">+</button>
+            </div>
         </nav>
 
         <div class="header-icons">
@@ -401,7 +427,7 @@
         </div>
         <div class="admin-group">
             <label>Tamaño del Logo (px)</label>
-            <input type="range" id="edit-logo-size" min="20" max="150" value="45">
+            <input type="range" id="edit-logo-size" min="20" max="120" value="45">
         </div>
         <div class="admin-group">
             <label>Altura Barra Navegación (Padding px)</label>
@@ -641,12 +667,11 @@
             }
         });
 
-        // --- 2. CONTROLES EN VIVO HEADER Y LOGO ---
-        document.getElementById('edit-logo-size').addEventListener('input', function(e) {
+        // --- 2. CONTROLES EN VIVO HEADER Y TAMAÑO DE LOGO ---
+        const logoSizeSlider = document.getElementById('edit-logo-size');
+        logoSizeSlider.addEventListener('input', function(e) {
             const newHeight = e.target.value;
             logoTrigger.style.height = newHeight + 'px';
-            const dynamicPadding = Math.max(5, Math.floor(15 - (newHeight - 45) * 0.2));
-            mainHeader.style.padding = `${dynamicPadding}px 40px`;
         });
 
         document.getElementById('edit-header-pad').addEventListener('input', function(e) {
@@ -656,14 +681,19 @@
         document.getElementById('edit-logo-file').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                compressImage(file, 200, 200, 0.8, function(compressedBase64) {
+                compressImage(file, 300, 300, 0.85, function(compressedBase64) {
                     logoTrigger.src = compressedBase64;
                     logoTrigger.dataset.customLogo = compressedBase64;
                 });
             }
         });
 
-        // --- 3. SISTEMA DE EMOTICONOS PARA TEXTOS ---
+        // --- 3. NUEVO PRODUCTO DESDE CATEGORÍAS (MODO ADMIN) ---
+        function openNewProductForCat(catName) {
+            alert('Módulo de creación de nuevo producto para la categoría: ' + catName);
+        }
+
+        // --- 4. SISTEMA DE EMOTICONOS PARA TEXTOS ---
         let activeInputId = null;
         const emojiPicker = document.getElementById('emoji-picker');
 
@@ -695,14 +725,14 @@
             }
         });
 
-        // --- 4. NAVEGACIÓN A VENTANA VACÍA (CATEGORÍAS) ---
+        // --- 5. NAVEGACIÓN A VENTANA VACÍA (CATEGORÍAS) ---
         function navigateToCat(e, catName) {
             e.preventDefault();
             sessionStorage.setItem('current_cat', catName);
             window.location.href = 'categoria.html?cat=' + encodeURIComponent(catName);
         }
 
-        // --- 5. COMPRESOR DE IMÁGENES & CARRUSEL ---
+        // --- 6. COMPRESOR DE IMÁGENES & CARRUSEL ---
         let currentEditingCard = null;
         const editModal = document.getElementById('edit-product-modal');
         let tempNewImgBase64 = null;
@@ -771,7 +801,7 @@
             saveAllSettings(); 
         }
 
-        // --- 6. LÓGICA MODAL DE HERO ---
+        // --- 7. LÓGICA MODAL DE HERO ---
         let currentHeroColNum = null;
         const heroModal = document.getElementById('edit-hero-modal');
         let tempHeroImgBase64 = null;
@@ -829,7 +859,7 @@
             saveAllSettings();
         }
 
-        // --- 7. LÓGICA MODAL COLUMNAS INFO ---
+        // --- 8. LÓGICA MODAL COLUMNAS INFO ---
         let currentInfoColNum = null;
         const infoModal = document.getElementById('edit-info-modal');
 
@@ -868,7 +898,7 @@
             saveAllSettings();
         }
 
-        // --- 8. LÓGICA NEWSLETTER ---
+        // --- 9. LÓGICA NEWSLETTER ---
         const newsModal = document.getElementById('edit-news-modal');
         const newsFormModal = document.getElementById('newsletter-form-modal');
 
@@ -893,7 +923,7 @@
             closeNewsletterForm();
         }
 
-        // --- 9. LÓGICA FOOTER ---
+        // --- 10. LÓGICA FOOTER ---
         let currentFooterCol = null;
         const footerModal = document.getElementById('edit-footer-modal');
 
@@ -923,7 +953,7 @@
             saveAllSettings();
         }
 
-        // --- 10. SISTEMA DE PERSISTENCIA MAESTRA ---
+        // --- 11. SISTEMA DE PERSISTENCIA MAESTRA ---
         function saveAllSettings() {
             const settings = {
                 fubBar: document.getElementById('fub-bar').innerText,
@@ -974,7 +1004,7 @@
             setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
 
-        // --- 11. CARGA AUTOMÁTICA DE DATOS PERSISTIDOS AL ABRIR ---
+        // --- 12. CARGA AUTOMÁTICA DE DATOS PERSISTIDOS AL ABRIR ---
         window.onload = () => {
             const saved = localStorage.getItem('phenom_persistent_data');
             if (saved) {
@@ -984,7 +1014,10 @@
                     document.getElementById('edit-fub-bar').value = data.fubBar;
                 }
                 if(data.wpNum) document.querySelector('.wp-float').href = 'https://wa.me/' + data.wpNum;
-                if(data.logoSize) logoTrigger.style.height = data.logoSize;
+                if(data.logoSize) {
+                    logoTrigger.style.height = data.logoSize;
+                    logoSizeSlider.value = parseInt(data.logoSize) || 45;
+                }
                 if(data.headerPad) mainHeader.style.padding = data.headerPad;
                 if(data.logoSrc) { logoTrigger.src = data.logoSrc; logoTrigger.dataset.customLogo = data.logoSrc; }
 
