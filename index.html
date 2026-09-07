@@ -9,7 +9,8 @@
     <style>
         /* --- RESET Y VARIABLES --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
-        body { overflow-x: hidden; background: #fff; }
+        body { overflow-x: hidden; background: #fff; transition: margin-left 0.3s ease; }
+        body.panel-active { margin-left: 350px; }
 
         /* --- BARRA SUPERIOR --- */
         .top-bar { background-color: #000; color: #fff; text-align: center; padding: 10px; font-size: 11px; font-weight: bold; letter-spacing: 1.5px; text-transform: uppercase; }
@@ -141,7 +142,7 @@
         .wp-float { position: fixed; bottom: 30px; right: 30px; background: #000; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 100; }
 
         /* --- PANEL DE EDICIÓN OCULTO --- */
-        #admin-panel { display: none; position: fixed; top: 0; right: 0; width: 350px; height: 100vh; background: #f4f4f4; border-left: 2px solid #000; padding: 20px; z-index: 9999; overflow-y: auto; box-shadow: -5px 0 15px rgba(0,0,0,0.3); }
+        #admin-panel { display: none; position: fixed; top: 0; left: 0; width: 350px; height: 100vh; background: #f4f4f4; border-right: 2px solid #000; padding: 20px; z-index: 9999; overflow-y: auto; box-shadow: 5px 0 15px rgba(0,0,0,0.3); }
         #admin-panel.active { display: block; }
         .admin-header { font-weight: 900; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 10px;}
         .admin-group { margin-bottom: 15px; }
@@ -151,6 +152,14 @@
         .btn-save:hover { background: #333; }
         .btn-close { background: #e00; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; float: right; }
         
+        /* BOTÓN FLOTANTE PARA ABRIR SOLAPA DE HEADER */
+        .btn-panel-header-tab { background: #007bff; color: #fff; border: none; width: 100%; padding: 12px; font-weight: bold; text-transform: uppercase; cursor: pointer; margin-bottom: 15px; border-radius: 4px; }
+        .btn-panel-header-tab:hover { background: #0056b3; }
+        #header-tabs-container { background: #e9ecef; padding: 10px; border-radius: 4px; margin-bottom: 15px; display: none; }
+        #header-tabs-container.active { display: block; }
+        .header-tab-item { background: #fff; padding: 8px 12px; margin-bottom: 6px; cursor: pointer; font-weight: bold; font-size: 12px; border: 1px solid #ccc; border-radius: 3px; display: flex; justify-content: space-between; align-items: center; }
+        .header-tab-item:hover { background: #f1f1f1; }
+
         /* --- MODALES --- */
         .simple-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center; }
         .simple-modal-overlay.active { display: flex; }
@@ -166,6 +175,8 @@
         #toast-success { position: fixed; top: 20px; right: 20px; background: #000; color: #ede734; padding: 15px 25px; font-weight: 900; border-radius: 4px; z-index: 10000; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-transform: uppercase; font-size: 12px; border: 1px solid #ede734; }
 
         @media (max-width: 768px) {
+            body.panel-active { margin-left: 0; }
+            #admin-panel { width: 100%; }
             .hero-grid { grid-template-columns: 1fr; height: auto; }
             .hero-col { height: 400px; }
             .info-section { grid-template-columns: 1fr; padding: 40px 20px; }
@@ -187,7 +198,7 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Adidas_Logo.svg/2560px-Adidas_Logo.svg.png" alt="Logo" id="logo-trigger">
         </div>
         
-        <nav class="nav-links">
+        <nav class="nav-links" id="main-nav-links">
             <a href="#">Guantes</a>
             <a href="#">Protección</a>
             <a href="#">Indumentaria</a>
@@ -379,6 +390,16 @@
         <button class="btn-close" onclick="toggleAdminMode(false)">X</button>
         <div class="admin-header">Control Omega</div>
         
+        <!-- BOTÓN Y SOLAPA PARA GESTIONAR PESTAÑAS DEL HEADER -->
+        <button class="btn-panel-header-tab" onclick="toggleHeaderTabsSolapa()">Gestionar Pestañas Header</button>
+        <div id="header-tabs-container">
+            <div style="font-size: 11px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase;">Selecciona pestaña:</div>
+            <div id="header-tabs-list"></div>
+            <div style="margin-top: 10px; display: flex; gap: 5px;">
+                <button type="button" onclick="addNewHeaderTab()" style="background: #28a745; color:#fff; border:none; padding:6px; font-size:11px; font-weight:bold; cursor:pointer; flex:1;">+ Agregar</button>
+            </div>
+        </div>
+
         <div class="admin-group">
             <label>Logo de la Marca (Subir Archivo)</label>
             <input type="file" id="edit-logo-file" accept="image/*">
@@ -402,6 +423,34 @@
         </div>
         
         <button class="btn-save" onclick="saveAllSettings()">GUARDAR CAMBIOS</button>
+    </div>
+
+    <!-- MODAL DE EDICIÓN DE PESTAÑA DEL HEADER -->
+    <div class="simple-modal-overlay" id="edit-header-tab-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeHeaderTabModal()">X</button>
+            <div class="simple-modal-title" id="header-tab-modal-title">EDITAR PESTAÑA</div>
+            
+            <input type="hidden" id="edit-tab-index">
+            <div class="simple-group">
+                <label>Texto de la Pestaña</label>
+                <input type="text" id="edit-tab-text">
+            </div>
+            <div class="simple-group">
+                <label>Enlace (URL / #)</label>
+                <input type="text" id="edit-tab-link">
+            </div>
+            <div class="simple-group">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="edit-tab-highlight" style="width: auto;"> Destacar en Rojo (Sale)
+                </label>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="btn-apply" style="background: #e00; flex: 1;" onclick="deleteHeaderTab()">Quitar</button>
+                <button class="btn-apply" style="background: #000; flex: 2; margin-top: 0;" onclick="applyHeaderTabChanges()">Modificar</button>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL DE EDICIÓN DE PRODUCTO (CARRUSEL) -->
@@ -574,9 +623,12 @@
             if (forceState) {
                 adminPanel.classList.add('active');
                 document.body.classList.add('admin-mode');
+                document.body.classList.add('panel-active');
             } else {
                 adminPanel.classList.remove('active');
                 document.body.classList.remove('admin-mode');
+                document.body.classList.remove('panel-active');
+                document.getElementById('header-tabs-container').classList.remove('active');
             }
         }
 
@@ -590,6 +642,94 @@
                 clickTimer = setTimeout(() => { clickCount = 0; }, 2000); 
             }
         });
+
+        // --- GESTIÓN DE PESTAÑAS DEL HEADER DESDE EL PANEL LATERAL ---
+        function toggleHeaderTabsSolapa() {
+            const container = document.getElementById('header-tabs-container');
+            container.classList.toggle('active');
+            if(container.classList.contains('active')) {
+                renderHeaderTabsManager();
+            }
+        }
+
+        function renderHeaderTabsManager() {
+            const listContainer = document.getElementById('header-tabs-list');
+            listContainer.innerHTML = '';
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            navLinks.forEach((a, index) => {
+                const item = document.createElement('div');
+                item.className = 'header-tab-item';
+                item.innerHTML = `<span>${a.innerText} ${a.classList.contains('highlight') ? '(Highlight)' : ''}</span> <span>✎</span>`;
+                item.onclick = () => openHeaderTabModal(index);
+                listContainer.appendChild(item);
+            });
+        }
+
+        const headerTabModal = document.getElementById('edit-header-tab-modal');
+
+        function openHeaderTabModal(index) {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            if(index >= 0 && index < navLinks.length) {
+                const a = navLinks[index];
+                document.getElementById('edit-tab-index').value = index;
+                document.getElementById('edit-tab-text').value = a.innerText;
+                document.getElementById('edit-tab-link').value = a.getAttribute('href');
+                document.getElementById('edit-tab-highlight').checked = a.classList.contains('highlight');
+                document.getElementById('header-tab-modal-title').innerText = "EDITAR PESTAÑA: " + a.innerText;
+            }
+            headerTabModal.classList.add('active');
+        }
+
+        function closeHeaderTabModal() {
+            headerTabModal.classList.remove('active');
+        }
+
+        function applyHeaderTabChanges() {
+            const index = parseInt(document.getElementById('edit-tab-index').value);
+            const newText = document.getElementById('edit-tab-text').value;
+            const newLink = document.getElementById('edit-tab-link').value;
+            const isHighlight = document.getElementById('edit-tab-highlight').checked;
+
+            const navContainer = document.getElementById('main-nav-links');
+            const navLinks = navContainer.querySelectorAll('a');
+
+            if(index >= 0 && index < navLinks.length) {
+                navLinks[index].innerText = newText;
+                navLinks[index].setAttribute('href', newLink);
+                if(isHighlight) {
+                    navLinks[index].classList.add('highlight');
+                } else {
+                    navLinks[index].classList.remove('highlight');
+                }
+            }
+            closeHeaderTabModal();
+            renderHeaderTabsManager();
+            saveAllSettings();
+        }
+
+        function addNewHeaderTab() {
+            const navContainer = document.getElementById('main-nav-links');
+            const newA = document.createElement('a');
+            newA.setAttribute('href', '#');
+            newA.innerText = 'NUEVA SECCIÓN';
+            navContainer.appendChild(newA);
+            renderHeaderTabsManager();
+            saveAllSettings();
+        }
+
+        function deleteHeaderTab() {
+            const index = parseInt(document.getElementById('edit-tab-index').value);
+            const navContainer = document.getElementById('main-nav-links');
+            const navLinks = navContainer.querySelectorAll('a');
+
+            if(index >= 0 && index < navLinks.length) {
+                navLinks[index].remove();
+            }
+            closeHeaderTabModal();
+            renderHeaderTabsManager();
+            saveAllSettings();
+        }
 
         // --- 2. CONTROLES EN VIVO HEADER Y LOGO ---
         document.getElementById('edit-logo-size').addEventListener('input', function(e) {
@@ -822,6 +962,7 @@
                 logoSize: logoTrigger.style.height,
                 headerPad: mainHeader.style.padding,
                 logoSrc: logoTrigger.dataset.customLogo || logoTrigger.src,
+                headerNavHtml: document.getElementById('main-nav-links').innerHTML,
                 
                 // Hero Data (Textos, Fuentes y Fondos en Base64)
                 hero1Title: document.getElementById('text-col1-title').innerText,
@@ -882,6 +1023,7 @@
                 if(data.logoSize) logoTrigger.style.height = data.logoSize;
                 if(data.headerPad) mainHeader.style.padding = data.headerPad;
                 if(data.logoSrc) { logoTrigger.src = data.logoSrc; logoTrigger.dataset.customLogo = data.logoSrc; }
+                if(data.headerNavHtml) document.getElementById('main-nav-links').innerHTML = data.headerNavHtml;
 
                 // Hero
                 if(data.hero1Title) document.getElementById('text-col1-title').innerText = data.hero1Title;
