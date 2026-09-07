@@ -9,8 +9,7 @@
     <style>
         /* --- RESET Y VARIABLES --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
-        body { overflow-x: hidden; background: #fff; transition: margin-left 0.3s ease; }
-        body.panel-active { margin-left: 350px; }
+        body { overflow-x: hidden; background: #fff; }
 
         /* --- BARRA SUPERIOR --- */
         .top-bar { background-color: #000; color: #fff; text-align: center; padding: 10px; font-size: 11px; font-weight: bold; letter-spacing: 1.5px; text-transform: uppercase; }
@@ -142,7 +141,7 @@
         .wp-float { position: fixed; bottom: 30px; right: 30px; background: #000; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 100; }
 
         /* --- PANEL DE EDICIÓN OCULTO --- */
-        #admin-panel { display: none; position: fixed; top: 0; left: 0; width: 350px; height: 100vh; background: #f4f4f4; border-right: 2px solid #000; padding: 20px; z-index: 9999; overflow-y: auto; box-shadow: 5px 0 15px rgba(0,0,0,0.3); }
+        #admin-panel { display: none; position: fixed; top: 0; right: 0; width: 350px; height: 100vh; background: #f4f4f4; border-left: 2px solid #000; padding: 20px; z-index: 9999; overflow-y: auto; box-shadow: -5px 0 15px rgba(0,0,0,0.3); }
         #admin-panel.active { display: block; }
         .admin-header { font-weight: 900; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 10px;}
         .admin-group { margin-bottom: 15px; }
@@ -152,18 +151,6 @@
         .btn-save:hover { background: #333; }
         .btn-close { background: #e00; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; float: right; }
         
-        /* SELECTOR DE PESTAÑAS EN EL PANEL LATERAL */
-        .btn-panel-header-tab { background: #007bff; color: #fff; border: none; width: 100%; padding: 12px; font-weight: bold; text-transform: uppercase; cursor: pointer; margin-bottom: 15px; border-radius: 4px; }
-        .btn-panel-header-tab:hover { background: #0056b3; }
-        #header-tabs-container { background: #e9ecef; padding: 10px; border-radius: 4px; margin-bottom: 15px; display: none; }
-        #header-tabs-container.active { display: block; }
-        .header-tab-item { background: #fff; padding: 8px 12px; margin-bottom: 6px; cursor: pointer; font-weight: bold; font-size: 12px; border: 1px solid #ccc; border-radius: 3px; display: flex; justify-content: space-between; align-items: center; }
-        .header-tab-item:hover { background: #f1f1f1; }
-        
-        /* CONTROLES DE PESTAÑA SELECCIONADA */
-        #tab-editor-controls { background: #fff; border: 1px solid #000; padding: 12px; border-radius: 4px; margin-top: 10px; display: none; }
-        #tab-editor-controls.active { display: block; }
-
         /* --- MODALES --- */
         .simple-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center; }
         .simple-modal-overlay.active { display: flex; }
@@ -179,8 +166,6 @@
         #toast-success { position: fixed; top: 20px; right: 20px; background: #000; color: #ede734; padding: 15px 25px; font-weight: 900; border-radius: 4px; z-index: 10000; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-transform: uppercase; font-size: 12px; border: 1px solid #ede734; }
 
         @media (max-width: 768px) {
-            body.panel-active { margin-left: 0; }
-            #admin-panel { width: 100%; }
             .hero-grid { grid-template-columns: 1fr; height: auto; }
             .hero-col { height: 400px; }
             .info-section { grid-template-columns: 1fr; padding: 40px 20px; }
@@ -202,12 +187,12 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Adidas_Logo.svg/2560px-Adidas_Logo.svg.png" alt="Logo" id="logo-trigger">
         </div>
         
-        <nav class="nav-links" id="main-nav-links">
-            <a href="categoria.html?cat=Guantes">Guantes</a>
-            <a href="categoria.html?cat=Proteccion">Protección</a>
-            <a href="categoria.html?cat=Indumentaria">Indumentaria</a>
-            <a href="categoria.html?cat=Tinas">Tinas de Recuperación</a>
-            <a href="categoria.html?cat=Sale" class="highlight">Sale</a>
+        <nav class="nav-links">
+            <a href="#">Guantes</a>
+            <a href="#">Protección</a>
+            <a href="#">Indumentaria</a>
+            <a href="#">Tinas de Recuperación</a>
+            <a href="#" class="highlight">Sale</a>
         </nav>
 
         <div class="header-icons">
@@ -326,7 +311,7 @@
         <div class="info-column" id="info-col-1">
             <button class="edit-info-btn" onclick="openInfoModal(1)">✎</button>
             <h2 id="text-info-title-1">HISTORIA, COMBATE Y EQUIPAMIENTO PHENOM</h2>
-            <p id="text-info-desc-1">El deporte nos mantiene alerta. Nos une y nos forja. A través del boxeo y los deportes de combate podemos cambiar vidas, inspirándote a subir al ring y superar tu mejor marca personal. Ofrecemos artículos deportivos con las últimas tecnologías para absorber el impacto y mejorar tu rendimiento en каждый round. Phenom es el hogar del peleador amateur, del atleta profesional y del entusiasta del fitness que deja todo en el saco. Nuestra ropa y equipamiento te mantienen concentrado antes de que suene la campana. En el sparring, en la competencia y en la recuperación. Estamos aquí para apoyar a los verdaderos peleadores.</p>
+            <p id="text-info-desc-1">El deporte nos mantiene alerta. Nos une y nos forja. A través del boxeo y los deportes de combate podemos cambiar vidas, inspirándote a subir al ring y superar tu mejor marca personal. Ofrecemos artículos deportivos con las últimas tecnologías para absorber el impacto y mejorar tu rendimiento en cada round. Phenom es el hogar del peleador amateur, del atleta profesional y del entusiasta del fitness que deja todo en el saco. Nuestra ropa y equipamiento te mantienen concentrado antes de que suene la campana. En el sparring, en la competencia y en la recuperación. Estamos aquí para apoyar a los verdaderos peleadores.</p>
         </div>
         <div class="info-column" id="info-col-2">
             <button class="edit-info-btn" onclick="openInfoModal(2)">✎</button>
@@ -394,39 +379,6 @@
         <button class="btn-close" onclick="toggleAdminMode(false)">X</button>
         <div class="admin-header">Control Omega</div>
         
-        <!-- SELECTOR Y SUBMENÚ DE GESTIÓN DE PESTAÑAS -->
-        <button class="btn-panel-header-tab" onclick="toggleHeaderTabsSolapa()">Gestionar Pestañas Header</button>
-        <div id="header-tabs-container">
-            <div style="font-size: 11px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase;">Selecciona pestaña:</div>
-            <div id="header-tabs-list"></div>
-            <div style="margin-top: 10px; display: flex; gap: 5px;">
-                <button type="button" onclick="addNewHeaderTab()" style="background: #28a745; color:#fff; border:none; padding:6px; font-size:11px; font-weight:bold; cursor:pointer; flex:1;">+ Agregar</button>
-            </div>
-
-            <!-- CONTROLES DE LA PESTAÑA SELECCIONADA -->
-            <div id="tab-editor-controls">
-                <input type="hidden" id="selected-tab-index">
-                <div class="admin-group" style="margin-bottom: 8px;">
-                    <label>Nombre de Pestaña</label>
-                    <input type="text" id="sel-tab-name" oninput="updateSelectedTabLive()">
-                </div>
-                <div class="admin-group" style="margin-bottom: 8px;">
-                    <label>Título de Página (H1)</label>
-                    <input type="text" id="sel-tab-title" oninput="saveSelectedTabMeta()">
-                </div>
-                <div class="admin-group" style="margin-bottom: 8px;">
-                    <label>Subtítulo / Bajada</label>
-                    <input type="text" id="sel-tab-sub" oninput="saveSelectedTabMeta()">
-                </div>
-                <div class="admin-group" style="margin-bottom: 8px;">
-                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                        <input type="checkbox" id="sel-tab-btn-prod" onchange="saveSelectedTabMeta()" style="width: auto;"> Mostrar Botón "Nuevo Producto"
-                    </label>
-                </div>
-                <button type="button" onclick="deleteSelectedTab()" style="background: #e00; color: #fff; border: none; width: 100%; padding: 6px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 5px;">Eliminar Pestaña</button>
-            </div>
-        </div>
-
         <div class="admin-group">
             <label>Logo de la Marca (Subir Archivo)</label>
             <input type="file" id="edit-logo-file" accept="image/*">
@@ -583,7 +535,7 @@
         </div>
     </div>
 
-    <!-- MODAL INTERACTIVO DE REGISTRO NEWSLETTER -->
+    <!-- MODAL INTERACTIVO DE REGISTRO NEWSLETTER (NOMBRE, WHATSAPP Y/O MAIL) -->
     <div class="simple-modal-overlay" id="newsletter-form-modal">
         <div class="simple-modal-content">
             <button class="simple-modal-close" onclick="closeNewsletterForm()">X</button>
@@ -618,25 +570,13 @@
         const adminPanel = document.getElementById('admin-panel');
         const mainHeader = document.getElementById('main-header');
 
-        // Estructura de metadatos avanzada para cada categoría de la tienda
-        let categoryMetadata = {
-            "Guantes": { title: "Guantes de Boxeo", sub: "Alta performance y protección profesional", showBtn: true },
-            "Protección": { title: "Equipamiento de Protección", sub: "Cabezales, tibiales y soportes", showBtn: true },
-            "Indumentaria": { title: "Indumentaria Oficial", sub: "Ropa de entrenamiento y competencia", showBtn: true },
-            "Tinas de Recuperación": { title: "Tinas de Recuperación", sub: "Crioterapia y recuperación avanzada", showBtn: true },
-            "Sale": { title: "Sale / Oportunidades", sub: "Descuentos exclusivos por tiempo limitado", showBtn: true }
-        };
-
         function toggleAdminMode(forceState) {
             if (forceState) {
                 adminPanel.classList.add('active');
                 document.body.classList.add('admin-mode');
-                document.body.classList.add('panel-active');
             } else {
                 adminPanel.classList.remove('active');
                 document.body.classList.remove('admin-mode');
-                document.body.classList.remove('panel-active');
-                document.getElementById('header-tabs-container').classList.remove('active');
             }
         }
 
@@ -650,116 +590,6 @@
                 clickTimer = setTimeout(() => { clickCount = 0; }, 2000); 
             }
         });
-
-        // --- GESTIÓN DE PESTAÑAS Y CONFIGURACIÓN POR PÁGINA DESDE EL PANEL ---
-        function toggleHeaderTabsSolapa() {
-            const container = document.getElementById('header-tabs-container');
-            container.classList.toggle('active');
-            if(container.classList.contains('active')) {
-                renderHeaderTabsManager();
-            }
-        }
-
-        function renderHeaderTabsManager() {
-            const listContainer = document.getElementById('header-tabs-list');
-            listContainer.innerHTML = '';
-            const navLinks = document.querySelectorAll('.nav-links a');
-            
-            navLinks.forEach((a, index) => {
-                const catName = getCatNameFromLink(a);
-                const item = document.createElement('div');
-                item.className = 'header-tab-item';
-                item.innerHTML = `<span>${a.innerText}</span> <span>⚙️ Editar</span>`;
-                item.onclick = () => selectTabForEditing(index, a, catName);
-                listContainer.appendChild(item);
-            });
-        }
-
-        function getCatNameFromLink(aTag) {
-            const href = aTag.getAttribute('href');
-            const urlParams = new URLSearchParams(href.split('?')[1]);
-            return urlParams.get('cat') || aTag.innerText;
-        }
-
-        function selectTabForEditing(index, aTag, catName) {
-            document.getElementById('tab-editor-controls').classList.add('active');
-            document.getElementById('selected-tab-index').value = index;
-            document.getElementById('sel-tab-name').value = aTag.innerText;
-
-            if(!categoryMetadata[catName]) {
-                categoryMetadata[catName] = { title: catName, sub: "Descripción de categoría", showBtn: true };
-            }
-
-            document.getElementById('sel-tab-title').value = categoryMetadata[catName].title;
-            document.getElementById('sel-tab-sub').value = categoryMetadata[catName].sub;
-            document.getElementById('sel-tab-btn-prod').checked = categoryMetadata[catName].showBtn;
-        }
-
-        function updateSelectedTabLive() {
-            const index = parseInt(document.getElementById('selected-tab-index').value);
-            const newName = document.getElementById('sel-tab-name').value;
-            const navLinks = document.querySelectorAll('.nav-links a');
-            
-            if(index >= 0 && index < navLinks.length) {
-                navLinks[index].innerText = newName;
-                const oldCat = getCatNameFromLink(navLinks[index]);
-                navLinks[index].setAttribute('href', `categoria.html?cat=${encodeURIComponent(newName)}`);
-                
-                if(categoryMetadata[oldCat]) {
-                    categoryMetadata[newName] = categoryMetadata[oldCat];
-                    if(oldCat !== newName) delete categoryMetadata[oldCat];
-                } else {
-                    categoryMetadata[newName] = { title: newName, sub: "Detalle de categoría", showBtn: true };
-                }
-            }
-            renderHeaderTabsManager();
-            saveAllSettings();
-        }
-
-        function saveSelectedTabMeta() {
-            const index = parseInt(document.getElementById('selected-tab-index').value);
-            const navLinks = document.querySelectorAll('.nav-links a');
-            
-            if(index >= 0 && index < navLinks.length) {
-                const catName = getCatNameFromLink(navLinks[index]);
-                if(!categoryMetadata[catName]) {
-                    categoryMetadata[catName] = {};
-                }
-                categoryMetadata[catName].title = document.getElementById('sel-tab-title').value;
-                categoryMetadata[catName].sub = document.getElementById('sel-tab-sub').value;
-                categoryMetadata[catName].showBtn = document.getElementById('sel-tab-btn-prod').checked;
-                saveAllSettings();
-            }
-        }
-
-        function addNewHeaderTab() {
-            const navContainer = document.getElementById('main-nav-links');
-            const newName = "Nueva Categoría";
-            categoryMetadata[newName] = { title: newName, sub: "Bajada descriptiva", showBtn: true };
-            
-            const newA = document.createElement('a');
-            newA.setAttribute('href', `categoria.html?cat=${encodeURIComponent(newName)}`);
-            newA.innerText = newName;
-            navContainer.appendChild(newA);
-            
-            renderHeaderTabsManager();
-            saveAllSettings();
-        }
-
-        function deleteSelectedTab() {
-            const index = parseInt(document.getElementById('selected-tab-index').value);
-            const navContainer = document.getElementById('main-nav-links');
-            const navLinks = navContainer.querySelectorAll('a');
-
-            if(index >= 0 && index < navLinks.length) {
-                const catName = getCatNameFromLink(navLinks[index]);
-                delete categoryMetadata[catName];
-                navLinks[index].remove();
-            }
-            document.getElementById('tab-editor-controls').classList.remove('active');
-            renderHeaderTabsManager();
-            saveAllSettings();
-        }
 
         // --- 2. CONTROLES EN VIVO HEADER Y LOGO ---
         document.getElementById('edit-logo-size').addEventListener('input', function(e) {
@@ -783,7 +613,7 @@
             }
         });
 
-        // --- 3. LÓGICA MODAL DE EDICIÓN DE CARRUSEL ---
+        // --- 3. LÓGICA MODAL DE EDICIÓN DE CARRUSEL (CON PERSISTENCIA) ---
         let currentEditingCard = null;
         const editModal = document.getElementById('edit-product-modal');
         let tempNewImgBase64 = null;
@@ -830,7 +660,7 @@
             saveAllSettings(); 
         }
 
-        // --- 4. LÓGICA MODAL DE HERO ---
+        // --- 4. LÓGICA MODAL DE HERO (3 COLUMNAS + FUENTES + IMAGEN PERSISTIDA) ---
         let currentHeroColNum = null;
         const heroModal = document.getElementById('edit-hero-modal');
         let tempHeroImgBase64 = null;
@@ -890,7 +720,7 @@
             saveAllSettings();
         }
 
-        // --- 5. LÓGICA MODAL COLUMNAS INFO ---
+        // --- 5. LÓGICA MODAL COLUMNAS INFO (FONDO CREMA) ---
         let currentInfoColNum = null;
         const infoModal = document.getElementById('edit-info-modal');
 
@@ -984,7 +814,7 @@
             saveAllSettings();
         }
 
-        // --- 8. SISTEMA DE PERSISTENCIA MAESTRA ---
+        // --- 8. SISTEMA DE PERSISTENCIA MAESTRA (LOCALSTORAGE COMPLETO) ---
         function saveAllSettings() {
             const settings = {
                 fubBar: document.getElementById('fub-bar').innerText,
@@ -992,9 +822,8 @@
                 logoSize: logoTrigger.style.height,
                 headerPad: mainHeader.style.padding,
                 logoSrc: logoTrigger.dataset.customLogo || logoTrigger.src,
-                headerNavHtml: document.getElementById('main-nav-links').innerHTML,
-                categoryMeta: categoryMetadata,
                 
+                // Hero Data (Textos, Fuentes y Fondos en Base64)
                 hero1Title: document.getElementById('text-col1-title').innerText,
                 hero1Sub: document.getElementById('text-col1-sub').innerText,
                 hero1Bg: document.getElementById('hero-col-1').style.backgroundImage,
@@ -1010,6 +839,7 @@
                 hero3Bg: document.getElementById('hero-col-3').style.backgroundImage,
                 hero3Font: document.getElementById('text-col3-title').style.fontFamily,
 
+                // Info Section Data
                 info1Title: document.getElementById('text-info-title-1').innerText,
                 info1Desc: document.getElementById('text-info-desc-1').innerText,
                 info1Font: document.getElementById('text-info-title-1').style.fontFamily,
@@ -1018,12 +848,14 @@
                 info2Desc: document.getElementById('text-info-desc-2').innerText,
                 info2Font: document.getElementById('text-info-title-2').style.fontFamily,
 
+                // Newsletter & Footer
                 newsTitle: document.getElementById('text-news-title').innerText,
                 footer1: document.getElementById('footer-col-1').innerHTML,
                 footer2: document.getElementById('footer-col-2').innerHTML,
                 footer3: document.getElementById('footer-col-3').innerHTML,
                 footer4: document.getElementById('footer-col-4').innerHTML,
 
+                // Carrusel
                 carouselHtml: document.getElementById('carousel-track-container').innerHTML
             };
 
@@ -1050,9 +882,8 @@
                 if(data.logoSize) logoTrigger.style.height = data.logoSize;
                 if(data.headerPad) mainHeader.style.padding = data.headerPad;
                 if(data.logoSrc) { logoTrigger.src = data.logoSrc; logoTrigger.dataset.customLogo = data.logoSrc; }
-                if(data.headerNavHtml) document.getElementById('main-nav-links').innerHTML = data.headerNavHtml;
-                if(data.categoryMeta) categoryMetadata = data.categoryMeta;
 
+                // Hero
                 if(data.hero1Title) document.getElementById('text-col1-title').innerText = data.hero1Title;
                 if(data.hero1Sub) document.getElementById('text-col1-sub').innerText = data.hero1Sub;
                 if(data.hero1Bg) document.getElementById('hero-col-1').style.backgroundImage = data.hero1Bg;
@@ -1068,6 +899,7 @@
                 if(data.hero3Bg) document.getElementById('hero-col-3').style.backgroundImage = data.hero3Bg;
                 if(data.hero3Font) { document.getElementById('text-col3-title').style.fontFamily = data.hero3Font; document.getElementById('text-col3-sub').style.fontFamily = data.hero3Font; }
 
+                // Info Sections
                 if(data.info1Title) document.getElementById('text-info-title-1').innerText = data.info1Title;
                 if(data.info1Desc) document.getElementById('text-info-desc-1').innerText = data.info1Desc;
                 if(data.info1Font) { document.getElementById('text-info-title-1').style.fontFamily = data.info1Font; document.getElementById('text-info-desc-1').style.fontFamily = data.info1Font; }
@@ -1076,12 +908,14 @@
                 if(data.info2Desc) document.getElementById('text-info-desc-2').innerText = data.info2Desc;
                 if(data.info2Font) { document.getElementById('text-info-title-2').style.fontFamily = data.info2Font; document.getElementById('text-info-desc-2').style.fontFamily = data.info2Font; }
 
+                // Newsletter & Footer
                 if(data.newsTitle) document.getElementById('text-news-title').innerText = data.newsTitle;
                 if(data.footer1) document.getElementById('footer-col-1').innerHTML = data.footer1;
                 if(data.footer2) document.getElementById('footer-col-2').innerHTML = data.footer2;
                 if(data.footer3) document.getElementById('footer-col-3').innerHTML = data.footer3;
                 if(data.footer4) document.getElementById('footer-col-4').innerHTML = data.footer4;
 
+                // Carrusel
                 if(data.carouselHtml) document.getElementById('carousel-track-container').innerHTML = data.carouselHtml;
             } else {
                 document.getElementById('edit-fub-bar').value = document.getElementById('fub-bar').innerText;
