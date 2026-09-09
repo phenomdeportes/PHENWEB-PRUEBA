@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phenom | Tienda Oficial</title>
+    <!-- Importación de Fuentes Tipográficas -->
+    <link href="https://fonts.googleapis.com/css2?family=Arial&family=Courier+New&family=Georgia&family=Impact&family=Lucida+Console&family=Palatino&family=Segoe+UI&family=Tahoma&family=Times+New+Roman&family=Verdana&family=Montserrat:wght@400;700;900&family=Oswald:wght@400;700&family=Roboto:wght@400;700;900&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Hojas de Estilos Separadas -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- BARRA SUPERIOR -->
+    <div class="top-bar-container" id="top-bar-wrapper">
+        <div class="top-bar" id="fub-bar">¡BIENVENIDOS A LA TIENDA OFICIAL DE PHENOM!</div>
+    </div>
+
+    <!-- HEADER / MENÚ DE NAVEGACIÓN -->
+    <header class="header" id="main-header">
+        <div class="logo-container" onclick="showHomePage()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Adidas_Logo.svg/2560px-Adidas_Logo.svg.png" alt="Logo Phenom" id="logo-trigger">
+            <span id="logo-adj-text-val"></span>
+        </div>
+
+        <nav class="nav-links" id="main-nav-links">
+            <a>PROTECTORES</a>
+            <a>ACCESORIOS</a>
+            <a>INDUMENTARIA</a>
+            <a>RECUPERACIÓN - FRIO/CALOR</a>
+            <a class="highlight">SALE</a>
+        </nav>
+
+        <div class="header-controls">
+            <input type="text" class="search-box" placeholder="Buscar..." oninput="filterCatalogSearch(this.value)">
+            <span class="icon" title="Mi Cuenta">👤</span>
+            <span class="icon" title="Favoritos">♡</span>
+            
+            <!-- Ícono del Carrito con Contador en Vivo -->
+            <div class="cart-icon-wrapper" onclick="toggleCartDrawer(true)" title="Ver Carrito de Compras">
+                <span class="icon">🛒</span>
+                <span id="cart-badge-count" class="cart-badge" style="display:none;">0</span>
+            </div>
+
+            <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
+        </div>
+    </header>
+
+    <!-- ==================== VISTA 1: INICIO (HOME) ==================== -->
+    <div id="view-home" class="page-view active-view">
+        <!-- SECCIÓN HERO -->
+        <section class="hero-grid">
+            <div class="hero-col" id="hero-col-1" style="background-image: url('https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=800');">
+                <button class="edit-hero-btn" onclick="openHeroModal(1)">✎</button>
+                <div class="hero-content">
+                    <h1 class="hero-title" id="text-col1-title">PHENOM ELITE</h1>
+                    <h2 class="hero-subtitle" id="text-col1-sub">MÁXIMA PROTECCIÓN</h2>
+                    <a onclick="navigateToCategory('PROTECTORES')" class="btn-comprar">COMPRAR AHORA →</a>
+                </div>
+            </div>
+            <div class="hero-col" id="hero-col-2" style="background-image: url('https://images.unsplash.com/photo-1596356453261-0d265eb26d43?q=80&w=800');">
+                <button class="edit-hero-btn" onclick="openHeroModal(2)">✎</button>
+                <div class="hero-content">
+                    <h1 class="hero-title" id="text-col2-title">THE ORIGINAL</h1>
+                    <h2 class="hero-subtitle" id="text-col2-sub"></h2>
+                    <a onclick="navigateToCategory('Todos')" class="btn-comprar" style="display:none;">COMPRAR AHORA →</a>
+                </div>
+            </div>
+            <div class="hero-col" id="hero-col-3" style="background-image: url('https://images.unsplash.com/photo-1517438322307-e67111335449?q=80&w=800');">
+                <button class="edit-hero-btn" onclick="openHeroModal(3)">✎</button>
+                <div class="hero-content">
+                    <h1 class="hero-title" id="text-col3-title">SPARRING PRO</h1>
+                    <h2 class="hero-subtitle" id="text-col3-sub">ONZAS PRECISAS</h2>
+                    <a onclick="navigateToCategory('PROTECTORES')" class="btn-comprar" style="display:none;">COMPRAR AHORA →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARRUSEL DESTACADOS -->
+        <section class="carousel-section">
+            <div class="carousel-header">
+                <div class="carousel-actions">
+                    <a onclick="navigateToCategory('Todos')" class="view-all">VER TODO</a>
+                    <button class="arrow-btn" onclick="scrollCarousel(-1)">❮</button>
+                    <button class="arrow-btn" onclick="scrollCarousel(1)">❯</button>
+                </div>
+            </div>
+            <div class="carousel-track" id="carousel-track-container"></div>
+        </section>
+
+        <!-- SECCIÓN INFO INSTITUCIONAL -->
+        <section class="info-section">
+            <div class="info-column" id="info-col-1">
+                <button class="edit-info-btn" onclick="openInfoModal(1)">✎</button>
+                <h2 id="text-info-title-1">HISTORIA, COMBATE Y EQUIPAMIENTO PHENOM</h2>
+                <p id="text-info-desc-1">El deporte nos mantiene alerta. Nos une y nos forja. A través del boxeo y los deportes de combate podemos cambiar vidas, inspirándote a subir al ring y superar tu mejor marca personal. Ofrecemos artículos deportivos con las últimas tecnologías para absorber el impacto y mejorar tu rendimiento en cada round.</p>
+            </div>
+            <div class="info-column" id="info-col-2">
+                <button class="edit-info-btn" onclick="openInfoModal(2)">✎</button>
+                <h2 id="text-info-title-2">TU TIENDA DE DEPORTES DE COMBATE PARA CUALQUIER DESAFÍO</h2>
+                <p id="text-info-desc-2">Phenom diseña equipamiento para atletas de todo tipo. Creadores que disfrutan desafiar las convenciones y romper las normas del combate. Confeccionamos los guantes y protectores que visten a los campeones en preparación para su próxima pelea.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==================== VISTA 2: CATÁLOGO DE PRODUCTOS ==================== -->
+    <div id="view-catalog" class="page-view">
+        <div class="catalog-container" id="catalog-main-bg">
+            <div class="catalog-header">
+                <div>
+                    <h1 class="catalog-title" id="catalog-category-title">EQUIPAMIENTO DE PROTECCIÓN</h1>
+                    <div class="catalog-subtitle" id="catalog-category-subtitle">Guantes, cabezales y tibiales de alto rendimiento</div>
+                </div>
+                <button class="btn-add-product-top" id="btn-dynamic-add-prod" onclick="openCreateProductModal()">+ Agregar Producto</button>
+            </div>
+            <div class="catalog-grid" id="catalog-grid-container"></div>
+        </div>
+    </div>
+
+    <!-- BARRA NEWSLETTER -->
+    <section class="newsletter-bar">
+        <button class="edit-news-btn" onclick="openNewsModal()">✎</button>
+        <h2 id="text-news-title">SUSCRÍBETE AL NEWSLETTER</h2>
+        <button class="btn-register" id="text-news-btn" onclick="openNewsletterForm()">REGÍSTRATE GRATIS →</button>
+    </section>
+
+    <!-- FOOTER PRINCIPAL -->
+    <footer class="footer">
+        <div class="footer-col" id="footer-col-1">
+            <button class="edit-footer-btn" onclick="openFooterModal(1)">✎</button>
+            <h3>PRODUCTOS</h3>
+            <a onclick="navigateToCategory('PROTECTORES')">Guantes de Boxeo</a>
+            <a onclick="navigateToCategory('PROTECTORES')">Tibiales y Cabezales</a>
+            <a onclick="navigateToCategory('ACCESORIOS')">Vendas y Bucales</a>
+            <a onclick="navigateToCategory('RECUPERACIÓN - FRIO/CALOR')">Tinas de Recuperación</a>
+        </div>
+        <div class="footer-col" id="footer-col-2">
+            <button class="edit-footer-btn" onclick="openFooterModal(2)">✎</button>
+            <h3>DEPORTES</h3>
+            <a onclick="navigateToCategory('Boxeo')">Boxeo</a>
+            <a onclick="navigateToCategory('Kickboxing')">Kickboxing</a>
+            <a onclick="navigateToCategory('Muay Thai')">Muay Thai</a>
+            <a onclick="navigateToCategory('Fitness')">Fitness</a>
+        </div>
+        <div class="footer-col" id="footer-col-3">
+            <button class="edit-footer-btn" onclick="openFooterModal(3)">✎</button>
+            <h3>ASISTENCIA</h3>
+            <a href="#">Contacto</a>
+            <a href="#">Preguntas Frecuentes</a>
+            <a href="#">Cambios y Devoluciones</a>
+        </div>
+        <div class="footer-col" id="footer-col-4">
+            <button class="edit-footer-btn" onclick="openFooterModal(4)">✎</button>
+            <h3>INFORMACIÓN</h3>
+            <a href="#">Trabaja con Nosotros</a>
+            <a href="#">Puntos de Retiro</a>
+        </div>
+        <div class="footer-col">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/SSL_Secured.svg/120px-SSL_Secured.svg.png" alt="Sitio Seguro SSL" class="ssl-badge">
+        </div>
+    </footer>
+
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <a href="https://wa.me/59893418239" class="wp-float" target="_blank" title="Contactar por WhatsApp">✆</a>
+
+    <!-- ==================== NUEVO: PANEL LATERAL DEL CARRITO (CART DRAWER) ==================== -->
+    <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)"></div>
+    <div id="cart-drawer">
+        <div class="cart-header">
+            <div class="cart-header-title">
+                <span>🛒 Tu Carrito</span>
+            </div>
+            <button class="cart-close-btn" onclick="toggleCartDrawer(false)" title="Cerrar Carrito">✕</button>
+        </div>
+        <div class="cart-body" id="cart-drawer-body">
+            <!-- El contenido dinámico de ítems y selector de envío se inyecta desde cart.js -->
+        </div>
+        <div class="cart-footer" id="cart-drawer-footer">
+            <!-- Totales y Botón de Checkout vía WhatsApp -->
+        </div>
+    </div>
+
+    <!-- MODAL PARA SELECCIONAR VARIANTE (ONZAS / TALLES) -->
+    <div class="simple-modal-overlay" id="variant-modal-overlay">
+        <div class="variant-modal-content">
+            <button class="simple-modal-close" onclick="closeVariantModal()">✕</button>
+            <div class="simple-modal-title">Seleccionar Variante</div>
+            <p id="variant-modal-prod-title" style="font-size:13px; color:#475569; font-weight:700; margin-bottom:10px;"></p>
+            <p style="font-size:12px; color:#64748b;">Elegí el talle o peso en onzas deseado para agregar al carrito:</p>
+            <div class="variant-options-grid" id="variant-modal-options"></div>
+        </div>
+    </div>
+
+    <!-- ==================== PANEL CONTROL OMEGA (ADMIN MODO) ==================== -->
+    <div id="admin-panel">
+        <div class="admin-header">
+            <span>Control Omega</span>
+            <button class="btn-close" onclick="toggleAdminMode(false)">X</button>
+        </div>
+
+        <!-- SECCIÓN CARRUSEL DESTACADOS -->
+        <div class="section-box">
+            <div class="section-title">CARRUSEL DESTACADOS (INICIO)</div>
+            <div class="admin-group">
+                <label>Selecciona los productos a mostrar:</label>
+                <div class="checkboxes-box" id="admin-carousel-products" style="max-height: 200px; overflow-y: auto;"></div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN BARRA SUPERIOR -->
+        <div class="section-box">
+            <div class="section-title">BARRA SUPERIOR (HEADER INFO)</div>
+            <div class="admin-group">
+                <label>Texto Informativo</label>
+                <input type="text" id="edit-fub-bar" value="¡BIENVENIDOS A LA TIENDA OFICIAL DE PHENOM!" oninput="applyTopBarSettings()">
+            </div>
+            <div class="two-cols">
+                <div class="simple-group"><label>Color Fondo</label><input type="color" id="tb-bg-color" value="#000000" oninput="applyTopBarSettings()"></div>
+                <div class="simple-group"><label>Opacidad (0-1)</label><input type="number" id="tb-opacity" value="1" min="0" max="1" step="0.1" oninput="applyTopBarSettings()"></div>
+            </div>
+            <div class="two-cols">
+                <div class="simple-group"><label>Borde (px)</label><input type="number" id="tb-border-w" value="0" min="0" oninput="applyTopBarSettings()"></div>
+                <div class="simple-group"><label>Color Borde</label><input type="color" id="tb-border-c" value="#ca8a04" oninput="applyTopBarSettings()"></div>
+            </div>
+            <div class="admin-group">
+                <label>Curvatura Bordes (px)</label>
+                <input type="number" id="tb-border-r" value="0" min="0" oninput="applyTopBarSettings()">
+            </div>
+        </div>
+
+        <!-- SECCIÓN BARRA NAVEGACIÓN -->
+        <div class="section-box">
+            <div class="section-title">BARRA DE NAVEGACIÓN (MENÚ)</div>
+            <div class="two-cols">
+                <div class="simple-group"><label>Fondo Menú</label><input type="color" id="nav-bg-color" value="#ffffff" oninput="applyNavSettings()"></div>
+                <div class="simple-group"><label>Color Texto</label><input type="color" id="nav-text-color" value="#000000" oninput="applyNavSettings()"></div>
+            </div>
+            <div class="admin-group">
+                <label>Fuente Pestañas</label>
+                <select id="nav-font" onchange="applyNavSettings()">
+                    <option value="'Segoe UI', sans-serif">Segoe UI</option>
+                    <option value="'Impact', sans-serif">Impact</option>
+                    <option value="'Arial', sans-serif">Arial</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Oswald', sans-serif">Oswald</option>
+                    <option value="'Roboto', sans-serif">Roboto</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                </select>
+            </div>
+            <div class="two-cols">
+                <div class="simple-group"><label>Tamaño Fuente (px)</label><input type="number" id="nav-font-size" value="13" oninput="applyNavSettings()"></div>
+                <div class="simple-group"><label>Espacio Botones (px)</label><input type="number" id="nav-gap" value="25" oninput="applyNavSettings()"></div>
+            </div>
+            <div class="admin-group">
+                <label>Afinar Barra (Padding vertical px)</label>
+                <input type="number" id="header-padding-v" value="15" oninput="applyNavSettings()">
+            </div>
+        </div>
+
+        <!-- SECCIÓN LOGO & TEXTO -->
+        <div class="section-box">
+            <div class="section-title">LOGO & TEXTO ADYACENTE</div>
+            <div class="admin-group"><label>Logo de la Marca (Imagen)</label><input type="file" id="edit-logo-file" accept="image/*" class="file-upload-input"></div>
+            <div class="admin-group"><label>Ancho del Logo (px)</label><input type="number" id="logo-width" value="170" min="20" oninput="applyLogoTextSettings()"></div>
+            <div class="admin-group"><label>Texto al Lado del Logo</label><input type="text" id="logo-adj-text-input" placeholder="Ej: URUGUAY" oninput="applyLogoTextSettings()"></div>
+            <div class="admin-group">
+                <label>Fuente del Texto</label>
+                <select id="logo-adj-font" onchange="applyLogoTextSettings()">
+                    <option value="'Impact', sans-serif">Impact</option>
+                    <option value="'Segoe UI', sans-serif">Segoe UI</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Oswald', sans-serif">Oswald</option>
+                    <option value="'Roboto', sans-serif">Roboto</option>
+                </select>
+            </div>
+            <div class="two-cols">
+                <div class="simple-group"><label>Color</label><input type="color" id="logo-adj-color" value="#000000" oninput="applyLogoTextSettings()"></div>
+                <div class="simple-group"><label>Espaciado (px)</label><input type="number" id="logo-adj-spacing" value="0" oninput="applyLogoTextSettings()"></div>
+            </div>
+            <div class="text-format-group">
+                <button type="button" class="btn-fmt" id="fmt-logo-b" onclick="toggleLogoFormat('bold')">B</button>
+                <button type="button" class="btn-fmt" id="fmt-logo-i" onclick="toggleLogoFormat('italic')">I</button>
+                <button type="button" class="btn-fmt" id="fmt-logo-s" onclick="toggleLogoFormat('underline')">S</button>
+            </div>
+        </div>
+
+        <!-- SECCIÓN FONDOS DE PANTALLA -->
+        <div class="section-box">
+            <div class="section-title">FONDOS DE PANTALLA</div>
+            <div class="admin-group"><label>Pantalla a Editar</label><select id="bg-target-screen" onchange="loadScreenBgSettings()"></select></div>
+            <div class="admin-group"><label>Cargar Imagen de Fondo</label><input type="file" id="bg-file-input" accept="image/*" class="file-upload-input"></div>
+            <div class="admin-group"><label>Ajuste de Fondo</label><select id="bg-fit-mode" onchange="applyBackgroundSettings()"><option value="cover">Pantalla Completa</option><option value="contain">Ajustar al Centro</option><option value="100% 100%">Estirado (100% 100%)</option><option value="repeat">Repetir</option></select></div>
+            <div class="two-cols">
+                <div class="simple-group"><label>Transp. Tarjeta (0-1)</label><input type="number" id="card-transparency" min="0" max="1" step="0.1" value="0" oninput="applyBackgroundSettings()"></div>
+                <div class="simple-group"><label>Oscuridad Fondo (0-1)</label><input type="number" id="bg-overlay-alpha" min="0" max="1" step="0.1" value="0" oninput="applyBackgroundSettings()"></div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN TÍTULOS DE PANTALLA -->
+        <div class="section-box">
+            <div class="section-title">TÍTULOS DE PANTALLA</div>
+            <div class="admin-group"><label>Texto del Título</label><input type="text" id="title-text-input" oninput="applyTitleSettings()"></div>
+            <div class="admin-group"><label>Fuente</label><select id="title-font-family" onchange="applyTitleSettings()"><option value="'Segoe UI', sans-serif">Segoe UI</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Oswald', sans-serif">Oswald</option><option value="'Roboto', sans-serif">Roboto</option><option value="'Impact', sans-serif">Impact</option></select></div>
+            <div class="two-cols">
+                <div class="simple-group"><label>Color</label><input type="color" id="title-color-input" value="#000000" oninput="applyTitleSettings()"></div>
+                <div class="simple-group"><label>Espaciado (px)</label><input type="number" id="title-letter-spacing" value="0" oninput="applyTitleSettings()"></div>
+            </div>
+            <div class="text-format-group">
+                <button type="button" class="btn-fmt" id="fmt-b" onclick="toggleFormat('bold')">B</button>
+                <button type="button" class="btn-fmt" id="fmt-i" onclick="toggleFormat('italic')">I</button>
+                <button type="button" class="btn-fmt" id="fmt-s" onclick="toggleFormat('underline')">S</button>
+            </div>
+        </div>
+
+        <!-- SECCIÓN PESTAÑAS DE NAVEGACIÓN -->
+        <div class="section-box">
+            <div class="section-title">PESTAÑAS DE NAVEGACIÓN</div>
+            <div id="header-tabs-list"></div>
+            <button type="button" class="btn-add-tab" onclick="addNewHeaderTab()">+ Agregar Pestaña</button>
+        </div>
+
+        <button class="btn-save" onclick="saveAllSettings()">GUARDAR CAMBIOS</button>
+    </div>
+
+    <!-- MODAL CARGAR NUEVO PRODUCTO -->
+    <div class="dark-modal-overlay" id="dark-product-modal">
+        <div class="dark-modal-content">
+            <button class="simple-modal-close" onclick="closeDarkModal()" style="color:#fff;">✕</button>
+            <div class="dark-modal-title" id="dark-modal-title-text">Cargar Nuevo Producto</div>
+            <input type="hidden" id="dark-prod-id">
+            <label>Título del Producto</label>
+            <input type="text" id="dark-title" placeholder="Ej: Guantes Pro Blanco/Dorado">
+            <label>Talles / Onzas Disponibles</label>
+            <div class="checkboxes-box">
+                <label><input type="checkbox" value="6oz" class="chk-oz"> 6oz</label>
+                <label><input type="checkbox" value="8oz" class="chk-oz"> 8oz</label>
+                <label><input type="checkbox" value="10oz" class="chk-oz"> 10oz</label>
+                <label><input type="checkbox" value="12oz" class="chk-oz"> 12oz</label>
+                <label><input type="checkbox" value="14oz" class="chk-oz"> 14oz</label>
+                <label><input type="checkbox" value="16oz" class="chk-oz"> 16oz</label>
+            </div>
+            <div class="two-cols">
+                <div class="simple-group"><label>Precio Tachado (UYU)</label><input type="text" id="dark-reg-price" placeholder="$2.500"></div>
+                <div class="simple-group"><label>Precio Actual (UYU)</label><input type="text" id="dark-price" placeholder="$2.090"></div>
+            </div>
+            <label>Link Mercado Pago (Opcional)</label>
+            <input type="text" id="dark-mp-link" placeholder="https://mpago.la/tu-link">
+            <label>Cargar Fotos (Desde PC)</label>
+            <input type="file" id="dark-photos-input" class="file-upload-input" accept="image/*" multiple onchange="handleDarkFiles(this, 'photo')">
+            <label>Archivos Cargados:</label>
+            <div class="files-preview-box" id="files-preview-container">Sin archivos</div>
+            <button type="button" class="btn-save-gold" onclick="saveDarkProduct()">Guardar Publicación</button>
+        </div>
+    </div>
+
+    <!-- MODALES VARIOS -->
+    <div class="simple-modal-overlay" id="edit-header-tab-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeHeaderTabModal()">✕</button>
+            <div class="simple-modal-title">EDITAR PESTAÑA</div>
+            <input type="hidden" id="edit-tab-index">
+            <div class="simple-group"><label>Texto Pestaña</label><input type="text" id="edit-tab-text"></div>
+            <div class="simple-group"><label><input type="checkbox" id="edit-tab-highlight"> Destacar (Red)</label></div>
+            <button class="btn-apply" onclick="applyHeaderTabChanges()">MODIFICAR</button>
+            <button class="btn-apply" style="background:#dc3545;" onclick="deleteHeaderTab()">ELIMINAR</button>
+        </div>
+    </div>
+
+    <div class="simple-modal-overlay" id="edit-hero-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeHeroModal()">✕</button>
+            <div class="simple-modal-title" id="hero-modal-title">EDITAR COLUMNA HERO</div>
+            <div class="simple-group"><label>Cargar Imagen Local</label><input type="file" id="edit-hero-file" accept="image/*"></div>
+            <div class="simple-group"><label>Título Principal</label><input type="text" id="hero-mod-title"></div>
+            <div class="simple-group"><label>Subtítulo</label><input type="text" id="hero-mod-sub"></div>
+            <button class="btn-apply" onclick="applyHeroChanges()">APLICAR CAMBIOS</button>
+        </div>
+    </div>
+
+    <div class="simple-modal-overlay" id="edit-info-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeInfoModal()">✕</button>
+            <div class="simple-modal-title" id="info-modal-title">EDITAR INFO</div>
+            <div class="simple-group"><label>Título</label><input type="text" id="info-mod-title"></div>
+            <div class="simple-group"><label>Descripción</label><textarea id="info-mod-desc" rows="6"></textarea></div>
+            <button class="btn-apply" onclick="applyInfoChanges()">APLICAR CAMBIOS</button>
+        </div>
+    </div>
+
+    <div class="simple-modal-overlay" id="edit-news-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeNewsModal()">✕</button>
+            <div class="simple-modal-title">EDITAR NEWSLETTER</div>
+            <div class="simple-group"><label>Título</label><input type="text" id="news-mod-title"></div>
+            <button class="btn-apply" onclick="applyNewsChanges()">APLICAR CAMBIOS</button>
+        </div>
+    </div>
+
+    <div class="simple-modal-overlay" id="edit-footer-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeFooterModal()">✕</button>
+            <div class="simple-modal-title" id="footer-modal-title">EDITAR FOOTER</div>
+            <div class="simple-group"><label>Contenido HTML</label><textarea id="footer-mod-html" rows="6"></textarea></div>
+            <button class="btn-apply" onclick="applyFooterChanges()">APLICAR CAMBIOS</button>
+        </div>
+    </div>
+
+    <div class="simple-modal-overlay" id="newsletter-form-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeNewsletterForm()">✕</button>
+            <div class="simple-modal-title">REGISTRO NEWSLETTER</div>
+            <form onsubmit="submitNewsletter(event)">
+                <div class="simple-group"><label>Nombre</label><input type="text" id="nl-name" required></div>
+                <div class="simple-group"><label>WhatsApp</label><input type="text" id="nl-wp" required></div>
+                <button type="submit" class="btn-apply">REGISTRARME</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- NOTIFICACIÓN TOAST -->
+    <div id="toast-success">¡CAMBIOS GUARDADOS Y PERSISTIDOS! ✓</div>
+
+    <!-- MÓDULOS JAVASCRIPT -->
+    <script src="app.js"></script>
+    <script src="cart.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
