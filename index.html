@@ -15,22 +15,27 @@
         /* --- BARRA SUPERIOR --- */
         .top-bar { background-color: #000; color: #fff; text-align: center; padding: 10px; font-size: 11px; font-weight: bold; letter-spacing: 1.5px; text-transform: uppercase; }
 
-        /* --- HEADER PRINCIPAL --- */
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: #fff; border-bottom: 1px solid #eaeaea; transition: padding 0.3s ease; }
+        /* --- HEADER PRINCIPAL Y RESPONSIVE HAMBURGUESA --- */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: #fff; border-bottom: 1px solid #eaeaea; transition: padding 0.3s ease; position: relative; z-index: 1000; }
         .logo-container img { height: 45px; cursor: pointer; transition: all 0.3s ease; }
+        
         .nav-links { display: flex; gap: 25px; align-items: center; }
         .nav-links a { text-decoration: none; color: #000; font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; cursor: pointer; }
         .nav-links a:hover, .nav-links a.active-link { color: #666; text-decoration: underline; }
         .nav-links a.highlight { color: #e00; }
+
         .header-icons { display: flex; align-items: center; gap: 20px; }
         .search-box { background: #f0f0f0; border: none; padding: 10px 15px; border-radius: 4px; font-size: 13px; width: 180px; outline: none; }
         .icon { font-size: 20px; cursor: pointer; }
+
+        /* Botón Hamburguesa (Oculto en PC) */
+        .hamburger-btn { display: none; background: none; border: none; font-size: 26px; cursor: pointer; color: #000; }
 
         /* --- VISTAS SPA --- */
         .page-view { display: none; }
         .page-view.active-view { display: block; }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO SECTION RESPONSIVE --- */
         .hero-grid { display: grid; grid-template-columns: repeat(3, 1fr); height: 85vh; }
         .hero-col { position: relative; background-color: #111; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #fff; transition: background-image 0.3s ease; }
         .hero-col::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); }
@@ -94,7 +99,7 @@
 
         .product-card .card-title-text { font-size: 14px; font-weight: 800; color: #000; margin-bottom: 8px; }
         
-        /* VARIANTES (6oz, 8oz, etc) */
+        /* VARIANTES */
         .variant-badges { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
         .badge-item { background: #f1f5f9; color: #334155; font-size: 10px; font-weight: 700; padding: 3px 6px; border-radius: 3px; border: 1px solid #cbd5e1; }
 
@@ -169,7 +174,7 @@
 
         .wp-float { position: fixed; bottom: 30px; right: 30px; background: #000; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 100; }
 
-        /* --- PANEL LATERAL DE CONTROL OSCURO --- */
+        /* --- PANEL LATERAL DE CONTROL OMEGA --- */
         #admin-panel { display: none; position: fixed; top: 0; left: 0; width: 350px; height: 100vh; background: #1e1e1e; color: #fff; border-right: 2px solid #333; padding: 20px; z-index: 9999; overflow-y: auto; box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         #admin-panel.active { display: block; }
         .admin-header { font-weight: 900; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; color: #eab308; }
@@ -191,31 +196,24 @@
         .btn-fmt { background: #3f3f46; color: #fff; border: 1px solid #52525b; width: 32px; height: 32px; font-weight: bold; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
         .btn-fmt.active { background: #eab308; color: #000; }
 
-        /* --- MODAL OSCURO CARGAR NUEVO PRODUCTO --- */
+        /* MODAL PRODUCTO */
         .dark-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; }
         .dark-modal-overlay.active { display: flex; }
         .dark-modal-content { background: #1c1c1c; border: 1px solid #ca8a04; padding: 25px; width: 440px; border-radius: 8px; color: #fff; max-height: 90vh; overflow-y: auto; box-shadow: 0 0 25px rgba(234, 179, 8, 0.2); }
-        .dark-modal-title { color: #eab308; font-size: 18px; font-weight: 900; margin-bottom: 20px; text-transform: none; }
-        
+        .dark-modal-title { color: #eab308; font-size: 18px; font-weight: 900; margin-bottom: 20px; }
         .dark-modal-content label { display: block; font-size: 12px; color: #d4d4d8; font-weight: 600; margin-bottom: 6px; }
         .dark-modal-content input[type="text"] { width: 100%; padding: 10px; background: #09090b; border: 1px solid #3f3f46; border-radius: 4px; color: #fff; font-size: 13px; outline: none; margin-bottom: 15px; }
-        
         .checkboxes-box { background: #09090b; border: 1px solid #3f3f46; border-radius: 4px; padding: 10px; display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; }
         .checkboxes-box label { display: flex; align-items: center; gap: 5px; margin-bottom: 0; color: #fff; font-weight: bold; font-size: 12px; cursor: pointer; }
         .checkboxes-box input[type="checkbox"] { accent-color: #eab308; width: 14px; height: 14px; }
-
         .two-cols { display: flex; gap: 15px; }
         .two-cols .simple-group { flex: 1; }
-
         .file-upload-input { background: #09090b; border: 1px solid #3f3f46; border-radius: 4px; padding: 6px; width: 100%; color: #a1a1aa; font-size: 11px; margin-bottom: 15px; }
-
         .files-preview-box { background: #09090b; border: 1px solid #3f3f46; border-radius: 4px; min-height: 50px; padding: 8px; margin-bottom: 20px; font-size: 11px; color: #71717a; display: flex; flex-wrap: wrap; gap: 6px; }
         .file-thumb { background: #27272a; border: 1px solid #3f3f46; padding: 4px 8px; border-radius: 3px; color: #fff; font-size: 10px; display: flex; align-items: center; gap: 5px; }
-
-        .btn-save-gold { background: #eab308; color: #000; width: 100%; padding: 14px; border: none; font-weight: 900; font-size: 14px; cursor: pointer; border-radius: 4px; text-transform: none; }
+        .btn-save-gold { background: #eab308; color: #000; width: 100%; padding: 14px; border: none; font-weight: 900; font-size: 14px; cursor: pointer; border-radius: 4px; }
         .btn-save-gold:hover { background: #ca8a04; }
 
-        /* OTROS MODALES */
         .simple-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center; }
         .simple-modal-overlay.active { display: flex; }
         .simple-modal-content { background: #fff; padding: 30px; width: 420px; border: 2px solid #000; position: relative; max-height: 90vh; overflow-y: auto; border-radius: 8px; }
@@ -224,6 +222,34 @@
         .btn-apply { background: #000; color: #fff; width: 100%; padding: 15px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; border-radius: 4px; }
 
         #toast-success { position: fixed; top: 20px; right: 20px; background: #000; color: #ede734; padding: 15px 25px; font-weight: 900; border-radius: 4px; z-index: 10000; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-transform: uppercase; font-size: 12px; border: 1px solid #ede734; }
+
+        /* --- MEDIA QUERIES PARA CELULARES (RESPONSIVE) --- */
+        @media (max-width: 768px) {
+            body.panel-active { margin-left: 0; }
+            #admin-panel { width: 100% !important; z-index: 100000; }
+            .header { padding: 12px 20px; }
+            .hamburger-btn { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #fff;
+                padding: 20px;
+                border-bottom: 1px solid #ddd;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                gap: 15px;
+                align-items: flex-start;
+            }
+            .nav-links.active-menu { display: flex; }
+            .search-box { display: none; } /* Ocultar barra de búsqueda chica en móvil si molesta, o ajustar */
+            .hero-grid { grid-template-columns: 1fr; height: auto; }
+            .hero-col { height: 60vh; }
+            .info-section { grid-template-columns: 1fr; gap: 30px; padding: 40px 20px; }
+            .footer { grid-template-columns: 1fr; gap: 30px; padding: 40px 20px; }
+        }
     </style>
 </head>
 <body>
@@ -235,6 +261,7 @@
 
     <!-- HEADER -->
     <header class="header" id="main-header">
+        <button class="hamburger-btn" onclick="toggleMobileMenu()">☰</button>
         <div class="logo-container">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Adidas_Logo.svg/2560px-Adidas_Logo.svg.png" alt="Logo" id="logo-trigger" onclick="showHomePage()">
         </div>
@@ -516,7 +543,7 @@
         </div>
     </div>
 
-    <!-- MODAL HERO CON COMPRESIÓN -->
+    <!-- MODAL HERO -->
     <div class="simple-modal-overlay" id="edit-hero-modal">
         <div class="simple-modal-content">
             <button class="simple-modal-close" onclick="closeHeroModal()">X</button>
@@ -570,7 +597,7 @@
 
     <div id="toast-success">¡CAMBIOS GUARDADOS Y PERSISTIDOS! ✓</div>
 
-    <!-- SCRIPT PRINCIPAL CON OPTIMIZACIÓN Y PERSISTENCIA -->
+    <!-- SCRIPT PRINCIPAL -->
     <script>
         let clickCount = 0;
         let clickTimer;
@@ -579,6 +606,12 @@
 
         let screenSettings = {};
         let productsData = [];
+
+        // Función para abrir/cerrar menú móvil
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('main-nav-links');
+            navLinks.classList.toggle('active-menu');
+        }
 
         // FUNCIÓN DE COMPRESIÓN DE IMÁGENES
         function compressImage(file, maxWidth, maxHeight, quality, callback) {
@@ -619,12 +652,14 @@
         function showHomePage() {
             document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active-view'));
             document.getElementById('view-home').classList.add('active-view');
+            document.getElementById('main-nav-links').classList.remove('active-menu');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function navigateToCategory(categoryName) {
             document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active-view'));
             document.getElementById('view-catalog').classList.add('active-view');
+            document.getElementById('main-nav-links').classList.remove('active-menu');
             
             const bgSelect = document.getElementById('bg-target-screen');
             if (bgSelect.querySelector(`option[value="${categoryName}"]`)) {
