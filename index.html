@@ -4,193 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phenom | Tienda Oficial</title>
+    <!-- Importación de Fuentes Tipográficas -->
     <link href="https://fonts.googleapis.com/css2?family=Arial&family=Courier+New&family=Georgia&family=Impact&family=Lucida+Console&family=Palatino&family=Segoe+UI&family=Tahoma&family=Times+New+Roman&family=Verdana&family=Montserrat:wght@400;700;900&family=Oswald:wght@400;700&family=Roboto:wght@400;700;900&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        /* --- RESET Y VARIABLES --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { overflow-x: hidden; background: #fff; transition: margin-left 0.3s ease; }
-        body.panel-active { margin-left: 350px; }
-
-        /* --- BARRA SUPERIOR --- */
-        .top-bar-container { padding: 10px; transition: all 0.3s ease; }
-        .top-bar { background-color: #000; color: #fff; text-align: center; padding: 10px; font-size: 11px; font-weight: bold; letter-spacing: 1.5px; text-transform: uppercase; transition: all 0.3s ease; }
-
-        /* --- HEADER PRINCIPAL --- */
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: #fff; border-bottom: 1px solid #eaeaea; transition: all 0.3s ease; position: relative; }
-        .logo-container { display: flex; align-items: center; gap: 15px; cursor: pointer; z-index: 101; }
-        .logo-container img { height: 45px; transition: all 0.3s ease; object-fit: contain; }
-        #logo-adj-text-val { font-size: 24px; font-weight: bold; white-space: nowrap; transition: all 0.3s ease; }
-        
-        .nav-links { display: flex; gap: 25px; align-items: center; transition: all 0.3s ease; }
-        .nav-links a { text-decoration: none; color: #000; font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s, font-size 0.3s; cursor: pointer; }
-        .nav-links a:hover, .nav-links a.active-link { text-decoration: underline; opacity: 0.7; }
-        .nav-links a.highlight { color: #e00; }
-        
-        .header-controls { display: flex; align-items: center; gap: 20px; z-index: 101; }
-        .search-box { background: #f0f0f0; border: none; padding: 10px 15px; border-radius: 4px; font-size: 13px; width: 180px; outline: none; }
-        .icon { font-size: 20px; cursor: pointer; }
-        .hamburger { display: none; font-size: 26px; cursor: pointer; user-select: none; }
-
-        /* --- VISTAS SPA --- */
-        .page-view { display: none; }
-        .page-view.active-view { display: block; }
-
-        /* --- HERO SECTION --- */
-        .hero-grid { display: grid; grid-template-columns: repeat(3, 1fr); height: 85vh; }
-        .hero-col { position: relative; background-color: #111; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #fff; transition: background-image 0.3s ease; }
-        .hero-col::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); }
-        .hero-content { position: relative; z-index: 1; padding: 20px; width: 100%; }
-        .hero-title { font-size: 2.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; }
-        .hero-subtitle { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 25px; }
-        .btn-comprar { display: inline-flex; align-items: center; background: #fff; color: #000; padding: 15px 30px; font-weight: 900; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; cursor: pointer; }
-        .btn-comprar:hover { background: #000; color: #fff; }
-
-        .edit-hero-btn { position: absolute; top: 20px; right: 20px; width: 35px; height: 35px; background: rgba(0, 123, 255, 0.9); border: 2px solid #fff; border-radius: 50%; color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; z-index: 10; display: none; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
-        body.admin-mode .edit-hero-btn { display: flex; }
-
-        /* --- CARRUSEL HORIZONTAL --- */
-        .carousel-section { padding: 40px; background: #fff; max-width: 100vw; }
-        .carousel-header { display: flex; justify-content: flex-end; align-items: center; border-bottom: 1px solid #eaeaea; padding-bottom: 10px; margin-bottom: 20px; }
-        .carousel-actions { display: flex; align-items: center; gap: 15px; }
-        .view-all { color: #000; text-decoration: underline; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
-        .arrow-btn { background: none; border: none; font-size: 20px; cursor: pointer; }
-        .carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 20px; align-items: stretch; }
-        .carousel-track::-webkit-scrollbar { display: none; }
-        .carousel-card { min-width: 280px; flex-shrink: 0; }
-
-        /* --- ESTILOS CATÁLOGO --- */
-        .catalog-container { padding: 40px; min-height: 70vh; background: #f8f9fa; background-size: cover; background-position: center; transition: all 0.3s ease; }
-        .catalog-header { margin-bottom: 25px; display: flex; justify-content: space-between; align-items: flex-start; }
-        .catalog-title { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; color: #000; }
-        .catalog-subtitle { font-size: 13px; color: #555; margin-top: 4px; font-weight: 500; }
-        
-        .btn-add-product-top { background: #28a745; color: #fff; border: none; padding: 10px 18px; font-weight: bold; border-radius: 6px; font-size: 12px; cursor: pointer; display: none; align-items: center; gap: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        body.admin-mode .btn-add-product-top { display: flex; }
-        .btn-add-product-top:hover { background: #218838; }
-
-        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 25px; }
-        
-        /* TARJETA DE PRODUCTO */
-        .product-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.03); position: relative; transition: opacity 0.3s ease, background-color 0.3s ease; }
-        .product-card .card-img-wrapper { background: #f8f9fa; height: 220px; border-radius: 6px; display: flex; justify-content: center; align-items: center; overflow: hidden; margin-bottom: 15px; position: relative; }
-        .product-card .card-img-wrapper img, .product-card .card-img-wrapper video { max-width: 85%; max-height: 85%; object-fit: contain; }
-        .product-card .card-title-text { font-size: 14px; font-weight: 800; color: #000; margin-bottom: 8px; }
-        
-        .variant-badges { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
-        .badge-item { background: #f1f5f9; color: #334155; font-size: 10px; font-weight: 700; padding: 3px 6px; border-radius: 3px; border: 1px solid #cbd5e1; }
-
-        .price-container { margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .regular-price { text-decoration: line-through; color: #94a3b8; font-size: 12px; font-weight: bold; }
-        .offer-price { color: #d97706; font-size: 16px; font-weight: 900; }
-
-        .btn-mp { background: #009ee3; color: #fff; text-decoration: none; text-align: center; padding: 10px; border-radius: 6px; font-size: 12px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 6px; margin-bottom: 8px; transition: background 0.2s; border: none; cursor: pointer; width: 100%; }
-        .btn-mp:hover { background: #0081b8; }
-        .btn-add-cart { background: #000; color: #fff; text-align: center; padding: 10px; border-radius: 6px; font-size: 12px; font-weight: 800; border: none; cursor: pointer; width: 100%; margin-bottom: 8px; }
-        .btn-add-cart:hover { background: #222; }
-
-        .admin-card-controls { display: none; gap: 8px; margin-top: 5px; }
-        body.admin-mode .admin-card-controls { display: flex; }
-        .btn-admin-edit { background: #007bff; color: #fff; border: none; padding: 8px; border-radius: 4px; font-size: 11px; font-weight: bold; flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
-        .btn-admin-delete { background: #dc3545; color: #fff; border: none; padding: 8px; border-radius: 4px; font-size: 11px; font-weight: bold; flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
-
-        /* --- INFO, NEWSLETTER Y FOOTER --- */
-        .info-section { background-color: #f4f4ec; padding: 80px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; color: #000; }
-        .info-column { position: relative; }
-        .info-column h2 { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 25px; letter-spacing: -0.5px; }
-        .info-column p { font-size: 14px; line-height: 1.7; margin-bottom: 15px; color: #111; }
-        .edit-info-btn { position: absolute; top: -10px; right: 0; width: 35px; height: 35px; background: rgba(0, 123, 255, 0.9); border: 2px solid #fff; border-radius: 50%; color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; z-index: 10; display: none; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
-        body.admin-mode .edit-info-btn { display: flex; }
-
-        .newsletter-bar { background-color: #ede734; padding: 40px 20px; display: flex; justify-content: center; align-items: center; gap: 30px; position: relative; }
-        .newsletter-bar h2 { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; color: #000; }
-        .btn-register { background-color: #000; color: #fff; padding: 15px 30px; font-weight: 900; text-transform: uppercase; text-decoration: none; font-size: 14px; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; border: none; }
-        .edit-news-btn { position: absolute; top: 15px; right: 15px; width: 35px; height: 35px; background: rgba(0, 123, 255, 0.9); border: 2px solid #fff; border-radius: 50%; color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; z-index: 10; display: none; align-items: center; justify-content: center; }
-        body.admin-mode .edit-news-btn { display: flex; }
-
-        .footer { background-color: #fff; padding: 60px 40px; display: grid; grid-template-columns: repeat(4, 1fr) 0.5fr; gap: 30px; color: #000; border-top: 1px solid #eaeaea; }
-        .footer-col { position: relative; }
-        .footer-col h3 { font-size: 14px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; }
-        .footer-col a { display: block; color: #333; text-decoration: none; font-size: 13px; margin-bottom: 12px; cursor: pointer; }
-        .edit-footer-btn { position: absolute; top: -10px; right: 0; width: 30px; height: 30px; background: rgba(0, 123, 255, 0.9); border: 2px solid #fff; border-radius: 50%; color: #fff; font-size: 12px; font-weight: bold; cursor: pointer; z-index: 10; display: none; align-items: center; justify-content: center; }
-        body.admin-mode .edit-footer-btn { display: flex; }
-
-        .wp-float { position: fixed; bottom: 30px; right: 30px; background: #000; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 100; }
-
-        /* --- RESPONSIVE DESIGN & MOBILE MENU --- */
-        @media (max-width: 900px) {
-            .hero-grid { grid-template-columns: 1fr; height: auto; }
-            .hero-col { height: 60vh; min-height: 400px; }
-            .info-section { grid-template-columns: 1fr; padding: 40px 20px; gap: 40px; }
-            .footer { grid-template-columns: 1fr 1fr; padding: 40px 20px; gap: 30px; }
-            .newsletter-bar { flex-direction: column; text-align: center; gap: 15px; }
-        }
-
-        @media (max-width: 768px) {
-            .hamburger { display: block; }
-            .header-controls .search-box { display: none; }
-            
-            .nav-links { 
-                position: absolute; top: 100%; left: 0; width: 100%; background: #ffffff;
-                flex-direction: column; align-items: flex-start; padding: 0 20px;
-                max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
-                z-index: 100; box-shadow: 0 5px 10px rgba(0,0,0,0.05); gap: 0 !important;
-            }
-            .nav-links.mobile-active { max-height: 400px; padding: 15px 20px; border-bottom: 1px solid #eaeaea; }
-            .nav-links a { display: block; width: 100%; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
-            .nav-links a:last-child { border-bottom: none; }
-            
-            .catalog-container { padding: 20px; }
-            .catalog-grid { grid-template-columns: 1fr; }
-            .carousel-section { padding: 30px 15px; }
-            .footer { grid-template-columns: 1fr; }
-        }
-
-        /* --- PANEL LATERAL DE CONTROL OSCURO --- */
-        #admin-panel { display: none; position: fixed; top: 0; left: 0; width: 350px; height: 100vh; background: #1e1e1e; color: #fff; border-right: 2px solid #333; padding: 20px; z-index: 9999; overflow-y: auto; box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
-        #admin-panel.active { display: block; }
-        .admin-header { font-weight: 900; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; color: #eab308; }
-        .admin-group { margin-bottom: 15px; }
-        .admin-group label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; color: #a1a1aa; }
-        .admin-group input, .admin-group select, .admin-group textarea { width: 100%; padding: 10px; border: 1px solid #3f3f46; border-radius: 4px; font-size: 13px; outline: none; background: #09090b; color: #fff; }
-        input[type="color"] { height: 38px; padding: 2px; cursor: pointer; }
-        .btn-save { background: #eab308; color: #000; width: 100%; padding: 15px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; letter-spacing: 1px; border-radius: 4px; }
-        .btn-save:hover { background: #ca8a04; }
-        .btn-close { background: #dc3545; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; font-size: 12px; border-radius: 3px; }
-        .section-box { background: #27272a; border: 1px solid #3f3f46; border-radius: 6px; padding: 15px; margin-bottom: 20px; }
-        .section-title { font-size: 13px; font-weight: 900; text-transform: uppercase; margin-bottom: 12px; color: #fff; border-bottom: 1px solid #3f3f46; padding-bottom: 6px; letter-spacing: 0.5px; }
-        .header-tab-item { background: #09090b; padding: 10px; border: 1px solid #3f3f46; border-radius: 4px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: bold; cursor: pointer; color: #fff; }
-        .btn-add-tab { background: #28a745; color: #fff; border: none; width: 100%; padding: 10px; font-weight: bold; text-transform: uppercase; font-size: 11px; cursor: pointer; border-radius: 4px; }
-        .text-format-group { display: flex; gap: 5px; margin-top: 8px; }
-        .btn-fmt { background: #3f3f46; color: #fff; border: 1px solid #52525b; width: 32px; height: 32px; font-weight: bold; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
-        .btn-fmt.active { background: #eab308; color: #000; }
-
-        /* --- MODALES --- */
-        .dark-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; }
-        .dark-modal-overlay.active { display: flex; }
-        .dark-modal-content { background: #1c1c1c; border: 1px solid #ca8a04; padding: 25px; width: 440px; border-radius: 8px; color: #fff; max-height: 90vh; overflow-y: auto; box-shadow: 0 0 25px rgba(234, 179, 8, 0.2); }
-        .dark-modal-title { color: #eab308; font-size: 18px; font-weight: 900; margin-bottom: 20px; text-transform: none; }
-        .dark-modal-content label { display: block; font-size: 12px; color: #d4d4d8; font-weight: 600; margin-bottom: 6px; }
-        .dark-modal-content input[type="text"] { width: 100%; padding: 10px; background: #09090b; border: 1px solid #3f3f46; border-radius: 4px; color: #fff; font-size: 13px; outline: none; margin-bottom: 15px; }
-        .checkboxes-box { background: #09090b; border: 1px solid #3f3f46; border-radius: 4px; padding: 10px; display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; }
-        .checkboxes-box label { display: flex; align-items: center; gap: 5px; margin-bottom: 0; color: #fff; font-weight: bold; font-size: 12px; cursor: pointer; }
-        .checkboxes-box input[type="checkbox"] { accent-color: #eab308; width: 14px; height: 14px; }
-        .two-cols { display: flex; gap: 15px; }
-        .two-cols .simple-group { flex: 1; }
-        .file-upload-input { background: #09090b; border: 1px solid #3f3f46; border-radius: 4px; padding: 6px; width: 100%; color: #a1a1aa; font-size: 11px; margin-bottom: 15px; }
-        .files-preview-box { background: #09090b; border: 1px solid #3f3f46; border-radius: 4px; min-height: 50px; padding: 8px; margin-bottom: 20px; font-size: 11px; color: #71717a; display: flex; flex-wrap: wrap; gap: 6px; }
-        .file-thumb { background: #27272a; border: 1px solid #3f3f46; padding: 4px 8px; border-radius: 3px; color: #fff; font-size: 10px; display: flex; align-items: center; gap: 5px; }
-        .btn-save-gold { background: #eab308; color: #000; width: 100%; padding: 14px; border: none; font-weight: 900; font-size: 14px; cursor: pointer; border-radius: 4px; text-transform: none; }
-        .btn-save-gold:hover { background: #ca8a04; }
-
-        .simple-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center; }
-        .simple-modal-overlay.active { display: flex; }
-        .simple-modal-content { background: #fff; padding: 30px; width: 420px; border: 2px solid #000; position: relative; max-height: 90vh; overflow-y: auto; border-radius: 8px; }
-        .simple-modal-title { font-weight: 900; font-size: 16px; text-transform: uppercase; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
-        .simple-modal-close { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 20px; font-weight: bold; cursor: pointer; }
-        .btn-apply { background: #000; color: #fff; width: 100%; padding: 15px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; border-radius: 4px; }
-
-        #toast-success { position: fixed; top: 20px; right: 20px; background: #000; color: #ede734; padding: 15px 25px; font-weight: 900; border-radius: 4px; z-index: 10000; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-transform: uppercase; font-size: 12px; border: 1px solid #ede734; }
-    </style>
+    <!-- Hojas de Estilos Separadas -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -199,13 +16,13 @@
         <div class="top-bar" id="fub-bar">¡BIENVENIDOS A LA TIENDA OFICIAL DE PHENOM!</div>
     </div>
 
-    <!-- HEADER / MENU -->
+    <!-- HEADER / MENÚ DE NAVEGACIÓN -->
     <header class="header" id="main-header">
         <div class="logo-container" onclick="showHomePage()">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Adidas_Logo.svg/2560px-Adidas_Logo.svg.png" alt="Logo" id="logo-trigger">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Adidas_Logo.svg/2560px-Adidas_Logo.svg.png" alt="Logo Phenom" id="logo-trigger">
             <span id="logo-adj-text-val"></span>
         </div>
-        
+
         <nav class="nav-links" id="main-nav-links">
             <a>PROTECTORES</a>
             <a>ACCESORIOS</a>
@@ -216,15 +33,22 @@
 
         <div class="header-controls">
             <input type="text" class="search-box" placeholder="Buscar..." oninput="filterCatalogSearch(this.value)">
-            <span class="icon" style="color: inherit;">👤</span>
-            <span class="icon" style="color: inherit;">♡</span>
-            <span class="icon" style="color: inherit;">🛒</span>
+            <span class="icon" title="Mi Cuenta">👤</span>
+            <span class="icon" title="Favoritos">♡</span>
+            
+            <!-- Ícono del Carrito con Contador en Vivo -->
+            <div class="cart-icon-wrapper" onclick="toggleCartDrawer(true)" title="Ver Carrito de Compras">
+                <span class="icon">🛒</span>
+                <span id="cart-badge-count" class="cart-badge" style="display:none;">0</span>
+            </div>
+
             <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
         </div>
     </header>
 
-    <!-- INICIO -->
+    <!-- ==================== VISTA 1: INICIO (HOME) ==================== -->
     <div id="view-home" class="page-view active-view">
+        <!-- SECCIÓN HERO -->
         <section class="hero-grid">
             <div class="hero-col" id="hero-col-1" style="background-image: url('https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=800');">
                 <button class="edit-hero-btn" onclick="openHeroModal(1)">✎</button>
@@ -264,7 +88,7 @@
             <div class="carousel-track" id="carousel-track-container"></div>
         </section>
 
-        <!-- SECCIÓN INFO -->
+        <!-- SECCIÓN INFO INSTITUCIONAL -->
         <section class="info-section">
             <div class="info-column" id="info-col-1">
                 <button class="edit-info-btn" onclick="openInfoModal(1)">✎</button>
@@ -279,7 +103,7 @@
         </section>
     </div>
 
-    <!-- CATÁLOGO -->
+    <!-- ==================== VISTA 2: CATÁLOGO DE PRODUCTOS ==================== -->
     <div id="view-catalog" class="page-view">
         <div class="catalog-container" id="catalog-main-bg">
             <div class="catalog-header">
@@ -293,30 +117,88 @@
         </div>
     </div>
 
+    <!-- BARRA NEWSLETTER -->
     <section class="newsletter-bar">
         <button class="edit-news-btn" onclick="openNewsModal()">✎</button>
         <h2 id="text-news-title">SUSCRÍBETE AL NEWSLETTER</h2>
         <button class="btn-register" id="text-news-btn" onclick="openNewsletterForm()">REGÍSTRATE GRATIS →</button>
     </section>
 
-    <!-- FOOTER -->
+    <!-- FOOTER PRINCIPAL -->
     <footer class="footer">
-        <div class="footer-col" id="footer-col-1"><button class="edit-footer-btn" onclick="openFooterModal(1)">✎</button><h3>PRODUCTOS</h3><a onclick="navigateToCategory('PROTECTORES')">Guantes de Boxeo</a><a onclick="navigateToCategory('PROTECTORES')">Tibiales y Cabezales</a><a onclick="navigateToCategory('ACCESORIOS')">Vendas y Bucales</a><a onclick="navigateToCategory('RECUPERACIÓN - FRIO/CALOR')">Tinas de Recuperación</a></div>
-        <div class="footer-col" id="footer-col-2"><button class="edit-footer-btn" onclick="openFooterModal(2)">✎</button><h3>DEPORTES</h3><a onclick="navigateToCategory('Boxeo')">Boxeo</a><a onclick="navigateToCategory('Kickboxing')">Kickboxing</a><a onclick="navigateToCategory('Muay Thai')">Muay Thai</a><a onclick="navigateToCategory('Fitness')">Fitness</a></div>
-        <div class="footer-col" id="footer-col-3"><button class="edit-footer-btn" onclick="openFooterModal(3)">✎</button><h3>ASISTENCIA</h3><a href="#">Contacto</a><a href="#">Preguntas Frecuentes</a><a href="#">Cambios y Devoluciones</a></div>
-        <div class="footer-col" id="footer-col-4"><button class="edit-footer-btn" onclick="openFooterModal(4)">✎</button><h3>INFORMACIÓN</h3><a href="#">Trabaja con Nosotros</a><a href="#">Puntos de Retiro</a></div>
-        <div class="footer-col"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/SSL_Secured.svg/120px-SSL_Secured.svg.png" alt="Sitio Seguro SSL" class="ssl-badge"></div>
+        <div class="footer-col" id="footer-col-1">
+            <button class="edit-footer-btn" onclick="openFooterModal(1)">✎</button>
+            <h3>PRODUCTOS</h3>
+            <a onclick="navigateToCategory('PROTECTORES')">Guantes de Boxeo</a>
+            <a onclick="navigateToCategory('PROTECTORES')">Tibiales y Cabezales</a>
+            <a onclick="navigateToCategory('ACCESORIOS')">Vendas y Bucales</a>
+            <a onclick="navigateToCategory('RECUPERACIÓN - FRIO/CALOR')">Tinas de Recuperación</a>
+        </div>
+        <div class="footer-col" id="footer-col-2">
+            <button class="edit-footer-btn" onclick="openFooterModal(2)">✎</button>
+            <h3>DEPORTES</h3>
+            <a onclick="navigateToCategory('Boxeo')">Boxeo</a>
+            <a onclick="navigateToCategory('Kickboxing')">Kickboxing</a>
+            <a onclick="navigateToCategory('Muay Thai')">Muay Thai</a>
+            <a onclick="navigateToCategory('Fitness')">Fitness</a>
+        </div>
+        <div class="footer-col" id="footer-col-3">
+            <button class="edit-footer-btn" onclick="openFooterModal(3)">✎</button>
+            <h3>ASISTENCIA</h3>
+            <a href="#">Contacto</a>
+            <a href="#">Preguntas Frecuentes</a>
+            <a href="#">Cambios y Devoluciones</a>
+        </div>
+        <div class="footer-col" id="footer-col-4">
+            <button class="edit-footer-btn" onclick="openFooterModal(4)">✎</button>
+            <h3>INFORMACIÓN</h3>
+            <a href="#">Trabaja con Nosotros</a>
+            <a href="#">Puntos de Retiro</a>
+        </div>
+        <div class="footer-col">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/SSL_Secured.svg/120px-SSL_Secured.svg.png" alt="Sitio Seguro SSL" class="ssl-badge">
+        </div>
     </footer>
 
-    <a href="https://wa.me/59893418239" class="wp-float" target="_blank">✆</a>
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <a href="https://wa.me/59893418239" class="wp-float" target="_blank" title="Contactar por WhatsApp">✆</a>
 
-    <!-- PANEL ADMIN -->
+    <!-- ==================== NUEVO: PANEL LATERAL DEL CARRITO (CART DRAWER) ==================== -->
+    <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)"></div>
+    <div id="cart-drawer">
+        <div class="cart-header">
+            <div class="cart-header-title">
+                <span>🛒 Tu Carrito</span>
+            </div>
+            <button class="cart-close-btn" onclick="toggleCartDrawer(false)" title="Cerrar Carrito">✕</button>
+        </div>
+        <div class="cart-body" id="cart-drawer-body">
+            <!-- El contenido dinámico de ítems y selector de envío se inyecta desde cart.js -->
+        </div>
+        <div class="cart-footer" id="cart-drawer-footer">
+            <!-- Totales y Botón de Checkout vía WhatsApp -->
+        </div>
+    </div>
+
+    <!-- MODAL PARA SELECCIONAR VARIANTE (ONZAS / TALLES) -->
+    <div class="simple-modal-overlay" id="variant-modal-overlay">
+        <div class="variant-modal-content">
+            <button class="simple-modal-close" onclick="closeVariantModal()">✕</button>
+            <div class="simple-modal-title">Seleccionar Variante</div>
+            <p id="variant-modal-prod-title" style="font-size:13px; color:#475569; font-weight:700; margin-bottom:10px;"></p>
+            <p style="font-size:12px; color:#64748b;">Elegí el talle o peso en onzas deseado para agregar al carrito:</p>
+            <div class="variant-options-grid" id="variant-modal-options"></div>
+        </div>
+    </div>
+
+    <!-- ==================== PANEL CONTROL OMEGA (ADMIN MODO) ==================== -->
     <div id="admin-panel">
         <div class="admin-header">
             <span>Control Omega</span>
             <button class="btn-close" onclick="toggleAdminMode(false)">X</button>
         </div>
 
+        <!-- SECCIÓN CARRUSEL DESTACADOS -->
         <div class="section-box">
             <div class="section-title">CARRUSEL DESTACADOS (INICIO)</div>
             <div class="admin-group">
@@ -325,9 +207,13 @@
             </div>
         </div>
 
+        <!-- SECCIÓN BARRA SUPERIOR -->
         <div class="section-box">
             <div class="section-title">BARRA SUPERIOR (HEADER INFO)</div>
-            <div class="admin-group"><label>Texto Informativo</label><input type="text" id="edit-fub-bar" value="¡BIENVENIDOS A LA TIENDA OFICIAL DE PHENOM!" oninput="applyTopBarSettings()"></div>
+            <div class="admin-group">
+                <label>Texto Informativo</label>
+                <input type="text" id="edit-fub-bar" value="¡BIENVENIDOS A LA TIENDA OFICIAL DE PHENOM!" oninput="applyTopBarSettings()">
+            </div>
             <div class="two-cols">
                 <div class="simple-group"><label>Color Fondo</label><input type="color" id="tb-bg-color" value="#000000" oninput="applyTopBarSettings()"></div>
                 <div class="simple-group"><label>Opacidad (0-1)</label><input type="number" id="tb-opacity" value="1" min="0" max="1" step="0.1" oninput="applyTopBarSettings()"></div>
@@ -336,10 +222,13 @@
                 <div class="simple-group"><label>Borde (px)</label><input type="number" id="tb-border-w" value="0" min="0" oninput="applyTopBarSettings()"></div>
                 <div class="simple-group"><label>Color Borde</label><input type="color" id="tb-border-c" value="#ca8a04" oninput="applyTopBarSettings()"></div>
             </div>
-            <div class="admin-group"><label>Curvatura Bordes (px)</label><input type="number" id="tb-border-r" value="0" min="0" oninput="applyTopBarSettings()"></div>
+            <div class="admin-group">
+                <label>Curvatura Bordes (px)</label>
+                <input type="number" id="tb-border-r" value="0" min="0" oninput="applyTopBarSettings()">
+            </div>
         </div>
 
-        <!-- CONTROLES AFINADO BARRA NAVEGACIÓN -->
+        <!-- SECCIÓN BARRA NAVEGACIÓN -->
         <div class="section-box">
             <div class="section-title">BARRA DE NAVEGACIÓN (MENÚ)</div>
             <div class="two-cols">
@@ -368,6 +257,7 @@
             </div>
         </div>
 
+        <!-- SECCIÓN LOGO & TEXTO -->
         <div class="section-box">
             <div class="section-title">LOGO & TEXTO ADYACENTE</div>
             <div class="admin-group"><label>Logo de la Marca (Imagen)</label><input type="file" id="edit-logo-file" accept="image/*" class="file-upload-input"></div>
@@ -376,7 +266,11 @@
             <div class="admin-group">
                 <label>Fuente del Texto</label>
                 <select id="logo-adj-font" onchange="applyLogoTextSettings()">
-                    <option value="'Impact', sans-serif">Impact</option><option value="'Segoe UI', sans-serif">Segoe UI</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Oswald', sans-serif">Oswald</option><option value="'Roboto', sans-serif">Roboto</option>
+                    <option value="'Impact', sans-serif">Impact</option>
+                    <option value="'Segoe UI', sans-serif">Segoe UI</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Oswald', sans-serif">Oswald</option>
+                    <option value="'Roboto', sans-serif">Roboto</option>
                 </select>
             </div>
             <div class="two-cols">
@@ -384,10 +278,13 @@
                 <div class="simple-group"><label>Espaciado (px)</label><input type="number" id="logo-adj-spacing" value="0" oninput="applyLogoTextSettings()"></div>
             </div>
             <div class="text-format-group">
-                <button type="button" class="btn-fmt" id="fmt-logo-b" onclick="toggleLogoFormat('bold')">B</button><button type="button" class="btn-fmt" id="fmt-logo-i" onclick="toggleLogoFormat('italic')">I</button><button type="button" class="btn-fmt" id="fmt-logo-s" onclick="toggleLogoFormat('underline')">S</button>
+                <button type="button" class="btn-fmt" id="fmt-logo-b" onclick="toggleLogoFormat('bold')">B</button>
+                <button type="button" class="btn-fmt" id="fmt-logo-i" onclick="toggleLogoFormat('italic')">I</button>
+                <button type="button" class="btn-fmt" id="fmt-logo-s" onclick="toggleLogoFormat('underline')">S</button>
             </div>
         </div>
 
+        <!-- SECCIÓN FONDOS DE PANTALLA -->
         <div class="section-box">
             <div class="section-title">FONDOS DE PANTALLA</div>
             <div class="admin-group"><label>Pantalla a Editar</label><select id="bg-target-screen" onchange="loadScreenBgSettings()"></select></div>
@@ -399,6 +296,7 @@
             </div>
         </div>
 
+        <!-- SECCIÓN TÍTULOS DE PANTALLA -->
         <div class="section-box">
             <div class="section-title">TÍTULOS DE PANTALLA</div>
             <div class="admin-group"><label>Texto del Título</label><input type="text" id="title-text-input" oninput="applyTitleSettings()"></div>
@@ -407,9 +305,14 @@
                 <div class="simple-group"><label>Color</label><input type="color" id="title-color-input" value="#000000" oninput="applyTitleSettings()"></div>
                 <div class="simple-group"><label>Espaciado (px)</label><input type="number" id="title-letter-spacing" value="0" oninput="applyTitleSettings()"></div>
             </div>
-            <div class="text-format-group"><button type="button" class="btn-fmt" id="fmt-b" onclick="toggleFormat('bold')">B</button><button type="button" class="btn-fmt" id="fmt-i" onclick="toggleFormat('italic')">I</button><button type="button" class="btn-fmt" id="fmt-s" onclick="toggleFormat('underline')">S</button></div>
+            <div class="text-format-group">
+                <button type="button" class="btn-fmt" id="fmt-b" onclick="toggleFormat('bold')">B</button>
+                <button type="button" class="btn-fmt" id="fmt-i" onclick="toggleFormat('italic')">I</button>
+                <button type="button" class="btn-fmt" id="fmt-s" onclick="toggleFormat('underline')">S</button>
+            </div>
         </div>
 
+        <!-- SECCIÓN PESTAÑAS DE NAVEGACIÓN -->
         <div class="section-box">
             <div class="section-title">PESTAÑAS DE NAVEGACIÓN</div>
             <div id="header-tabs-list"></div>
@@ -419,190 +322,107 @@
         <button class="btn-save" onclick="saveAllSettings()">GUARDAR CAMBIOS</button>
     </div>
 
-    <!-- MODAL PRODUCTO -->
+    <!-- MODAL CARGAR NUEVO PRODUCTO -->
     <div class="dark-modal-overlay" id="dark-product-modal">
         <div class="dark-modal-content">
-            <button class="simple-modal-close" onclick="closeDarkModal()" style="color:#fff;">X</button>
+            <button class="simple-modal-close" onclick="closeDarkModal()" style="color:#fff;">✕</button>
             <div class="dark-modal-title" id="dark-modal-title-text">Cargar Nuevo Producto</div>
             <input type="hidden" id="dark-prod-id">
-            <label>Título del Producto</label><input type="text" id="dark-title" placeholder="Ej: Guantes Pro Blanco/Dorado">
+            <label>Título del Producto</label>
+            <input type="text" id="dark-title" placeholder="Ej: Guantes Pro Blanco/Dorado">
             <label>Talles / Onzas Disponibles</label>
             <div class="checkboxes-box">
-                <label><input type="checkbox" value="6oz" class="chk-oz"> 6oz</label><label><input type="checkbox" value="8oz" class="chk-oz"> 8oz</label><label><input type="checkbox" value="10oz" class="chk-oz"> 10oz</label><label><input type="checkbox" value="12oz" class="chk-oz"> 12oz</label><label><input type="checkbox" value="14oz" class="chk-oz"> 14oz</label><label><input type="checkbox" value="16oz" class="chk-oz"> 16oz</label>
+                <label><input type="checkbox" value="6oz" class="chk-oz"> 6oz</label>
+                <label><input type="checkbox" value="8oz" class="chk-oz"> 8oz</label>
+                <label><input type="checkbox" value="10oz" class="chk-oz"> 10oz</label>
+                <label><input type="checkbox" value="12oz" class="chk-oz"> 12oz</label>
+                <label><input type="checkbox" value="14oz" class="chk-oz"> 14oz</label>
+                <label><input type="checkbox" value="16oz" class="chk-oz"> 16oz</label>
             </div>
             <div class="two-cols">
                 <div class="simple-group"><label>Precio Tachado (UYU)</label><input type="text" id="dark-reg-price" placeholder="$2.500"></div>
                 <div class="simple-group"><label>Precio Actual (UYU)</label><input type="text" id="dark-price" placeholder="$2.090"></div>
             </div>
-            <label>Link Mercado Pago (Opcional)</label><input type="text" id="dark-mp-link" placeholder="https://mpago.la/tu-link">
-            <label>Cargar Fotos (Desde PC)</label><input type="file" id="dark-photos-input" class="file-upload-input" accept="image/*" multiple onchange="handleDarkFiles(this, 'photo')">
-            <label>Archivos Cargados:</label><div class="files-preview-box" id="files-preview-container">Sin archivos</div>
+            <label>Link Mercado Pago (Opcional)</label>
+            <input type="text" id="dark-mp-link" placeholder="https://mpago.la/tu-link">
+            <label>Cargar Fotos (Desde PC)</label>
+            <input type="file" id="dark-photos-input" class="file-upload-input" accept="image/*" multiple onchange="handleDarkFiles(this, 'photo')">
+            <label>Archivos Cargados:</label>
+            <div class="files-preview-box" id="files-preview-container">Sin archivos</div>
             <button type="button" class="btn-save-gold" onclick="saveDarkProduct()">Guardar Publicación</button>
         </div>
     </div>
 
     <!-- MODALES VARIOS -->
-    <div class="simple-modal-overlay" id="edit-header-tab-modal"><div class="simple-modal-content"><button class="simple-modal-close" onclick="closeHeaderTabModal()">X</button><div class="simple-modal-title">EDITAR PESTAÑA</div><input type="hidden" id="edit-tab-index"><div class="simple-group"><label>Texto Pestaña</label><input type="text" id="edit-tab-text"></div><div class="simple-group"><label><input type="checkbox" id="edit-tab-highlight"> Destacar (Red)</label></div><button class="btn-apply" onclick="applyHeaderTabChanges()">MODIFICAR</button><button class="btn-apply" style="background:#dc3545;" onclick="deleteHeaderTab()">ELIMINAR</button></div></div>
-    <div class="simple-modal-overlay" id="edit-hero-modal"><div class="simple-modal-content"><button class="simple-modal-close" onclick="closeHeroModal()">X</button><div class="simple-modal-title" id="hero-modal-title">EDITAR COLUMNA HERO</div><div class="simple-group"><label>Cargar Imagen Local</label><input type="file" id="edit-hero-file" accept="image/*"></div><div class="simple-group"><label>Título Principal</label><input type="text" id="hero-mod-title"></div><div class="simple-group"><label>Subtítulo</label><input type="text" id="hero-mod-sub"></div><button class="btn-apply" onclick="applyHeroChanges()">APLICAR CAMBIOS</button></div></div>
-    <div class="simple-modal-overlay" id="edit-info-modal"><div class="simple-modal-content"><button class="simple-modal-close" onclick="closeInfoModal()">X</button><div class="simple-modal-title" id="info-modal-title">EDITAR INFO</div><div class="simple-group"><label>Título</label><input type="text" id="info-mod-title"></div><div class="simple-group"><label>Descripción</label><textarea id="info-mod-desc" rows="6"></textarea></div><button class="btn-apply" onclick="applyInfoChanges()">APLICAR CAMBIOS</button></div></div>
-    <div class="simple-modal-overlay" id="edit-news-modal"><div class="simple-modal-content"><button class="simple-modal-close" onclick="closeNewsModal()">X</button><div class="simple-modal-title">EDITAR NEWSLETTER</div><div class="simple-group"><label>Título</label><input type="text" id="news-mod-title"></div><button class="btn-apply" onclick="applyNewsChanges()">APLICAR CAMBIOS</button></div></div>
-    <div class="simple-modal-overlay" id="edit-footer-modal"><div class="simple-modal-content"><button class="simple-modal-close" onclick="closeFooterModal()">X</button><div class="simple-modal-title" id="footer-modal-title">EDITAR FOOTER</div><div class="simple-group"><label>Contenido HTML</label><textarea id="footer-mod-html" rows="6"></textarea></div><button class="btn-apply" onclick="applyFooterChanges()">APLICAR CAMBIOS</button></div></div>
-    <div class="simple-modal-overlay" id="newsletter-form-modal"><div class="simple-modal-content"><button class="simple-modal-close" onclick="closeNewsletterForm()">X</button><div class="simple-modal-title">REGISTRO NEWSLETTER</div><form onsubmit="submitNewsletter(event)"><div class="simple-group"><label>Nombre</label><input type="text" id="nl-name" required></div><div class="simple-group"><label>WhatsApp</label><input type="text" id="nl-wp" required></div><button type="submit" class="btn-apply">REGISTRARME</button></form></div></div>
+    <div class="simple-modal-overlay" id="edit-header-tab-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeHeaderTabModal()">✕</button>
+            <div class="simple-modal-title">EDITAR PESTAÑA</div>
+            <input type="hidden" id="edit-tab-index">
+            <div class="simple-group"><label>Texto Pestaña</label><input type="text" id="edit-tab-text"></div>
+            <div class="simple-group"><label><input type="checkbox" id="edit-tab-highlight"> Destacar (Red)</label></div>
+            <button class="btn-apply" onclick="applyHeaderTabChanges()">MODIFICAR</button>
+            <button class="btn-apply" style="background:#dc3545;" onclick="deleteHeaderTab()">ELIMINAR</button>
+        </div>
+    </div>
+
+    <div class="simple-modal-overlay" id="edit-hero-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeHeroModal()">✕</button>
+            <div class="simple-modal-title" id="hero-modal-title">EDITAR COLUMNA HERO</div>
+            <div class="simple-group"><label>Cargar Imagen Local</label><input type="file" id="edit-hero-file" accept="image/*"></div>
+            <div class="simple-group"><label>Título Principal</label><input type="text" id="hero-mod-title"></div>
+            <div class="simple-group"><label>Subtítulo</label><input type="text" id="hero-mod-sub"></div>
+            <button class="btn-apply" onclick="applyHeroChanges()">APLICAR CAMBIOS</button>
+        </div>
+    </div>
+
+    <div class="simple-modal-overlay" id="edit-info-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeInfoModal()">✕</button>
+            <div class="simple-modal-title" id="info-modal-title">EDITAR INFO</div>
+            <div class="simple-group"><label>Título</label><input type="text" id="info-mod-title"></div>
+            <div class="simple-group"><label>Descripción</label><textarea id="info-mod-desc" rows="6"></textarea></div>
+            <button class="btn-apply" onclick="applyInfoChanges()">APLICAR CAMBIOS</button>
+        </div>
+    </div>
+
+    <div class="simple-modal-overlay" id="edit-news-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeNewsModal()">✕</button>
+            <div class="simple-modal-title">EDITAR NEWSLETTER</div>
+            <div class="simple-group"><label>Título</label><input type="text" id="news-mod-title"></div>
+            <button class="btn-apply" onclick="applyNewsChanges()">APLICAR CAMBIOS</button>
+        </div>
+    </div>
+
+    <div class="simple-modal-overlay" id="edit-footer-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeFooterModal()">✕</button>
+            <div class="simple-modal-title" id="footer-modal-title">EDITAR FOOTER</div>
+            <div class="simple-group"><label>Contenido HTML</label><textarea id="footer-mod-html" rows="6"></textarea></div>
+            <button class="btn-apply" onclick="applyFooterChanges()">APLICAR CAMBIOS</button>
+        </div>
+    </div>
+
+    <div class="simple-modal-overlay" id="newsletter-form-modal">
+        <div class="simple-modal-content">
+            <button class="simple-modal-close" onclick="closeNewsletterForm()">✕</button>
+            <div class="simple-modal-title">REGISTRO NEWSLETTER</div>
+            <form onsubmit="submitNewsletter(event)">
+                <div class="simple-group"><label>Nombre</label><input type="text" id="nl-name" required></div>
+                <div class="simple-group"><label>WhatsApp</label><input type="text" id="nl-wp" required></div>
+                <button type="submit" class="btn-apply">REGISTRARME</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- NOTIFICACIÓN TOAST -->
     <div id="toast-success">¡CAMBIOS GUARDADOS Y PERSISTIDOS! ✓</div>
 
-    <script>
-        function hexToRgba(hex, alpha) { let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16); return `rgba(${r}, ${g}, ${b}, ${alpha})`; }
-        let clickCount = 0; let clickTimer; const logoTrigger = document.getElementById('logo-trigger'); const adminPanel = document.getElementById('admin-panel');
-        let screenSettings = {}; let productsData = [ { id: 'prod-1', title: 'Guantes de Boxeo Blanco / Dorado', category: 'PROTECTORES', variants: ['12oz', '14oz', '16oz'], regularPrice: '$2.500', price: '$2.090 UYU', mpLink: '', media: ['https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400'] }, { id: 'prod-2', title: 'Cabezal Sparring Pro Negro Mate', category: 'PROTECTORES', variants: ['10oz', '12oz'], regularPrice: '', price: '$2.350 UYU', mpLink: '', media: ['https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400'] } ];
-        let featuredProducts = ['prod-1', 'prod-2']; let logoTextFormat = { bold: false, italic: false, underline: false };
-
-        /* Motor de Compresión de Imágenes */
-        function compressImage(file, maxWidth, maxHeight, quality, callback) { const reader = new FileReader(); reader.onload = function(e) { const img = new Image(); img.onload = function() { let canvas = document.createElement('canvas'); let width = img.width, height = img.height; if (width > height) { if (width > maxWidth) { height *= maxWidth / width; width = maxWidth; } } else { if (height > maxHeight) { width *= maxHeight / height; height = maxHeight; } } canvas.width = width; canvas.height = height; let ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height); callback(canvas.toDataURL('image/jpeg', quality)); }; img.src = e.target.result; }; reader.readAsDataURL(file); }
-        
-        function showHomePage() { document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active-view')); document.getElementById('view-home').classList.add('active-view'); window.scrollTo({ top: 0, behavior: 'smooth' }); document.getElementById('main-nav-links').classList.remove('mobile-active'); }
-        function navigateToCategory(categoryName) { document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active-view')); document.getElementById('view-catalog').classList.add('active-view'); const bgSelect = document.getElementById('bg-target-screen'); if (bgSelect.querySelector(`option[value="${categoryName}"]`)) bgSelect.value = categoryName; loadScreenBgSettings(); renderCatalogGrid(categoryName); window.scrollTo({ top: 0, behavior: 'smooth' }); document.getElementById('main-nav-links').classList.remove('mobile-active'); }
-        function toggleMobileMenu() { document.getElementById('main-nav-links').classList.toggle('mobile-active'); }
-        
-        function bindHeaderNavEvents() { const navLinks = document.querySelectorAll('#main-nav-links a'); navLinks.forEach(a => { const categoryText = a.innerText.trim(); a.onclick = (e) => { e.preventDefault(); navigateToCategory(categoryText); }; }); syncDropdownWithRealTabs(); }
-        function syncDropdownWithRealTabs() { const navLinks = document.querySelectorAll('#main-nav-links a'); const bgSelect = document.getElementById('bg-target-screen'); const currentSelected = bgSelect.value; bgSelect.innerHTML = ''; navLinks.forEach(a => { const name = a.innerText.trim(); const opt = document.createElement('option'); opt.value = name; opt.textContent = name; bgSelect.appendChild(opt); if (!screenSettings[name]) screenSettings[name] = { bg: '', fit: 'cover', opacity: '0', bgOverlay: '0', title: name, font: "'Segoe UI', sans-serif", color: '#000000', spacing: 0, bold: false, italic: false, underline: false }; }); if (currentSelected && bgSelect.querySelector(`option[value="${currentSelected}"]`)) bgSelect.value = currentSelected; }
-
-        function renderCarouselAdmin() { const container = document.getElementById('admin-carousel-products'); container.innerHTML = ''; productsData.forEach(p => { const isChecked = featuredProducts.includes(p.id) ? 'checked' : ''; container.innerHTML += `<label><input type="checkbox" value="${p.id}" class="chk-featured" ${isChecked} onchange="updateFeaturedProducts()"> ${p.title}</label>`; }); }
-        function updateFeaturedProducts() { featuredProducts = Array.from(document.querySelectorAll('.chk-featured:checked')).map(c => c.value); renderCarouselFront(); saveAllSettings(); }
-        function renderCarouselFront() { const track = document.getElementById('carousel-track-container'); track.innerHTML = ''; featuredProducts.forEach(id => { const p = productsData.find(prod => prod.id === id); if (p) { const card = document.createElement('div'); card.className = 'product-card carousel-card'; card.id = 'front-' + p.id; let variantsHtml = (p.variants || []).map(v => `<span class="badge-item">${v}</span>`).join(''); let regPriceHtml = p.regularPrice ? `<span class="regular-price">${p.regularPrice}</span>` : ''; let mpBtnHtml = p.mpLink ? `<a href="${p.mpLink}" target="_blank" class="btn-mp">💳 Pagar</a>` : ''; card.innerHTML = `<div><div class="card-img-wrapper"><img src="${p.media && p.media[0] ? p.media[0] : ''}" alt="${p.title}"></div><div class="card-title-text">${p.title}</div><div class="variant-badges">${variantsHtml}</div><div class="price-container">${regPriceHtml} <span class="offer-price">${p.price}</span></div></div><div>${mpBtnHtml}<button class="btn-add-cart" onclick="alert('Producto agregado al carrito')">Agregar al Carrito</button></div>`; track.appendChild(card); } }); }
-        function scrollCarousel(dir) { const track = document.getElementById('carousel-track-container'); track.scrollBy({ left: dir * 300, behavior: 'smooth' }); }
-
-        function applyTopBarSettings() { const barWrapper = document.getElementById('top-bar-wrapper'); const textElem = document.getElementById('fub-bar'); const txt = document.getElementById('edit-fub-bar').value; const bgC = document.getElementById('tb-bg-color').value; const op = document.getElementById('tb-opacity').value; const bW = document.getElementById('tb-border-w').value; const bC = document.getElementById('tb-border-c').value; const bR = document.getElementById('tb-border-r').value; textElem.innerText = txt; barWrapper.style.backgroundColor = hexToRgba(bgC, op); barWrapper.style.borderBottom = `${bW}px solid ${bC}`; barWrapper.style.borderBottomLeftRadius = `${bR}px`; barWrapper.style.borderBottomRightRadius = `${bR}px`; textElem.style.backgroundColor = "transparent"; }
-        
-        function applyNavSettings() {
-            const header = document.getElementById('main-header');
-            const linksContainer = document.querySelector('.nav-links');
-            const links = document.querySelectorAll('#main-nav-links a');
-            const icons = document.querySelectorAll('.header-controls .icon');
-            const burger = document.querySelector('.hamburger');
-            
-            const bgC = document.getElementById('nav-bg-color').value;
-            const txC = document.getElementById('nav-text-color').value;
-            const font = document.getElementById('nav-font').value;
-            const fSize = document.getElementById('nav-font-size').value;
-            const nGap = document.getElementById('nav-gap').value;
-            const hPadV = document.getElementById('header-padding-v').value;
-            
-            header.style.backgroundColor = bgC;
-            header.style.paddingTop = hPadV + 'px';
-            header.style.paddingBottom = hPadV + 'px';
-            linksContainer.style.gap = nGap + 'px';
-
-            links.forEach(a => { a.style.color = txC; a.style.fontFamily = font; a.style.fontSize = fSize + 'px'; });
-            icons.forEach(i => i.style.color = txC);
-            burger.style.color = txC;
-        }
-
-        function toggleLogoFormat(type) { logoTextFormat[type] = !logoTextFormat[type]; document.getElementById('fmt-logo-' + type.charAt(0)).classList.toggle('active', logoTextFormat[type]); applyLogoTextSettings(); saveAllSettings(); }
-        function applyLogoTextSettings() { const logo = document.getElementById('logo-trigger'); const txtElem = document.getElementById('logo-adj-text-val'); const w = document.getElementById('logo-width').value; const t = document.getElementById('logo-adj-text-input').value; const f = document.getElementById('logo-adj-font').value; const c = document.getElementById('logo-adj-color').value; const s = document.getElementById('logo-adj-spacing').value; if (w) logo.style.width = w + 'px'; logo.style.height = 'auto'; txtElem.innerText = t; txtElem.style.fontFamily = f; txtElem.style.color = c; txtElem.style.letterSpacing = s + 'px'; txtElem.style.fontWeight = logoTextFormat.bold ? 'bold' : 'normal'; txtElem.style.fontStyle = logoTextFormat.italic ? 'italic' : 'normal'; txtElem.style.textDecoration = logoTextFormat.underline ? 'underline' : 'none'; }
-        document.getElementById('edit-logo-file').addEventListener('change', function(e) { const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = function(event) { logoTrigger.src = event.target.result; logoTrigger.dataset.customLogo = event.target.result; saveAllSettings(); }; reader.readAsDataURL(file); } });
-
-        function loadScreenBgSettings() { const bgSelect = document.getElementById('bg-target-screen'); if (!bgSelect.value) return; const screen = bgSelect.value; if (!screenSettings[screen]) screenSettings[screen] = { bg: '', fit: 'cover', opacity: '0', bgOverlay: '0', title: screen, font: "'Segoe UI', sans-serif", color: '#000000', spacing: 0, bold: false, italic: false, underline: false }; const s = screenSettings[screen]; document.getElementById('bg-fit-mode').value = s.fit || 'cover'; document.getElementById('card-transparency').value = s.opacity || '0'; document.getElementById('bg-overlay-alpha').value = s.bgOverlay || '0'; document.getElementById('title-text-input').value = s.title || screen; document.getElementById('title-font-family').value = s.font || "'Segoe UI', sans-serif"; document.getElementById('title-color-input').value = s.color || '#000000'; document.getElementById('title-letter-spacing').value = s.spacing || 0; document.getElementById('fmt-b').classList.toggle('active', !!s.bold); document.getElementById('fmt-i').classList.toggle('active', !!s.italic); document.getElementById('fmt-s').classList.toggle('active', !!s.underline); applyBackgroundSettings(); applyTitleSettings(); }
-        function applyBackgroundSettings() { const bgSelect = document.getElementById('bg-target-screen'); if (!bgSelect.value) return; const s = screenSettings[bgSelect.value]; s.fit = document.getElementById('bg-fit-mode').value; s.opacity = document.getElementById('card-transparency').value; s.bgOverlay = document.getElementById('bg-overlay-alpha').value; const catalogBg = document.getElementById('catalog-main-bg'); if(s.bg) { catalogBg.style.backgroundImage = `linear-gradient(rgba(0,0,0,${s.bgOverlay}), rgba(0,0,0,${s.bgOverlay})), url('${s.bg}')`; catalogBg.style.backgroundSize = s.fit; catalogBg.style.backgroundRepeat = s.fit === 'repeat' ? 'repeat' : 'no-repeat'; } else { catalogBg.style.backgroundImage = 'none'; } document.querySelectorAll('.product-card:not(.carousel-card)').forEach(c => c.style.backgroundColor = `rgba(255, 255, 255, ${1 - parseFloat(s.opacity)})`); }
-        document.getElementById('bg-file-input').addEventListener('change', function(e) { if(e.target.files[0]) { compressImage(e.target.files[0], 1200, 1200, 0.7, function(compressedUrl) { const screen = document.getElementById('bg-target-screen').value; if (screen) { screenSettings[screen].bg = compressedUrl; applyBackgroundSettings(); saveAllSettings(); } }); } });
-        function applyTitleSettings() { const bgSelect = document.getElementById('bg-target-screen'); if (!bgSelect.value) return; const s = screenSettings[bgSelect.value]; s.title = document.getElementById('title-text-input').value; s.font = document.getElementById('title-font-family').value; s.color = document.getElementById('title-color-input').value; s.spacing = document.getElementById('title-letter-spacing').value; const titleElem = document.getElementById('catalog-category-title'); titleElem.innerText = s.title; titleElem.style.fontFamily = s.font; titleElem.style.color = s.color; titleElem.style.letterSpacing = s.spacing + 'px'; titleElem.style.fontWeight = s.bold ? 'bold' : 'normal'; titleElem.style.fontStyle = s.italic ? 'italic' : 'normal'; titleElem.style.textDecoration = s.underline ? 'underline' : 'none'; }
-        function toggleFormat(type) { const screen = document.getElementById('bg-target-screen'); if(!screen.value) return; const s = screenSettings[screen.value]; if(type === 'bold') s.bold = !s.bold; if(type === 'italic') s.italic = !s.italic; if(type === 'underline') s.underline = !s.underline; loadScreenBgSettings(); saveAllSettings(); }
-
-        function renderCatalogGrid(categoryFilter) { const container = document.getElementById('catalog-grid-container'); container.innerHTML = ''; const filtered = productsData.filter(p => categoryFilter === 'Todos' || categoryFilter === 'SALE' || p.category.toLowerCase().includes(categoryFilter.toLowerCase()) || p.title.toLowerCase().includes(categoryFilter.toLowerCase())); filtered.forEach(p => { const card = document.createElement('div'); card.className = 'product-card'; card.id = p.id; let variantsHtml = (p.variants || []).map(v => `<span class="badge-item">${v}</span>`).join(''); let regPriceHtml = p.regularPrice ? `<span class="regular-price">${p.regularPrice}</span>` : ''; let mpBtnHtml = p.mpLink ? `<a href="${p.mpLink}" target="_blank" class="btn-mp">💳 Pagar</a>` : ''; card.innerHTML = `<div><div class="card-img-wrapper"><img src="${p.media && p.media[0] ? p.media[0] : ''}" alt="${p.title}"></div><div class="card-title-text">${p.title}</div><div class="variant-badges">${variantsHtml}</div><div class="price-container">${regPriceHtml} <span class="offer-price">${p.price}</span></div></div><div>${mpBtnHtml}<button class="btn-add-cart" onclick="alert('Producto agregado')">Agregar al Carrito</button><div class="admin-card-controls"><button class="btn-admin-edit" onclick="editDarkProduct('${p.id}')">✏️ Editar</button><button class="btn-admin-delete" onclick="deleteProductById('${p.id}')">🗑️ Eliminar</button></div></div>`; container.appendChild(card); }); applyBackgroundSettings(); }
-        function filterCatalogSearch(query) { if(!document.getElementById('view-catalog').classList.contains('active-view')) navigateToCategory('Todos'); renderCatalogGrid(query); }
-        function toggleAdminMode(forceState) { if (forceState) { adminPanel.classList.add('active'); document.body.classList.add('admin-mode', 'panel-active'); renderHeaderTabsManager(); syncDropdownWithRealTabs(); loadScreenBgSettings(); renderCarouselAdmin(); } else { adminPanel.classList.remove('active'); document.body.classList.remove('admin-mode', 'panel-active'); } }
-        
-        /* GESTIÓN DE CLICS PARA ABRIR EL PANEL DE CONTROL */
-        logoTrigger.addEventListener('click', (e) => { 
-            if(document.body.classList.contains('admin-mode')) { e.preventDefault(); e.stopPropagation(); return; } 
-            clickCount++; clearTimeout(clickTimer); 
-            if (clickCount === 5) { toggleAdminMode(true); clickCount = 0; } 
-            else { clickTimer = setTimeout(() => { if(clickCount < 5) { showHomePage(); } clickCount = 0; }, 2000); } 
-        });
-
-        let currentUploadedFiles = [];
-        function openCreateProductModal() { document.getElementById('dark-modal-title-text').innerText = "Cargar Nuevo Producto"; document.getElementById('dark-prod-id').value = ''; document.getElementById('dark-title').value = ''; document.getElementById('dark-reg-price').value = ''; document.getElementById('dark-price').value = ''; document.getElementById('dark-mp-link').value = ''; document.querySelectorAll('.chk-oz').forEach(c => c.checked = false); currentUploadedFiles = []; renderFilesPreview(); document.getElementById('dark-product-modal').classList.add('active'); }
-        function editDarkProduct(id) { const p = productsData.find(item => item.id === id); if(!p) return; document.getElementById('dark-modal-title-text').innerText = "Editar Producto"; document.getElementById('dark-prod-id').value = p.id; document.getElementById('dark-title').value = p.title; document.getElementById('dark-reg-price').value = p.regularPrice || ''; document.getElementById('dark-price').value = p.price; document.getElementById('dark-mp-link').value = p.mpLink || ''; document.querySelectorAll('.chk-oz').forEach(c => c.checked = p.variants && p.variants.includes(c.value)); currentUploadedFiles = p.media || []; renderFilesPreview(); document.getElementById('dark-product-modal').classList.add('active'); }
-        function closeDarkModal() { document.getElementById('dark-product-modal').classList.remove('active'); }
-        function handleDarkFiles(input, type) { Array.from(input.files).forEach(file => { if(file.type.startsWith('image/')) { compressImage(file, 600, 600, 0.7, (compressedUrl) => { currentUploadedFiles.push(compressedUrl); renderFilesPreview(); }); } else { const reader = new FileReader(); reader.onload = (e) => { currentUploadedFiles.push(e.target.result); renderFilesPreview(); }; reader.readAsDataURL(file); } }); }
-        function renderFilesPreview() { const box = document.getElementById('files-preview-container'); if(currentUploadedFiles.length === 0) { box.innerText = "Sin archivos seleccionados"; return; } box.innerHTML = ''; currentUploadedFiles.forEach((f, idx) => { const thumb = document.createElement('div'); thumb.className = 'file-thumb'; thumb.innerHTML = `Archivo #${idx + 1} <span onclick="removeFile(${idx})" style="cursor:pointer; color:#ef4444; font-weight:bold;">✕</span>`; box.appendChild(thumb); }); }
-        function removeFile(index) { currentUploadedFiles.splice(index, 1); renderFilesPreview(); }
-        function saveDarkProduct() { const id = document.getElementById('dark-prod-id').value, title = document.getElementById('dark-title').value || 'Producto Phenom'; const regPrice = document.getElementById('dark-reg-price').value, price = document.getElementById('dark-price').value || '$0 UYU'; const mp = document.getElementById('dark-mp-link').value, cat = document.getElementById('bg-target-screen').value || 'PROTECTORES'; const selectedOz = []; document.querySelectorAll('.chk-oz:checked').forEach(c => selectedOz.push(c.value)); if(id) { const idx = productsData.findIndex(p => p.id === id); if(idx !== -1) productsData[idx] = { id, title, category: cat, variants: selectedOz, regularPrice: regPrice, price, mpLink: mp, media: currentUploadedFiles }; } else { productsData.push({ id: 'prod-' + Date.now(), title, category: cat, variants: selectedOz, regularPrice: regPrice, price, mpLink: mp, media: currentUploadedFiles }); } closeDarkModal(); saveAllSettings(); renderCatalogGrid(cat); renderCarouselAdmin(); renderCarouselFront(); }
-        function deleteProductById(id) { if(confirm("¿Eliminar este producto?")) { productsData = productsData.filter(p => p.id !== id); featuredProducts = featuredProducts.filter(fid => fid !== id); saveAllSettings(); renderCatalogGrid(document.getElementById('bg-target-screen').value); renderCarouselAdmin(); renderCarouselFront(); } }
-
-        function renderHeaderTabsManager() { const listContainer = document.getElementById('header-tabs-list'); listContainer.innerHTML = ''; document.querySelectorAll('#main-nav-links a').forEach((a, index) => { const item = document.createElement('div'); item.className = 'header-tab-item'; item.innerHTML = `<span>${a.innerText}</span> <span>✎</span>`; item.onclick = () => openHeaderTabModal(index); listContainer.appendChild(item); }); }
-        function openHeaderTabModal(index) { const navLinks = document.querySelectorAll('#main-nav-links a'); if(index >= 0 && index < navLinks.length) { document.getElementById('edit-tab-index').value = index; document.getElementById('edit-tab-text').value = navLinks[index].innerText; document.getElementById('edit-tab-highlight').checked = navLinks[index].classList.contains('highlight'); } document.getElementById('edit-header-tab-modal').classList.add('active'); }
-        function closeHeaderTabModal() { document.getElementById('edit-header-tab-modal').classList.remove('active'); }
-        function applyHeaderTabChanges() { const index = parseInt(document.getElementById('edit-tab-index').value), newText = document.getElementById('edit-tab-text').value, isHighlight = document.getElementById('edit-tab-highlight').checked; const navLinks = document.querySelectorAll('#main-nav-links a'); if(index >= 0 && index < navLinks.length) { navLinks[index].innerText = newText; if(isHighlight) navLinks[index].classList.add('highlight'); else navLinks[index].classList.remove('highlight'); } closeHeaderTabModal(); bindHeaderNavEvents(); renderHeaderTabsManager(); saveAllSettings(); }
-        function addNewHeaderTab() { const newA = document.createElement('a'); newA.innerText = 'NUEVA SECCIÓN'; document.getElementById('main-nav-links').appendChild(newA); bindHeaderNavEvents(); renderHeaderTabsManager(); saveAllSettings(); }
-        function deleteHeaderTab() { const index = parseInt(document.getElementById('edit-tab-index').value), navLinks = document.querySelectorAll('#main-nav-links a'); if(index >= 0 && index < navLinks.length) navLinks[index].remove(); closeHeaderTabModal(); bindHeaderNavEvents(); renderHeaderTabsManager(); saveAllSettings(); }
-
-        let currentHeroColNum = null, tempHeroImgBase64 = null;
-        function openHeroModal(colNum) { currentHeroColNum = colNum; document.getElementById('hero-modal-title').innerText = "EDITAR HERO " + colNum; document.getElementById('edit-hero-file').value = ''; document.getElementById('hero-mod-title').value = document.getElementById('text-col' + colNum + '-title').innerText; const sub = document.getElementById('text-col' + colNum + '-sub'); document.getElementById('hero-mod-sub').value = sub ? sub.innerText : ''; tempHeroImgBase64 = null; document.getElementById('edit-hero-modal').classList.add('active'); }
-        document.getElementById('edit-hero-file').addEventListener('change', function(e) { if(e.target.files[0]) compressImage(e.target.files[0], 1000, 1000, 0.7, (compressedUrl) => tempHeroImgBase64 = compressedUrl); });
-        function closeHeroModal() { document.getElementById('edit-hero-modal').classList.remove('active'); }
-        function applyHeroChanges() { if(currentHeroColNum) { const targetCol = document.getElementById('hero-col-' + currentHeroColNum); if(tempHeroImgBase64) targetCol.style.backgroundImage = `url('${tempHeroImgBase64}')`; document.getElementById('text-col' + currentHeroColNum + '-title').innerText = document.getElementById('hero-mod-title').value; const sub = document.getElementById('text-col' + currentHeroColNum + '-sub'); if(sub) sub.innerText = document.getElementById('hero-mod-sub').value; } closeHeroModal(); saveAllSettings(); }
-
-        let currentInfoColNum = null;
-        function openInfoModal(colNum) { currentInfoColNum = colNum; document.getElementById('info-modal-title').innerText = "EDITAR INFO " + colNum; document.getElementById('info-mod-title').value = document.getElementById('text-info-title-' + colNum).innerText; document.getElementById('info-mod-desc').value = document.getElementById('text-info-desc-' + colNum).innerText; document.getElementById('edit-info-modal').classList.add('active'); }
-        function closeInfoModal() { document.getElementById('edit-info-modal').classList.remove('active'); }
-        function applyInfoChanges() { if(currentInfoColNum) { document.getElementById('text-info-title-' + currentInfoColNum).innerText = document.getElementById('info-mod-title').value; document.getElementById('text-info-desc-' + currentInfoColNum).innerText = document.getElementById('info-mod-desc').value; } closeInfoModal(); saveAllSettings(); }
-        function openNewsModal() { document.getElementById('news-mod-title').value = document.getElementById('text-news-title').innerText; document.getElementById('edit-news-modal').classList.add('active'); }
-        function closeNewsModal() { document.getElementById('edit-news-modal').classList.remove('active'); }
-        function applyNewsChanges() { document.getElementById('text-news-title').innerText = document.getElementById('news-mod-title').value; closeNewsModal(); saveAllSettings(); }
-        let currentFooterCol = null;
-        function openFooterModal(colNum) { currentFooterCol = colNum; document.getElementById('footer-modal-title').innerText = "EDITAR FOOTER " + colNum; const clone = document.getElementById('footer-col-' + colNum).cloneNode(true); const btn = clone.querySelector('.edit-footer-btn'); if(btn) btn.remove(); document.getElementById('footer-mod-html').value = clone.innerHTML; document.getElementById('edit-footer-modal').classList.add('active'); }
-        function closeFooterModal() { document.getElementById('edit-footer-modal').classList.remove('active'); }
-        function applyFooterChanges() { if (currentFooterCol) { const colElem = document.getElementById('footer-col-' + currentFooterCol); const editBtnHtml = colElem.querySelector('.edit-footer-btn').outerHTML; colElem.innerHTML = editBtnHtml + document.getElementById('footer-mod-html').value; } closeFooterModal(); saveAllSettings(); }
-        function openNewsletterForm() { document.getElementById('newsletter-form-modal').classList.add('active'); }
-        function closeNewsletterForm() { document.getElementById('newsletter-form-modal').classList.remove('active'); }
-        function submitNewsletter(e) { e.preventDefault(); alert("¡Registro Exitoso!"); closeNewsletterForm(); }
-
-        function saveAllSettings() {
-            const settings = {
-                fubBar: document.getElementById('edit-fub-bar').value,
-                tbBgColor: document.getElementById('tb-bg-color').value, tbOpacity: document.getElementById('tb-opacity').value, tbBorderW: document.getElementById('tb-border-w').value, tbBorderC: document.getElementById('tb-border-c').value, tbBorderR: document.getElementById('tb-border-r').value,
-                
-                navBgColor: document.getElementById('nav-bg-color').value, navTextColor: document.getElementById('nav-text-color').value, navFont: document.getElementById('nav-font').value,
-                navFontSize: document.getElementById('nav-font-size').value, navGap: document.getElementById('nav-gap').value, headerPaddingV: document.getElementById('header-padding-v').value,
-
-                logoSrc: logoTrigger.dataset.customLogo || logoTrigger.src, logoWidth: document.getElementById('logo-width').value, logoAdjText: document.getElementById('logo-adj-text-input').value, logoAdjFont: document.getElementById('logo-adj-font').value, logoAdjColor: document.getElementById('logo-adj-color').value, logoAdjSpacing: document.getElementById('logo-adj-spacing').value, logoTextFormat: logoTextFormat,
-                wpNum: document.querySelector('.wp-float').href.replace('https://wa.me/', ''), headerNavHtml: document.getElementById('main-nav-links').innerHTML,
-                
-                hero1Title: document.getElementById('text-col1-title').innerText, hero1Sub: document.getElementById('text-col1-sub').innerText, hero1Bg: document.getElementById('hero-col-1').style.backgroundImage,
-                hero2Title: document.getElementById('text-col2-title').innerText, hero2Sub: document.getElementById('text-col2-sub').innerText, hero2Bg: document.getElementById('hero-col-2').style.backgroundImage,
-                hero3Title: document.getElementById('text-col3-title').innerText, hero3Sub: document.getElementById('text-col3-sub').innerText, hero3Bg: document.getElementById('hero-col-3').style.backgroundImage,
-                info1Title: document.getElementById('text-info-title-1').innerText, info1Desc: document.getElementById('text-info-desc-1').innerText, info2Title: document.getElementById('text-info-title-2').innerText, info2Desc: document.getElementById('text-info-desc-2').innerText,
-                newsTitle: document.getElementById('text-news-title').innerText,
-                footer1: document.getElementById('footer-col-1').innerHTML, footer2: document.getElementById('footer-col-2').innerHTML, footer3: document.getElementById('footer-col-3').innerHTML, footer4: document.getElementById('footer-col-4').innerHTML,
-                screenSettings: screenSettings, productsData: productsData, featuredProducts: featuredProducts
-            };
-            try { localStorage.setItem('phenom_persistent_data', JSON.stringify(settings)); triggerSaveToast(); } catch (err) { alert("¡Atención! Memoria llena."); }
-        }
-
-        function triggerSaveToast() { const toast = document.getElementById('toast-success'); toast.style.display = 'block'; setTimeout(() => { toast.style.display = 'none'; }, 2500); }
-
-        window.onload = () => {
-            const saved = localStorage.getItem('phenom_persistent_data');
-            if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    if(data.fubBar !== undefined) document.getElementById('edit-fub-bar').value = data.fubBar; if(data.tbBgColor) document.getElementById('tb-bg-color').value = data.tbBgColor; if(data.tbOpacity !== undefined) document.getElementById('tb-opacity').value = data.tbOpacity; if(data.tbBorderW !== undefined) document.getElementById('tb-border-w').value = data.tbBorderW; if(data.tbBorderC) document.getElementById('tb-border-c').value = data.tbBorderC; if(data.tbBorderR !== undefined) document.getElementById('tb-border-r').value = data.tbBorderR; applyTopBarSettings();
-                    
-                    if(data.navBgColor) document.getElementById('nav-bg-color').value = data.navBgColor; if(data.navTextColor) document.getElementById('nav-text-color').value = data.navTextColor; if(data.navFont) document.getElementById('nav-font').value = data.navFont;
-                    if(data.navFontSize !== undefined) document.getElementById('nav-font-size').value = data.navFontSize; if(data.navGap !== undefined) document.getElementById('nav-gap').value = data.navGap; if(data.headerPaddingV !== undefined) document.getElementById('header-padding-v').value = data.headerPaddingV;
-                    applyNavSettings();
-
-                    if(data.logoSrc) { logoTrigger.src = data.logoSrc; logoTrigger.dataset.customLogo = data.logoSrc; } if(data.logoWidth) document.getElementById('logo-width').value = data.logoWidth; if(data.logoAdjText !== undefined) document.getElementById('logo-adj-text-input').value = data.logoAdjText; if(data.logoAdjFont) document.getElementById('logo-adj-font').value = data.logoAdjFont; if(data.logoAdjColor) document.getElementById('logo-adj-color').value = data.logoAdjColor; if(data.logoAdjSpacing !== undefined) document.getElementById('logo-adj-spacing').value = data.logoAdjSpacing; if(data.logoTextFormat) { logoTextFormat = data.logoTextFormat; document.getElementById('fmt-logo-b').classList.toggle('active', logoTextFormat.bold); document.getElementById('fmt-logo-i').classList.toggle('active', logoTextFormat.italic); document.getElementById('fmt-logo-s').classList.toggle('active', logoTextFormat.underline); } applyLogoTextSettings();
-                    if(data.wpNum) document.querySelector('.wp-float').href = 'https://wa.me/' + data.wpNum; if(data.headerNavHtml) document.getElementById('main-nav-links').innerHTML = data.headerNavHtml;
-                    
-                    if(data.hero1Title) document.getElementById('text-col1-title').innerText = data.hero1Title; if(data.hero1Sub) document.getElementById('text-col1-sub').innerText = data.hero1Sub; if(data.hero1Bg) document.getElementById('hero-col-1').style.backgroundImage = data.hero1Bg; if(data.hero2Title) document.getElementById('text-col2-title').innerText = data.hero2Title; if(data.hero2Sub) document.getElementById('text-col2-sub').innerText = data.hero2Sub; if(data.hero2Bg) document.getElementById('hero-col-2').style.backgroundImage = data.hero2Bg; if(data.hero3Title) document.getElementById('text-col3-title').innerText = data.hero3Title; if(data.hero3Sub) document.getElementById('text-col3-sub').innerText = data.hero3Sub; if(data.hero3Bg) document.getElementById('hero-col-3').style.backgroundImage = data.hero3Bg;
-                    if(data.info1Title) document.getElementById('text-info-title-1').innerText = data.info1Title; if(data.info1Desc) document.getElementById('text-info-desc-1').innerText = data.info1Desc; if(data.info2Title) document.getElementById('text-info-title-2').innerText = data.info2Title; if(data.info2Desc) document.getElementById('text-info-desc-2').innerText = data.info2Desc;
-                    if(data.newsTitle) document.getElementById('text-news-title').innerText = data.newsTitle; if(data.footer1) document.getElementById('footer-col-1').innerHTML = data.footer1; if(data.footer2) document.getElementById('footer-col-2').innerHTML = data.footer2; if(data.footer3) document.getElementById('footer-col-3').innerHTML = data.footer3; if(data.footer4) document.getElementById('footer-col-4').innerHTML = data.footer4;
-                    if(data.screenSettings) screenSettings = data.screenSettings; if(data.productsData) productsData = data.productsData; if(data.featuredProducts) featuredProducts = data.featuredProducts;
-                } catch(e) {}
-            }
-            bindHeaderNavEvents(); loadScreenBgSettings(); renderCarouselFront();
-        };
-    </script>
+    <!-- MÓDULOS JAVASCRIPT -->
+    <script src="app.js"></script>
+    <script src="cart.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>
