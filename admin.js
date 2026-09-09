@@ -1,5 +1,6 @@
 /* ==========================================================================
    PHENOM STORE - LÓGICA DEL PANEL CONTROL OMEGA Y ADMINISTRACIÓN (admin.js)
+   Soporte para persistencia en IndexedDB (db.js) + fallback a localStorage
    ========================================================================== */
 
 let clickCount = 0;
@@ -644,8 +645,8 @@ function submitNewsletter(e) {
     closeNewsletterForm();
 }
 
-// --- PERSISTENCIA LOCALSTORAGE ---
-function saveAllSettings() {
+// --- PERSISTENCIA CON INDEXEDDB Y FALLBACK ---
+async function saveAllSettings() {
     const settings = {
         fubBar: document.getElementById('edit-fub-bar')?.value || '',
         tbBgColor: document.getElementById('tb-bg-color')?.value || '#000000',
@@ -700,11 +701,17 @@ function saveAllSettings() {
         featuredProducts: featuredProducts
     };
 
-    try {
-        localStorage.setItem('phenom_persistent_data', JSON.stringify(settings));
+    if (typeof saveSettingsDB === 'function' && typeof saveAllProductsDB === 'function') {
+        await saveSettingsDB(settings);
+        await saveAllProductsDB(productsData);
         triggerSaveToast();
-    } catch (err) {
-        alert("¡Atención! Memoria local del navegador llena. Elimina productos viejos o usa fotos más livianas.");
+    } else {
+        try {
+            localStorage.setItem('phenom_persistent_data', JSON.stringify(settings));
+            triggerSaveToast();
+        } catch (err) {
+            alert("¡Atención! Memoria local del navegador llena.");
+        }
     }
 }
 
@@ -717,7 +724,7 @@ function triggerSaveToast() {
 }
 
 // RESTAURAR ESTADO AL CARGAR PÁGINA
-window.onload = () => {
+async function loadRestoredState() {
     initLogoUnlockTrigger();
 
     const editHeroFile = document.getElementById('edit-hero-file');
@@ -748,10 +755,19 @@ window.onload = () => {
         });
     }
 
-    const saved = localStorage.getItem('phenom_persistent_data');
-    if (saved) {
+    let data = null;
+    if (typeof getSettingsDB === 'function') {
+        data = await getSettingsDB();
+    }
+    if (!data) {
+        const saved = localStorage.getItem('phenom_persistent_data');
+        if (saved) {
+            try { data = JSON.parse(saved); } catch (e) {}
+        }
+    }
+
+    if (data) {
         try {
-            const data = JSON.parse(saved);
             if (data.fubBar !== undefined && document.getElementById('edit-fub-bar')) document.getElementById('edit-fub-bar').value = data.fubBar;
             if (data.tbBgColor && document.getElementById('tb-bg-color')) document.getElementById('tb-bg-color').value = data.tbBgColor;
             if (data.tbOpacity !== undefined && document.getElementById('tb-opacity')) document.getElementById('tb-opacity').value = data.tbOpacity;
@@ -823,4 +839,8 @@ window.onload = () => {
     if (typeof bindHeaderNavEvents === 'function') bindHeaderNavEvents();
     loadScreenBgSettings();
     renderCarouselFront();
-};
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    loadRestoredState();
+});
