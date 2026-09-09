@@ -244,7 +244,7 @@
                 align-items: flex-start;
             }
             .nav-links.active-menu { display: flex; }
-            .search-box { display: none; } /* Ocultar barra de búsqueda chica en móvil si molesta, o ajustar */
+            .search-box { display: none; }
             .hero-grid { grid-template-columns: 1fr; height: auto; }
             .hero-col { height: 60vh; }
             .info-section { grid-template-columns: 1fr; gap: 30px; padding: 40px 20px; }
@@ -434,6 +434,10 @@
                 <label>Transparencia Tarjeta (0 a 1)</label>
                 <input type="number" id="card-transparency" min="0" max="1" step="0.1" value="0" oninput="applyBackgroundSettings()">
             </div>
+            <!-- HERRAMIENTA DE GENERACIÓN DE CÓDIGO POR DEFECTO -->
+            <div class="admin-group" style="margin-top: 15px;">
+                <button type="button" onclick="generarCodigoPorDefecto()" style="background: #007bff; color: #fff; width: 100%; padding: 12px; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; font-size: 11px;">🛠️ Generar Código Predeterminado</button>
+            </div>
         </div>
 
         <!-- BLOQUE: TÍTULOS DE PANTALLA -->
@@ -606,6 +610,23 @@
 
         let screenSettings = {};
         let productsData = [];
+
+        // Función para generar código por defecto (hardcodeo express)
+        function generarCodigoPorDefecto() {
+            const currentData = {
+                hero1Bg: document.getElementById('hero-col-1').style.backgroundImage,
+                hero2Bg: document.getElementById('hero-col-2').style.backgroundImage,
+                hero3Bg: document.getElementById('hero-col-3').style.backgroundImage,
+                screenSettings: screenSettings,
+                productsData: productsData
+            };
+            const snippet = JSON.stringify(currentData, null, 4);
+            navigator.clipboard.writeText(snippet).then(() => {
+                alert("¡Configuración copiada al portapapeles! Pégala en tus valores predefinidos para quemarla en fábrica.");
+            }).catch(() => {
+                prompt("Copia tu configuración de fábrica actual:", snippet);
+            });
+        }
 
         // Función para abrir/cerrar menú móvil
         function toggleMobileMenu() {
