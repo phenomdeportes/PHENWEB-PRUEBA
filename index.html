@@ -258,8 +258,7 @@
     <!-- ==================== VISTA 1: INICIO (HOME) ==================== -->
     <div id="view-home" class="page-view active-view">
         <section class="hero-grid">
-            <!-- Limpiado fondo estático inicial -->
-            <div class="hero-col" id="hero-col-1" style="background-image: none;">
+            <div class="hero-col" id="hero-col-1">
                 <button class="edit-hero-btn" onclick="openHeroModal(1)">✎</button>
                 <div class="hero-content">
                     <h1 class="hero-title" id="text-col1-title">PHENOM ELITE</h1>
@@ -267,7 +266,7 @@
                     <a onclick="navigateToCategory('PROTECTORES')" class="btn-comprar">COMPRAR AHORA →</a>
                 </div>
             </div>
-            <div class="hero-col" id="hero-col-2" style="background-image: none;">
+            <div class="hero-col" id="hero-col-2">
                 <button class="edit-hero-btn" onclick="openHeroModal(2)">✎</button>
                 <div class="hero-content">
                     <h1 class="hero-title" id="text-col2-title">THE ORIGINAL</h1>
@@ -275,7 +274,7 @@
                     <a onclick="navigateToCategory('Todos')" class="btn-comprar" style="display:none;">COMPRAR AHORA →</a>
                 </div>
             </div>
-            <div class="hero-col" id="hero-col-3" style="background-image: none;">
+            <div class="hero-col" id="hero-col-3">
                 <button class="edit-hero-btn" onclick="openHeroModal(3)">✎</button>
                 <div class="hero-content">
                     <h1 class="hero-title" id="text-col3-title">SPARRING PRO</h1>
@@ -579,7 +578,6 @@
         const adminPanel = document.getElementById('admin-panel');
 
         let screenSettings = {};
-        // Array de productos limpio sin imágenes predeterminadas que fuercen parpadeos
         let productsData = [];
 
         // FUNCIÓN DE COMPRESIÓN DE IMÁGENES
