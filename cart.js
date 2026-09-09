@@ -1,5 +1,6 @@
+const PHENOM_PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'><rect width='100%' height='100%' fill='%2318181b'/><text x='50%' y='48%' dominant-baseline='middle' text-anchor='middle' fill='%23eab308' font-family='Arial, sans-serif' font-weight='900' font-size='24'>PHENOM</text><text x='50%' y='58%' dominant-baseline='middle' text-anchor='middle' fill='%2371717a' font-family='Arial, sans-serif' font-weight='bold' font-size='12'>SIN IMAGEN</text></svg>";
 /* ==========================================================================
-   PHENOM STORE - LÓGICA DEL CARRITO DE COMPRAS (cart.js) - v2
+   PHENOM STORE - LÓGICA DEL CARRITO DE COMPRAS (cart.js)
    ========================================================================== */
 
 let cart = [];
@@ -29,6 +30,7 @@ function toggleCartDrawer(forceOpen) {
 // --- UTILIDAD: PARSEAR PRECIO A NÚMERO ---
 function parsePriceToNumber(priceStr) {
     if (!priceStr) return 0;
+    // Extrae solo dígitos numéricos del string
     const cleaned = priceStr.toString().replace(/[^0-9]/g, '');
     return parseInt(cleaned, 10) || 0;
 }
@@ -53,13 +55,12 @@ function handleAddToCartClick(productId) {
     if (product.variants && product.variants.length > 1) {
         openVariantModal(product);
     } else {
-        const variant = (product.variants && product.variants.length >= 1) ? product.variants[0] : 'Única';
+        const variant = (product.variants && product.variants.length === 1) ? product.variants[0] : 'Única';
         addToCart(product, variant);
     }
 }
 
 function addToCart(product, variant) {
-    if (!product) return;
     const numericPrice = parsePriceToNumber(product.price);
     const existingIndex = cart.findIndex(item => item.id === product.id && item.variant === variant);
 
@@ -72,7 +73,7 @@ function addToCart(product, variant) {
             variant: variant || 'Única',
             priceStr: product.price,
             priceNum: numericPrice,
-            image: (product.media && product.media[0]) ? product.media[0] : 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400',
+            image: (product.media && product.media[0]) ? product.media[0] : PHENOM_PLACEHOLDER_IMG,
             quantity: 1
         });
     }
@@ -100,8 +101,8 @@ function openVariantModal(product) {
         btn.className = 'variant-btn-select';
         btn.innerText = variant;
         btn.onclick = () => {
-            addToCart(product, variant);
             closeVariantModal();
+            addToCart(pendingProductForVariant, variant);
         };
         container.appendChild(btn);
     });

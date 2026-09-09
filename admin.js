@@ -1,34 +1,13 @@
+const PHENOM_PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'><rect width='100%' height='100%' fill='%2318181b'/><text x='50%' y='48%' dominant-baseline='middle' text-anchor='middle' fill='%23eab308' font-family='Arial, sans-serif' font-weight='900' font-size='24'>PHENOM</text><text x='50%' y='58%' dominant-baseline='middle' text-anchor='middle' fill='%2371717a' font-family='Arial, sans-serif' font-weight='bold' font-size='12'>SIN IMAGEN</text></svg>";
 /* ==========================================================================
    PHENOM STORE - LÓGICA DEL PANEL CONTROL OMEGA Y ADMINISTRACIÓN (admin.js)
-   Soporte para persistencia en IndexedDB (db.js) + fallback a localStorage
    ========================================================================== */
 
 let clickCount = 0;
 let clickTimer;
 let screenSettings = {};
-let productsData = [
-    {
-        id: 'prod-1',
-        title: 'Guantes de Boxeo Blanco / Dorado',
-        category: 'PROTECTORES',
-        variants: ['12oz', '14oz', '16oz'],
-        regularPrice: '$2.500',
-        price: '$2.090 UYU',
-        mpLink: '',
-        media: ['https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400']
-    },
-    {
-        id: 'prod-2',
-        title: 'Cabezal Sparring Pro Negro Mate',
-        category: 'PROTECTORES',
-        variants: ['10oz', '12oz'],
-        regularPrice: '',
-        price: '$2.350 UYU',
-        mpLink: '',
-        media: ['https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400']
-    }
-];
-let featuredProducts = ['prod-1', 'prod-2'];
+let productsData = [];
+let featuredProducts = [];
 let logoTextFormat = { bold: false, italic: false, underline: false };
 
 // --- COMPRESIÓN DE IMÁGENES MEDIANTE CANVAS ---
@@ -130,7 +109,7 @@ function renderCatalogGrid(categoryFilter) {
         let variantsHtml = (p.variants || []).map(v => `<span class="badge-item">${v}</span>`).join('');
         let regPriceHtml = p.regularPrice ? `<span class="regular-price">${p.regularPrice}</span>` : '';
         let mpBtnHtml = p.mpLink ? `<a href="${p.mpLink}" target="_blank" class="btn-mp">💳 Pagar</a>` : '';
-        let imgSrc = (p.media && p.media[0]) ? p.media[0] : 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400';
+        let imgSrc = (p.media && p.media[0]) ? p.media[0] : PHENOM_PLACEHOLDER_IMG;
 
         card.innerHTML = `
             <div>
@@ -186,7 +165,7 @@ function renderCarouselFront() {
             let variantsHtml = (p.variants || []).map(v => `<span class="badge-item">${v}</span>`).join('');
             let regPriceHtml = p.regularPrice ? `<span class="regular-price">${p.regularPrice}</span>` : '';
             let mpBtnHtml = p.mpLink ? `<a href="${p.mpLink}" target="_blank" class="btn-mp">💳 Pagar</a>` : '';
-            let imgSrc = (p.media && p.media[0]) ? p.media[0] : 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400';
+            let imgSrc = (p.media && p.media[0]) ? p.media[0] : PHENOM_PLACEHOLDER_IMG;
 
             card.innerHTML = `
                 <div>
@@ -645,8 +624,8 @@ function submitNewsletter(e) {
     closeNewsletterForm();
 }
 
-// --- PERSISTENCIA CON INDEXEDDB Y FALLBACK ---
-async function saveAllSettings() {
+// --- PERSISTENCIA LOCALSTORAGE ---
+function saveAllSettings() {
     const settings = {
         fubBar: document.getElementById('edit-fub-bar')?.value || '',
         tbBgColor: document.getElementById('tb-bg-color')?.value || '#000000',
@@ -701,17 +680,11 @@ async function saveAllSettings() {
         featuredProducts: featuredProducts
     };
 
-    if (typeof saveSettingsDB === 'function' && typeof saveAllProductsDB === 'function') {
-        await saveSettingsDB(settings);
-        await saveAllProductsDB(productsData);
+    try {
+        localStorage.setItem('phenom_persistent_data', JSON.stringify(settings));
         triggerSaveToast();
-    } else {
-        try {
-            localStorage.setItem('phenom_persistent_data', JSON.stringify(settings));
-            triggerSaveToast();
-        } catch (err) {
-            alert("¡Atención! Memoria local del navegador llena.");
-        }
+    } catch (err) {
+        alert("¡Atención! Memoria local del navegador llena. Elimina productos viejos o usa fotos más livianas.");
     }
 }
 
@@ -724,7 +697,7 @@ function triggerSaveToast() {
 }
 
 // RESTAURAR ESTADO AL CARGAR PÁGINA
-async function loadRestoredState() {
+window.onload = () => {
     initLogoUnlockTrigger();
 
     const editHeroFile = document.getElementById('edit-hero-file');
@@ -755,19 +728,10 @@ async function loadRestoredState() {
         });
     }
 
-    let data = null;
-    if (typeof getSettingsDB === 'function') {
-        data = await getSettingsDB();
-    }
-    if (!data) {
-        const saved = localStorage.getItem('phenom_persistent_data');
-        if (saved) {
-            try { data = JSON.parse(saved); } catch (e) {}
-        }
-    }
-
-    if (data) {
+    const saved = localStorage.getItem('phenom_persistent_data');
+    if (saved) {
         try {
+            const data = JSON.parse(saved);
             if (data.fubBar !== undefined && document.getElementById('edit-fub-bar')) document.getElementById('edit-fub-bar').value = data.fubBar;
             if (data.tbBgColor && document.getElementById('tb-bg-color')) document.getElementById('tb-bg-color').value = data.tbBgColor;
             if (data.tbOpacity !== undefined && document.getElementById('tb-opacity')) document.getElementById('tb-opacity').value = data.tbOpacity;
@@ -839,8 +803,4 @@ async function loadRestoredState() {
     if (typeof bindHeaderNavEvents === 'function') bindHeaderNavEvents();
     loadScreenBgSettings();
     renderCarouselFront();
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    loadRestoredState();
-});
+};
