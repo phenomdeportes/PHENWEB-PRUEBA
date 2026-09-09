@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PHENOM STORE - LÓGICA DEL CARRITO DE COMPRAS (cart.js)
+   PHENOM STORE - LÓGICA DEL CARRITO DE COMPRAS (cart.js) - v2
    ========================================================================== */
 
 let cart = [];
@@ -29,7 +29,6 @@ function toggleCartDrawer(forceOpen) {
 // --- UTILIDAD: PARSEAR PRECIO A NÚMERO ---
 function parsePriceToNumber(priceStr) {
     if (!priceStr) return 0;
-    // Extrae solo dígitos numéricos del string
     const cleaned = priceStr.toString().replace(/[^0-9]/g, '');
     return parseInt(cleaned, 10) || 0;
 }
@@ -54,12 +53,13 @@ function handleAddToCartClick(productId) {
     if (product.variants && product.variants.length > 1) {
         openVariantModal(product);
     } else {
-        const variant = (product.variants && product.variants.length === 1) ? product.variants[0] : 'Única';
+        const variant = (product.variants && product.variants.length >= 1) ? product.variants[0] : 'Única';
         addToCart(product, variant);
     }
 }
 
 function addToCart(product, variant) {
+    if (!product) return;
     const numericPrice = parsePriceToNumber(product.price);
     const existingIndex = cart.findIndex(item => item.id === product.id && item.variant === variant);
 
@@ -100,8 +100,8 @@ function openVariantModal(product) {
         btn.className = 'variant-btn-select';
         btn.innerText = variant;
         btn.onclick = () => {
+            addToCart(product, variant);
             closeVariantModal();
-            addToCart(pendingProductForVariant, variant);
         };
         container.appendChild(btn);
     });
