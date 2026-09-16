@@ -14,7 +14,7 @@ let productsData = [
         regularPrice: '$2.500',
         price: '$2.090 UYU',
         mpLink: '',
-        media: ['https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400']
+        media: []
     },
     {
         id: 'prod-2',
@@ -24,7 +24,7 @@ let productsData = [
         regularPrice: '',
         price: '$2.350 UYU',
         mpLink: '',
-        media: ['https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400']
+        media: []
     }
 ];
 let featuredProducts = ['prod-1', 'prod-2'];
@@ -85,10 +85,9 @@ function initLogoUnlockTrigger() {
     if (!logoTrigger) return;
 
     logoTrigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
         if (document.body.classList.contains('admin-mode')) {
+            e.preventDefault();
+            e.stopPropagation();
             return;
         }
 
@@ -104,12 +103,12 @@ function initLogoUnlockTrigger() {
                     showHomePage();
                 }
                 clickCount = 0;
-            }, 1200);
+            }, 2000);
         }
     });
 }
 
-// --- RENDERIZAR GRILLA DE CATÁLOGO ---
+// --- RENDERIZAR GRILLA DE CATÁLOGO (PASANDO ID ÚNICO EXPLÍCITO) ---
 function renderCatalogGrid(categoryFilter) {
     const container = document.getElementById('catalog-grid-container');
     if (!container) return;
@@ -130,18 +129,34 @@ function renderCatalogGrid(categoryFilter) {
         let variantsHtml = (p.variants || []).map(v => `<span class="badge-item">${v}</span>`).join('');
         let regPriceHtml = p.regularPrice ? `<span class="regular-price">${p.regularPrice}</span>` : '';
         let mpBtnHtml = p.mpLink ? `<a href="${p.mpLink}" target="_blank" class="btn-mp">💳 Pagar</a>` : '';
-        let imgSrc = (p.media && p.media[0]) ? p.media[0] : 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400';
+        
+        window.activeImageIndices = window.activeImageIndices || {};
+        if (window.activeImageIndices[p.id] === undefined) window.activeImageIndices[p.id] = 0;
+        let currentImgIdx = window.activeImageIndices[p.id];
+        
+        let hasMedia = p.media && p.media.length > 0;
+        let imgSrc = hasMedia ? p.media[currentImgIdx] : '';
+        let totalImgs = hasMedia ? p.media.length : 0;
+
+        let arrowsHtml = totalImgs > 1 ? `
+            <button class="card-arrow card-arrow-left" onclick="changeCardImage('${p.id}', -1, ${totalImgs}, event)">❮</button>
+            <button class="card-arrow card-arrow-right" onclick="changeCardImage('${p.id}', 1, ${totalImgs}, event)">❯</button>
+        ` : '';
+
+        let mediaContent = imgSrc ? 
+            `<img id="img-prod-${p.id}" src="${imgSrc}" alt="${p.title}" style="width:100%; height:100%; object-fit:contain;">${arrowsHtml}` : 
+            `<div style="color:#a1a1aa; font-weight:800; font-size:12px; height:100%; display:flex; align-items:center; justify-content:center;">PHENOM</div>`;
 
         card.innerHTML = `
             <div>
-                <div class="card-img-wrapper"><img src="${imgSrc}" alt="${p.title}"></div>
+                <div class="card-img-wrapper" style="position:relative; overflow:hidden;" onclick="openZoomLightbox('${p.id}', event)">${mediaContent}</div>
                 <div class="card-title-text">${p.title}</div>
                 <div class="variant-badges">${variantsHtml}</div>
-                <div class="price-container">${regPriceHtml} <span class="offer-price">${p.price}</span></div>
+                <div class="price-container">${regPriceHtml} <span class="offer-price" style="color:#000 !important; font-weight:900;">${p.price}</span></div>
             </div>
             <div>
                 ${mpBtnHtml}
-                <button class="btn-add-cart" onclick="handleAddToCartClick('${p.id}')">Agregar al Carrito</button>
+                <button class="btn-add-cart" onclick="handleAddToCartClick('${p.id}')" style="font-weight:400; text-transform:uppercase;">AGREGAR AL CARRITO</button>
                 <div class="admin-card-controls">
                     <button class="btn-admin-edit" onclick="editDarkProduct('${p.id}')">✏️ Editar</button>
                     <button class="btn-admin-delete" onclick="deleteProductById('${p.id}')">🗑️ Eliminar</button>
@@ -153,6 +168,20 @@ function renderCatalogGrid(categoryFilter) {
 
     applyBackgroundSettings();
 }
+
+window.changeCardImage = function(productId, direction, totalImages, event) {
+    event.stopPropagation();
+    if (!window.activeImageIndices[productId]) window.activeImageIndices[productId] = 0;
+    window.activeImageIndices[productId] += direction;
+    if (window.activeImageIndices[productId] < 0) window.activeImageIndices[productId] = totalImages - 1;
+    if (window.activeImageIndices[productId] >= totalImages) window.activeImageIndices[productId] = 0;
+
+    const imgElement = document.getElementById(`img-prod-${productId}`);
+    const product = productsData.find(prod => prod.id === productId);
+    if (product && product.media && product.media[window.activeImageIndices[productId]]) {
+        imgElement.src = product.media[window.activeImageIndices[productId]];
+    }
+};
 
 // --- CARRUSEL DESTACADOS ---
 function renderCarouselAdmin() {
@@ -186,11 +215,11 @@ function renderCarouselFront() {
             let variantsHtml = (p.variants || []).map(v => `<span class="badge-item">${v}</span>`).join('');
             let regPriceHtml = p.regularPrice ? `<span class="regular-price">${p.regularPrice}</span>` : '';
             let mpBtnHtml = p.mpLink ? `<a href="${p.mpLink}" target="_blank" class="btn-mp">💳 Pagar</a>` : '';
-            let imgSrc = (p.media && p.media[0]) ? p.media[0] : 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400';
+            let imgSrc = (p.media && p.media[0]) ? p.media[0] : '';
 
             card.innerHTML = `
                 <div>
-                    <div class="card-img-wrapper"><img src="${imgSrc}" alt="${p.title}"></div>
+                    <div class="card-img-wrapper" onclick="openZoomLightbox('${p.id}', event)">${imgSrc ? `<img src="${imgSrc}" alt="${p.title}">` : `<div style="color:#a1a1aa; font-weight:800; font-size:12px; height:100%; display:flex; align-items:center; justify-content:center;">PHENOM</div>`}</div>
                     <div class="card-title-text">${p.title}</div>
                     <div class="variant-badges">${variantsHtml}</div>
                     <div class="price-container">${regPriceHtml} <span class="offer-price">${p.price}</span></div>
@@ -645,8 +674,8 @@ function submitNewsletter(e) {
     closeNewsletterForm();
 }
 
-// --- PERSISTENCIA LOCALSTORAGE ---
-function saveAllSettings() {
+// --- PERSISTENCIA NUBE (FIREBASE) + LOCALSTORAGE ---
+async function saveAllSettings() {
     const settings = {
         fubBar: document.getElementById('edit-fub-bar')?.value || '',
         tbBgColor: document.getElementById('tb-bg-color')?.value || '#000000',
@@ -702,10 +731,14 @@ function saveAllSettings() {
     };
 
     try {
+        if (typeof window.setDoc === 'function' && window.firebaseDocRef) {
+            await window.setDoc(window.firebaseDocRef, settings);
+        }
         localStorage.setItem('phenom_persistent_data', JSON.stringify(settings));
         triggerSaveToast();
     } catch (err) {
-        alert("¡Atención! Memoria local del navegador llena. Elimina productos viejos o usa fotos más livianas.");
+        console.error("Error al guardar en Firebase:", err);
+        alert("¡Error al sincronizar con la nube!");
     }
 }
 
@@ -717,8 +750,74 @@ function triggerSaveToast() {
     setTimeout(() => { toast.style.display = 'none'; }, 2500);
 }
 
-// RESTAURAR ESTADO AL CARGAR PÁGINA
-window.onload = () => {
+function applySavedDataToDOM(data) {
+    if (!data) return;
+    if (data.fubBar !== undefined && document.getElementById('edit-fub-bar')) document.getElementById('edit-fub-bar').value = data.fubBar;
+    if (data.tbBgColor && document.getElementById('tb-bg-color')) document.getElementById('tb-bg-color').value = data.tbBgColor;
+    if (data.tbOpacity !== undefined && document.getElementById('tb-opacity')) document.getElementById('tb-opacity').value = data.tbOpacity;
+    if (data.tbBorderW !== undefined && document.getElementById('tb-border-w')) document.getElementById('tb-border-w').value = data.tbBorderW;
+    if (data.tbBorderC && document.getElementById('tb-border-c')) document.getElementById('tb-border-c').value = data.tbBorderC;
+    if (data.tbBorderR !== undefined && document.getElementById('tb-border-r')) document.getElementById('tb-border-r').value = data.tbBorderR;
+    if (typeof applyTopBarSettings === 'function') applyTopBarSettings();
+
+    if (data.navBgColor && document.getElementById('nav-bg-color')) document.getElementById('nav-bg-color').value = data.navBgColor;
+    if (data.navTextColor && document.getElementById('nav-text-color')) document.getElementById('nav-text-color').value = data.navTextColor;
+    if (data.navFont && document.getElementById('nav-font')) document.getElementById('nav-font').value = data.navFont;
+    if (data.navFontSize !== undefined && document.getElementById('nav-font-size')) document.getElementById('nav-font-size').value = data.navFontSize;
+    if (data.navGap !== undefined && document.getElementById('nav-gap')) document.getElementById('nav-gap').value = data.navGap;
+    if (data.headerPaddingV && document.getElementById('header-padding-v')) document.getElementById('header-padding-v').value = data.headerPaddingV;
+    if (typeof applyNavSettings === 'function') applyNavSettings();
+
+    const logoTrigger = document.getElementById('logo-trigger');
+    if (data.logoSrc && logoTrigger) {
+        logoTrigger.src = data.logoSrc;
+        logoTrigger.dataset.customLogo = data.logoSrc;
+    }
+    if (data.logoWidth && document.getElementById('logo-width')) document.getElementById('logo-width').value = data.logoWidth;
+    if (data.logoAdjText !== undefined && document.getElementById('logo-adj-text-input')) document.getElementById('logo-adj-text-input').value = data.logoAdjText;
+    if (data.logoAdjFont && document.getElementById('logo-adj-font')) document.getElementById('logo-adj-font').value = data.logoAdjFont;
+    if (data.logoAdjColor && document.getElementById('logo-adj-color')) document.getElementById('logo-adj-color').value = data.logoAdjColor;
+    if (data.logoAdjSpacing !== undefined && document.getElementById('logo-adj-spacing')) document.getElementById('logo-adj-spacing').value = data.logoAdjSpacing;
+    if (data.logoTextFormat) {
+        logoTextFormat = data.logoTextFormat;
+        if (document.getElementById('fmt-logo-b')) document.getElementById('fmt-logo-b').classList.toggle('active', logoTextFormat.bold);
+        if (document.getElementById('fmt-logo-i')) document.getElementById('fmt-logo-i').classList.toggle('active', logoTextFormat.italic);
+        if (document.getElementById('fmt-logo-s')) document.getElementById('fmt-logo-s').classList.toggle('active', logoTextFormat.underline);
+    }
+    if (typeof applyLogoTextSettings === 'function') applyLogoTextSettings();
+
+    if (data.wpNum && document.querySelector('.wp-float')) document.querySelector('.wp-float').href = 'https://wa.me/' + data.wpNum;
+    if (data.headerNavHtml && document.getElementById('main-nav-links')) document.getElementById('main-nav-links').innerHTML = data.headerNavHtml;
+
+    if (data.hero1Title && document.getElementById('text-col1-title')) document.getElementById('text-col1-title').innerText = data.hero1Title;
+    if (data.hero1Sub && document.getElementById('text-col1-sub')) document.getElementById('text-col1-sub').innerText = data.hero1Sub;
+    if (data.hero1Bg && document.getElementById('hero-col-1')) document.getElementById('hero-col-1').style.backgroundImage = data.hero1Bg;
+
+    if (data.hero2Title && document.getElementById('text-col2-title')) document.getElementById('text-col2-title').innerText = data.hero2Title;
+    if (data.hero2Sub && document.getElementById('text-col2-sub')) document.getElementById('text-col2-sub').innerText = data.hero2Sub;
+    if (data.hero2Bg && document.getElementById('hero-col-2')) document.getElementById('hero-col-2').style.backgroundImage = data.hero2Bg;
+
+    if (data.hero3Title && document.getElementById('text-col3-title')) document.getElementById('text-col3-title').innerText = data.hero3Title;
+    if (data.hero3Sub && document.getElementById('text-col3-sub')) document.getElementById('text-col3-sub').innerText = data.hero3Sub;
+    if (data.hero3Bg && document.getElementById('hero-col-3')) document.getElementById('hero-col-3').style.backgroundImage = data.hero3Bg;
+
+    if (data.info1Title && document.getElementById('text-info-title-1')) document.getElementById('text-info-title-1').innerText = data.info1Title;
+    if (data.info1Desc && document.getElementById('text-info-desc-1')) document.getElementById('text-info-desc-1').innerText = data.info1Desc;
+    if (data.info2Title && document.getElementById('text-info-title-2')) document.getElementById('text-info-title-2').innerText = data.info2Title;
+    if (data.info2Desc && document.getElementById('text-info-desc-2')) document.getElementById('text-info-desc-2').innerText = data.info2Desc;
+
+    if (data.newsTitle && document.getElementById('text-news-title')) document.getElementById('text-news-title').innerText = data.newsTitle;
+    if (data.footer1 && document.getElementById('footer-col-1')) document.getElementById('footer-col-1').innerHTML = data.footer1;
+    if (data.footer2 && document.getElementById('footer-col-2')) document.getElementById('footer-col-2').innerHTML = data.footer2;
+    if (data.footer3 && document.getElementById('footer-col-3')) document.getElementById('footer-col-3').innerHTML = data.footer3;
+    if (data.footer4 && document.getElementById('footer-col-4')) document.getElementById('footer-col-4').innerHTML = data.footer4;
+
+    if (data.screenSettings) screenSettings = data.screenSettings;
+    if (data.productsData) productsData = data.productsData;
+    if (data.featuredProducts) featuredProducts = data.featuredProducts;
+}
+
+window.onload = async () => {
     initLogoUnlockTrigger();
 
     const editHeroFile = document.getElementById('edit-hero-file');
@@ -749,75 +848,27 @@ window.onload = () => {
         });
     }
 
+    // 1. Cargar INSTANTÁNEAMENTE desde localStorage (0ms)
     const saved = localStorage.getItem('phenom_persistent_data');
     if (saved) {
         try {
-            const data = JSON.parse(saved);
-            if (data.fubBar !== undefined && document.getElementById('edit-fub-bar')) document.getElementById('edit-fub-bar').value = data.fubBar;
-            if (data.tbBgColor && document.getElementById('tb-bg-color')) document.getElementById('tb-bg-color').value = data.tbBgColor;
-            if (data.tbOpacity !== undefined && document.getElementById('tb-opacity')) document.getElementById('tb-opacity').value = data.tbOpacity;
-            if (data.tbBorderW !== undefined && document.getElementById('tb-border-w')) document.getElementById('tb-border-w').value = data.tbBorderW;
-            if (data.tbBorderC && document.getElementById('tb-border-c')) document.getElementById('tb-border-c').value = data.tbBorderC;
-            if (data.tbBorderR !== undefined && document.getElementById('tb-border-r')) document.getElementById('tb-border-r').value = data.tbBorderR;
-            if (typeof applyTopBarSettings === 'function') applyTopBarSettings();
-
-            if (data.navBgColor && document.getElementById('nav-bg-color')) document.getElementById('nav-bg-color').value = data.navBgColor;
-            if (data.navTextColor && document.getElementById('nav-text-color')) document.getElementById('nav-text-color').value = data.navTextColor;
-            if (data.navFont && document.getElementById('nav-font')) document.getElementById('nav-font').value = data.navFont;
-            if (data.navFontSize !== undefined && document.getElementById('nav-font-size')) document.getElementById('nav-font-size').value = data.navFontSize;
-            if (data.navGap !== undefined && document.getElementById('nav-gap')) document.getElementById('nav-gap').value = data.navGap;
-            if (data.headerPaddingV !== undefined && document.getElementById('header-padding-v')) document.getElementById('header-padding-v').value = data.headerPaddingV;
-            if (typeof applyNavSettings === 'function') applyNavSettings();
-
-            const logoTrigger = document.getElementById('logo-trigger');
-            if (data.logoSrc && logoTrigger) {
-                logoTrigger.src = data.logoSrc;
-                logoTrigger.dataset.customLogo = data.logoSrc;
-            }
-            if (data.logoWidth && document.getElementById('logo-width')) document.getElementById('logo-width').value = data.logoWidth;
-            if (data.logoAdjText !== undefined && document.getElementById('logo-adj-text-input')) document.getElementById('logo-adj-text-input').value = data.logoAdjText;
-            if (data.logoAdjFont && document.getElementById('logo-adj-font')) document.getElementById('logo-adj-font').value = data.logoAdjFont;
-            if (data.logoAdjColor && document.getElementById('logo-adj-color')) document.getElementById('logo-adj-color').value = data.logoAdjColor;
-            if (data.logoAdjSpacing !== undefined && document.getElementById('logo-adj-spacing')) document.getElementById('logo-adj-spacing').value = data.logoAdjSpacing;
-            if (data.logoTextFormat) {
-                logoTextFormat = data.logoTextFormat;
-                if (document.getElementById('fmt-logo-b')) document.getElementById('fmt-logo-b').classList.toggle('active', logoTextFormat.bold);
-                if (document.getElementById('fmt-logo-i')) document.getElementById('fmt-logo-i').classList.toggle('active', logoTextFormat.italic);
-                if (document.getElementById('fmt-logo-s')) document.getElementById('fmt-logo-s').classList.toggle('active', logoTextFormat.underline);
-            }
-            if (typeof applyLogoTextSettings === 'function') applyLogoTextSettings();
-
-            if (data.wpNum && document.querySelector('.wp-float')) document.querySelector('.wp-float').href = 'https://wa.me/' + data.wpNum;
-            if (data.headerNavHtml && document.getElementById('main-nav-links')) document.getElementById('main-nav-links').innerHTML = data.headerNavHtml;
-
-            if (data.hero1Title && document.getElementById('text-col1-title')) document.getElementById('text-col1-title').innerText = data.hero1Title;
-            if (data.hero1Sub && document.getElementById('text-col1-sub')) document.getElementById('text-col1-sub').innerText = data.hero1Sub;
-            if (data.hero1Bg && document.getElementById('hero-col-1')) document.getElementById('hero-col-1').style.backgroundImage = data.hero1Bg;
-
-            if (data.hero2Title && document.getElementById('text-col2-title')) document.getElementById('text-col2-title').innerText = data.hero2Title;
-            if (data.hero2Sub && document.getElementById('text-col2-sub')) document.getElementById('text-col2-sub').innerText = data.hero2Sub;
-            if (data.hero2Bg && document.getElementById('hero-col-2')) document.getElementById('hero-col-2').style.backgroundImage = data.hero2Bg;
-
-            if (data.hero3Title && document.getElementById('text-col3-title')) document.getElementById('text-col3-title').innerText = data.hero3Title;
-            if (data.hero3Sub && document.getElementById('text-col3-sub')) document.getElementById('text-col3-sub').innerText = data.hero3Sub;
-            if (data.hero3Bg && document.getElementById('hero-col-3')) document.getElementById('hero-col-3').style.backgroundImage = data.hero3Bg;
-
-            if (data.info1Title && document.getElementById('text-info-title-1')) document.getElementById('text-info-title-1').innerText = data.info1Title;
-            if (data.info1Desc && document.getElementById('text-info-desc-1')) document.getElementById('text-info-desc-1').innerText = data.info1Desc;
-            if (data.info2Title && document.getElementById('text-info-title-2')) document.getElementById('text-info-title-2').innerText = data.info2Title;
-            if (data.info2Desc && document.getElementById('text-info-desc-2')) document.getElementById('text-info-desc-2').innerText = data.info2Desc;
-
-            if (data.newsTitle && document.getElementById('text-news-title')) document.getElementById('text-news-title').innerText = data.newsTitle;
-            if (data.footer1 && document.getElementById('footer-col-1')) document.getElementById('footer-col-1').innerHTML = data.footer1;
-            if (data.footer2 && document.getElementById('footer-col-2')) document.getElementById('footer-col-2').innerHTML = data.footer2;
-            if (data.footer3 && document.getElementById('footer-col-3')) document.getElementById('footer-col-3').innerHTML = data.footer3;
-            if (data.footer4 && document.getElementById('footer-col-4')) document.getElementById('footer-col-4').innerHTML = data.footer4;
-
-            if (data.screenSettings) screenSettings = data.screenSettings;
-            if (data.productsData) productsData = data.productsData;
-            if (data.featuredProducts) featuredProducts = data.featuredProducts;
+            applySavedDataToDOM(JSON.parse(saved));
         } catch (e) {
-            console.error("Error al restaurar datos:", e);
+            console.error("Error al cargar desde localStorage:", e);
+        }
+    }
+
+    // 2. Sincronizar asincrónicamente con Firebase si está configurado
+    if (typeof window.getDoc === 'function' && window.firebaseDocRef) {
+        try {
+            const docSnap = await window.getDoc(window.firebaseDocRef);
+            if (docSnap.exists()) {
+                const cloudData = docSnap.data();
+                applySavedDataToDOM(cloudData);
+                localStorage.setItem('phenom_persistent_data', JSON.stringify(cloudData));
+            }
+        } catch (e) {
+            console.warn("No se pudo conectar a Firebase, usando respaldo local.", e);
         }
     }
 

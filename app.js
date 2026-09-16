@@ -1,36 +1,46 @@
 /* ==========================================================================
-   PHENOM STORE - LÓGICA GENERAL Y NAVEGACIÓN (app.js)
+   PHENOM STORE - LÓGICA DE APLICACIÓN Y NAVEGACIÓN (app.js)
    ========================================================================== */
 
+// --- UTILIDAD: CONVERTIR HEX A RGBA ---
 function hexToRgba(hex, alpha) {
-    let r = parseInt(hex.slice(1, 3), 16),
-        g = parseInt(hex.slice(3, 5), 16),
-        b = parseInt(hex.slice(5, 7), 16);
+    if (!hex || hex.length < 7) return `rgba(0, 0, 0, ${alpha})`;
+    let r = parseInt(hex.slice(1, 3), 16);
+    let g = parseInt(hex.slice(3, 5), 16);
+    let b = parseInt(hex.slice(5, 7), 16);
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-// --- NAVEGACIÓN ENTRE VISTAS (SPA) ---
+// --- SISTEMA NAVEGACIÓN SPA ---
 function showHomePage() {
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active-view'));
-    document.getElementById('view-home').classList.add('active-view');
+    const homeView = document.getElementById('view-home');
+    if (homeView) homeView.classList.add('active-view');
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
     const navLinks = document.getElementById('main-nav-links');
     if (navLinks) navLinks.classList.remove('mobile-active');
 }
 
 function navigateToCategory(categoryName) {
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active-view'));
-    document.getElementById('view-catalog').classList.add('active-view');
-    
+    const catalogView = document.getElementById('view-catalog');
+    if (catalogView) catalogView.classList.add('active-view');
+
     const bgSelect = document.getElementById('bg-target-screen');
     if (bgSelect && bgSelect.querySelector(`option[value="${categoryName}"]`)) {
         bgSelect.value = categoryName;
     }
-    
+
+    const btnAddProd = document.getElementById('btn-dynamic-add-prod');
+    if (btnAddProd) btnAddProd.innerText = `+ Agregar Producto`;
+
     if (typeof loadScreenBgSettings === 'function') loadScreenBgSettings();
     if (typeof renderCatalogGrid === 'function') renderCatalogGrid(categoryName);
-    
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
     const navLinks = document.getElementById('main-nav-links');
     if (navLinks) navLinks.classList.remove('mobile-active');
 }
@@ -40,7 +50,6 @@ function toggleMobileMenu() {
     if (navLinks) navLinks.classList.toggle('mobile-active');
 }
 
-// --- VINCULAR EVENTOS DEL MENÚ DE NAVEGACIÓN ---
 function bindHeaderNavEvents() {
     const navLinks = document.querySelectorAll('#main-nav-links a');
     navLinks.forEach(a => {
@@ -50,12 +59,18 @@ function bindHeaderNavEvents() {
             navigateToCategory(categoryText);
         };
     });
-    if (typeof syncDropdownWithRealTabs === 'function') {
-        syncDropdownWithRealTabs();
+    if (typeof syncDropdownWithRealTabs === 'function') syncDropdownWithRealTabs();
+}
+
+// --- CARRUSEL HORIZONTAL ---
+function scrollCarousel(dir) {
+    const track = document.getElementById('carousel-track-container');
+    if (track) {
+        track.scrollBy({ left: dir * 300, behavior: 'smooth' });
     }
 }
 
-// --- FILTRAR BÚSQUEDA EN TIEMPO REAL ---
+// --- BÚSQUEDA EN EL CATÁLOGO ---
 function filterCatalogSearch(query) {
     const catalogView = document.getElementById('view-catalog');
     if (catalogView && !catalogView.classList.contains('active-view')) {
@@ -66,81 +81,86 @@ function filterCatalogSearch(query) {
     }
 }
 
-// --- APLICAR ESTILOS DE BARRA SUPERIOR ---
+// --- ESTILIZADO DINÁMICO DESDE PANEL OMEGA ---
 function applyTopBarSettings() {
     const barWrapper = document.getElementById('top-bar-wrapper');
     const textElem = document.getElementById('fub-bar');
-    const inputBar = document.getElementById('edit-fub-bar');
-    if (!barWrapper || !textElem || !inputBar) return;
+    const inputTxt = document.getElementById('edit-fub-bar');
+    const inputBgC = document.getElementById('tb-bg-color');
+    const inputOp = document.getElementById('tb-opacity');
+    const inputBW = document.getElementById('tb-border-w');
+    const inputBC = document.getElementById('tb-border-c');
+    const inputBR = document.getElementById('tb-border-r');
 
-    const txt = inputBar.value;
-    const bgC = document.getElementById('tb-bg-color')?.value || '#000000';
-    const op = document.getElementById('tb-opacity')?.value || '1';
-    const bW = document.getElementById('tb-border-w')?.value || '0';
-    const bC = document.getElementById('tb-border-c')?.value || '#ca8a04';
-    const bR = document.getElementById('tb-border-r')?.value || '0';
+    if (!textElem) return;
 
-    textElem.innerText = txt;
-    barWrapper.style.backgroundColor = hexToRgba(bgC, op);
-    barWrapper.style.borderBottom = `${bW}px solid ${bC}`;
-    barWrapper.style.borderBottomLeftRadius = `${bR}px`;
-    barWrapper.style.borderBottomRightRadius = `${bR}px`;
-    textElem.style.backgroundColor = "transparent";
+    if (inputTxt) textElem.innerText = inputTxt.value;
+    if (barWrapper && inputBgC && inputOp) {
+        barWrapper.style.backgroundColor = hexToRgba(inputBgC.value, inputOp.value);
+    }
+    if (barWrapper && inputBW && inputBC) {
+        barWrapper.style.borderBottom = `${inputBW.value}px solid ${inputBC.value}`;
+    }
+    if (barWrapper && inputBR) {
+        barWrapper.style.borderBottomLeftRadius = `${inputBR.value}px`;
+        barWrapper.style.borderBottomRightRadius = `${inputBR.value}px`;
+    }
 }
 
-// --- APLICAR ESTILOS DE BARRA DE NAVEGACIÓN ---
 function applyNavSettings() {
     const header = document.getElementById('main-header');
     const linksContainer = document.querySelector('.nav-links');
     const links = document.querySelectorAll('#main-nav-links a');
     const icons = document.querySelectorAll('.header-controls .icon');
     const burger = document.querySelector('.hamburger');
-    
-    if (!header || !linksContainer) return;
 
-    const bgC = document.getElementById('nav-bg-color')?.value || '#ffffff';
-    const txC = document.getElementById('nav-text-color')?.value || '#000000';
-    const font = document.getElementById('nav-font')?.value || "'Segoe UI', sans-serif";
-    const fSize = document.getElementById('nav-font-size')?.value || '13';
-    const nGap = document.getElementById('nav-gap')?.value || '25';
-    const hPadV = document.getElementById('header-padding-v')?.value || '15';
+    const inputBgC = document.getElementById('nav-bg-color');
+    const inputTxC = document.getElementById('nav-text-color');
+    const inputFont = document.getElementById('nav-font');
+    const inputFSize = document.getElementById('nav-font-size');
+    const inputGap = document.getElementById('nav-gap');
+    const inputPadV = document.getElementById('header-padding-v');
 
-    header.style.backgroundColor = bgC;
-    header.style.paddingTop = hPadV + 'px';
-    header.style.paddingBottom = hPadV + 'px';
-    linksContainer.style.gap = nGap + 'px';
+    if (header && inputBgC) header.style.backgroundColor = inputBgC.value;
+    if (header && inputPadV) {
+        header.style.paddingTop = inputPadV.value + 'px';
+        header.style.paddingBottom = inputPadV.value + 'px';
+    }
+    if (linksContainer && inputGap) linksContainer.style.gap = inputGap.value + 'px';
 
-    links.forEach(a => {
-        a.style.color = txC;
-        a.style.fontFamily = font;
-        a.style.fontSize = fSize + 'px';
-    });
-    icons.forEach(i => i.style.color = txC);
-    if (burger) burger.style.color = txC;
+    if (inputTxC) {
+        links.forEach(a => {
+            a.style.color = inputTxC.value;
+            if (inputFont) a.style.fontFamily = inputFont.value;
+            if (inputFSize) a.style.fontSize = inputFSize.value + 'px';
+        });
+        icons.forEach(i => i.style.color = inputTxC.value);
+        if (burger) burger.style.color = inputTxC.value;
+    }
 }
 
-// --- APLICAR ESTILOS DE TEXTO ADYACENTE AL LOGO ---
 function applyLogoTextSettings() {
     const logo = document.getElementById('logo-trigger');
     const txtElem = document.getElementById('logo-adj-text-val');
-    if (!logo || !txtElem) return;
+    const inputW = document.getElementById('logo-width');
+    const inputT = document.getElementById('logo-adj-text-input');
+    const inputF = document.getElementById('logo-adj-font');
+    const inputC = document.getElementById('logo-adj-color');
+    const inputS = document.getElementById('logo-adj-spacing');
 
-    const w = document.getElementById('logo-width')?.value || '170';
-    const t = document.getElementById('logo-adj-text-input')?.value || '';
-    const f = document.getElementById('logo-adj-font')?.value || "'Impact', sans-serif";
-    const c = document.getElementById('logo-adj-color')?.value || '#000000';
-    const s = document.getElementById('logo-adj-spacing')?.value || '0';
-
-    logo.style.width = w + 'px';
-    logo.style.height = 'auto';
-    txtElem.innerText = t;
-    txtElem.style.fontFamily = f;
-    txtElem.style.color = c;
-    txtElem.style.letterSpacing = s + 'px';
-    
-    if (typeof logoTextFormat !== 'undefined') {
-        txtElem.style.fontWeight = logoTextFormat.bold ? 'bold' : 'normal';
-        txtElem.style.fontStyle = logoTextFormat.italic ? 'italic' : 'normal';
-        txtElem.style.textDecoration = logoTextFormat.underline ? 'underline' : 'none';
+    if (logo && inputW && inputW.value) {
+        logo.style.width = inputW.value + 'px';
+        logo.style.height = 'auto';
+    }
+    if (txtElem) {
+        if (inputT) txtElem.innerText = inputT.value;
+        if (inputF) txtElem.style.fontFamily = inputF.value;
+        if (inputC) txtElem.style.color = inputC.value;
+        if (inputS) txtElem.style.letterSpacing = inputS.value + 'px';
+        if (typeof logoTextFormat !== 'undefined') {
+            txtElem.style.fontWeight = logoTextFormat.bold ? 'bold' : 'normal';
+            txtElem.style.fontStyle = logoTextFormat.italic ? 'italic' : 'normal';
+            txtElem.style.textDecoration = logoTextFormat.underline ? 'underline' : 'none';
+        }
     }
 }
