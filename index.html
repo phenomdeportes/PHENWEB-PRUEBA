@@ -1,505 +1,720 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phenom | Tienda Oficial</title>
-    <!-- Importación de Fuentes Tipográficas -->
-    <link href="https://fonts.googleapis.com/css2?family=Arial&family=Courier+New&family=Georgia&family=Impact&family=Lucida+Console&family=Palatino&family=Segoe+UI&family=Tahoma&family=Times+New+Roman&family=Verdana&family=Montserrat:wght@400;700;900&family=Oswald:wght@400;700&family=Roboto:wght@400;700;900&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- Hojas de Estilos Separadas -->
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* --- CORRECCIÓN IMAGEN PRODUCTO (SIN BORDES NEGROS) --- */
-        .product-card .card-img-wrapper {
-            background: #f8f9fa; height: 220px; border-radius: 6px;
-            display: flex; justify-content: center; align-items: center;
-            overflow: hidden; margin-bottom: 15px; position: relative;
-            cursor: pointer;
-        }
-        .product-card .card-img-wrapper img, .product-card .card-img-wrapper video {
-            max-width: 90%; max-height: 90%; object-fit: contain; background: transparent; pointer-events: none;
-        }
-        /* Precio en negro y botón sin negrita */
-        .offer-price { color: #000 !important; font-size: 16px; font-weight: 900; }
-        .btn-add-cart {
-            background: #000; color: #fff; text-align: center; padding: 10px;
-            border-radius: 6px; font-size: 12px; font-weight: 400 !important; text-transform: uppercase; border: none;
-            cursor: pointer; width: 100%; margin-bottom: 8px;
-        }
-        .btn-add-cart:hover { background: #222; }
-    </style>
-    <!-- SDK de Firebase -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-      import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<html lang="en">
+  <head>
+    <script>document.documentElement.classList.add('js')</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Emporium &mdash; Free Bootstrap 5 E-commerce Template by uiCookies</title>
+    <meta name="description" content="Emporium is a free multi-category e-commerce website template built on Bootstrap 5 — product grid, filtering, slide-in cart, countdown deals, and a full product page. jQuery-free.">
+    <meta name="theme-color" content="#0c6b58">
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyAKkxCG40b98933qH3LVSoLoXnXzX588lE",
-        authDomain: "phenom-store.firebaseapp.com",
-        projectId: "phenom-store",
-        storageBucket: "phenom-store.firebasestorage.app",
-        messagingSenderId: "85501083109",
-        appId: "1:85501083109:web:b600ee8d110eeac6a0830c",
-        measurementId: "G-DXBGJSSVNC"
-      };
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
-      const app = initializeApp(firebaseConfig);
-      window.db = getFirestore(app);
-      window.firebaseDocRef = doc(window.db, "tienda", "configuracion_global");
-      window.setDoc = setDoc;
-      window.getDoc = getDoc;
-    </script>
-</head>
-<body>
+    <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
 
-    <!-- BARRA SUPERIOR -->
-    <div class="top-bar-container" id="top-bar-wrapper">
-        <div class="top-bar" id="fub-bar">¡BIENVENIDOS A LA TIENDA OFICIAL DE PHENOM!</div>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Announcement bar -->
+    <div class="announce" role="region" aria-label="Store announcements">
+      <div class="container announce__inner">
+        <p class="announce__msg"><span aria-hidden="true">✦</span> Free shipping on orders over <strong>$49</strong> — Summer Sale ends soon</p>
+        <div class="announce__links">
+          <a href="#">Track order</a>
+          <a href="#">Help</a>
+          <span class="announce__cc" aria-label="Currency">USD $</span>
+        </div>
+      </div>
     </div>
 
-    <!-- HEADER / MENÚ DE NAVEGACIÓN -->
-    <header class="header" id="main-header">
-        <div class="logo-container">
-            <img src="logo.png" alt="Logo Phenom" id="logo-trigger">
-            <span id="logo-adj-text-val"></span>
-        </div>
+    <!-- Header / Navbar -->
+    <header class="site-header" id="site-header">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg emp-nav" aria-label="Main navigation">
+          <a class="navbar-brand emp-brand" href="index.html" aria-label="Emporium home">
+            <span class="emp-brand__mark" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 8h18l-1.6 9.2a2 2 0 0 1-2 1.6H7.6a2 2 0 0 1-2-1.6L4 8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M9 8V6.5a4 4 0 0 1 8 0V8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="emp-brand__name">Emporium</span>
+          </a>
 
-        <nav class="nav-links" id="main-nav-links">
-            <a>PROTECTORES</a>
-            <a>ACCESORIOS</a>
-            <a>INDUMENTARIA</a>
-            <a>RECUPERACIÓN - FRIO/CALOR</a>
-            <a class="highlight">SALE</a>
+          <!-- Search (desktop) -->
+          <form class="emp-search" role="search" aria-label="Search products">
+            <label for="q" class="visually-hidden">Search products</label>
+            <input id="q" type="search" class="emp-search__input" placeholder="Search for products, brands and more…" autocomplete="off">
+            <button type="submit" class="emp-search__btn" aria-label="Search">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </form>
+
+          <div class="emp-nav__actions">
+            <a href="#" class="emp-iconlink" aria-label="Wishlist">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              <span class="visually-hidden">Wishlist</span>
+            </a>
+            <a href="#" class="emp-iconlink" aria-label="Account">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.3 3.1-5.5 7-5.5s7 2.2 7 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <span class="visually-hidden">Account</span>
+            </a>
+            <button type="button" class="emp-cartpill" data-cart-open aria-label="Open cart">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16l-1.4 8.1a2 2 0 0 1-2 1.7H7.4a2 2 0 0 1-2-1.7L4 6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.4" fill="currentColor"/><circle cx="17" cy="20" r="1.4" fill="currentColor"/></svg>
+              <span class="emp-cartpill__label">Cart</span>
+              <span class="emp-cartpill__count" data-cart-count>0</span>
+            </button>
+            <button class="emp-burger" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu" data-menu-toggle>
+              <span></span><span></span><span></span>
+            </button>
+          </div>
         </nav>
+      </div>
 
-        <div class="header-controls">
-            <input type="text" class="search-box" placeholder="Buscar..." oninput="filterCatalogSearch(this.value)">
-            <span class="icon" title="Mi Cuenta">👤</span>
-            <span class="icon" title="Favoritos">♡</span>
-            
-            <div class="cart-icon-wrapper" onclick="toggleCartDrawer(true)" title="Ver Carrito de Compras">
-                <span class="icon">🛒</span>
-                <span id="cart-badge-count" class="cart-badge" style="display:none;">0</span>
-            </div>
-
-            <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
+      <!-- Categories row (desktop) -->
+      <div class="emp-catbar">
+        <div class="container">
+          <ul class="emp-catbar__list" aria-label="Shop categories">
+            <li><a href="#categories" class="is-current"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> All Categories</a></li>
+            <li><a href="#products" data-filter-link="electronics">Electronics</a></li>
+            <li><a href="#products" data-filter-link="home">Home &amp; Living</a></li>
+            <li><a href="#products" data-filter-link="fashion">Fashion</a></li>
+            <li><a href="#products" data-filter-link="sports">Sports</a></li>
+            <li><a href="#products" data-filter-link="beauty">Beauty</a></li>
+            <li><a href="#deals" class="emp-catbar__deal">Deals</a></li>
+          </ul>
         </div>
+      </div>
     </header>
 
-    <!-- ==================== VISTA 1: INICIO (HOME) ==================== -->
-    <div id="view-home" class="page-view active-view">
-        <section class="hero-grid">
-            <div class="hero-col" id="hero-col-1" style="background-color: #111;">
-                <button class="edit-hero-btn" onclick="openHeroModal(1)">✎</button>
-                <div class="hero-content">
-                    <h1 class="hero-title" id="text-col1-title">PHENOM ELITE</h1>
-                    <h2 class="hero-subtitle" id="text-col1-sub">MÁXIMA PROTECCIÓN</h2>
-                    <a onclick="navigateToCategory('PROTECTORES')" class="btn-comprar">COMPRAR AHORA →</a>
-                </div>
-            </div>
-            <div class="hero-col" id="hero-col-2" style="background-color: #111;">
-                <button class="edit-hero-btn" onclick="openHeroModal(2)">✎</button>
-                <div class="hero-content">
-                    <h1 class="hero-title" id="text-col2-title">THE ORIGINAL</h1>
-                    <h2 class="hero-subtitle" id="text-col2-sub"></h2>
-                    <a onclick="navigateToCategory('Todos')" class="btn-comprar" style="display:none;">COMPRAR AHORA →</a>
-                </div>
-            </div>
-            <div class="hero-col" id="hero-col-3" style="background-color: #111;">
-                <button class="edit-hero-btn" onclick="openHeroModal(3)">✎</button>
-                <div class="hero-content">
-                    <h1 class="hero-title" id="text-col3-title">SPARRING PRO</h1>
-                    <h2 class="hero-subtitle" id="text-col3-sub">ONZAS PRECISAS</h2>
-                    <a onclick="navigateToCategory('PROTECTORES')" class="btn-comprar" style="display:none;">COMPRAR AHORA →</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- CARRUSEL DESTACADOS -->
-        <section class="carousel-section">
-            <div class="carousel-header">
-                <div class="carousel-actions">
-                    <a onclick="navigateToCategory('Todos')" class="view-all">VER TODO</a>
-                    <button class="arrow-btn" onclick="scrollCarousel(-1)">❮</button>
-                    <button class="arrow-btn" onclick="scrollCarousel(1)">❯</button>
-                </div>
-            </div>
-            <div class="carousel-track" id="carousel-track-container"></div>
-        </section>
-
-        <!-- SECCIÓN INFO INSTITUCIONAL -->
-        <section class="info-section">
-            <div class="info-column" id="info-col-1">
-                <button class="edit-info-btn" onclick="openInfoModal(1)">✎</button>
-                <h2 id="text-info-title-1">HISTORIA, COMBATE Y EQUIPAMIENTO PHENOM</h2>
-                <p id="text-info-desc-1">El deporte nos mantiene alerta. Nos une y nos forja. A través del boxeo y los deportes de combate podemos cambiar vidas, inspirándote a subir al ring y superar tu mejor marca personal. Ofrecemos artículos deportivos con las últimas tecnologías para absorber el impacto y mejorar tu rendimiento en cada round.</p>
-            </div>
-            <div class="info-column" id="info-col-2">
-                <button class="edit-info-btn" onclick="openInfoModal(2)">✎</button>
-                <h2 id="text-info-title-2">TU TIENDA DE DEPORTES DE COMBATE PARA CUALQUIER DESAFÍO</h2>
-                <p id="text-info-desc-2">Phenom diseña equipamiento para atletas de todo tipo. Creadores que disfrutan desafiar las convenciones y romper las normas del combate. Confeccionamos los guantes y protectores que visten a los campeones en preparación para su próxima pelea.</p>
-            </div>
-        </section>
+    <!-- Mobile menu -->
+    <div class="emp-mobile" id="mobileMenu" hidden>
+      <form class="emp-search emp-search--mobile" role="search" aria-label="Search products">
+        <label for="qm" class="visually-hidden">Search products</label>
+        <input id="qm" type="search" class="emp-search__input" placeholder="Search products…" autocomplete="off">
+        <button type="submit" class="emp-search__btn" aria-label="Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </form>
+      <nav aria-label="Mobile categories">
+        <ul class="emp-mobile__list">
+          <li><a href="#categories">All Categories</a></li>
+          <li><a href="#products" data-filter-link="electronics">Electronics</a></li>
+          <li><a href="#products" data-filter-link="home">Home &amp; Living</a></li>
+          <li><a href="#products" data-filter-link="fashion">Fashion</a></li>
+          <li><a href="#products" data-filter-link="sports">Sports</a></li>
+          <li><a href="#products" data-filter-link="beauty">Beauty</a></li>
+          <li><a href="#deals">Deals</a></li>
+        </ul>
+      </nav>
+      <div class="emp-mobile__foot">
+        <a href="#" class="btn-line">My account</a>
+        <a href="#" class="btn-line">Wishlist</a>
+      </div>
     </div>
 
-    <!-- ==================== VISTA 2: CATÁLOGO DE PRODUCTOS ==================== -->
-    <div id="view-catalog" class="page-view">
-        <div class="catalog-container" id="catalog-main-bg">
-            <div class="catalog-header">
-                <div>
-                    <h1 class="catalog-title" id="catalog-category-title">EQUIPAMIENTO DE PROTECCIÓN</h1>
-                    <div class="catalog-subtitle" id="catalog-category-subtitle">Guantes, cabezales y tibiales de alto rendimiento</div>
-                </div>
-                <button class="btn-add-product-top" id="btn-dynamic-add-prod" onclick="openCreateProductModal()">+ Agregar Producto</button>
+    <main id="main">
+
+      <!-- Hero -->
+      <section class="hero" aria-label="Featured promotion">
+        <div class="container">
+          <div class="hero__grid">
+            <div class="hero__main">
+              <p class="hero__eyebrow reveal">Summer Sale · Up to 40% off</p>
+              <h1 class="hero__title reveal">Everything for the season, <em>in one cart.</em></h1>
+              <p class="hero__lead reveal">Electronics, home essentials, sports gear and more — thousands of products at prices worth switching for. New markdowns added every week.</p>
+              <div class="hero__cta reveal">
+                <a href="#products" class="btn-emp btn-emp--primary">Shop the sale</a>
+                <a href="#categories" class="btn-emp btn-emp--ghost">Browse categories</a>
+              </div>
+              <ul class="hero__meta reveal">
+                <li><strong>2M+</strong> happy customers</li>
+                <li><strong>4.8/5</strong> average rating</li>
+                <li><strong>30-day</strong> free returns</li>
+              </ul>
             </div>
-            <div class="catalog-grid" id="catalog-grid-container"></div>
-        </div>
-    </div>
+            <div class="hero__media">
+              <img src="img/hero-product.jpg" width="640" height="720" alt="A curated flat-lay of headphones, a smart watch, sneakers and home goods on a bright surface" fetchpriority="high" class="hero__img">
+              <div class="hero__badge" aria-hidden="true">
+                <span class="hero__badge-off">-40%</span>
+                <span class="hero__badge-txt">Season<br>Deals</span>
+              </div>
+            </div>
+          </div>
 
-    <!-- BARRA NEWSLETTER -->
-    <section class="newsletter-bar">
-        <button class="edit-news-btn" onclick="openNewsModal()">✎</button>
-        <h2 id="text-news-title">SUSCRÍBETE AL NEWSLETTER</h2>
-        <button class="btn-register" id="text-news-btn" onclick="openNewsletterForm()">REGÍSTRATE GRATIS →</button>
-    </section>
+          <!-- Secondary promo cards -->
+          <div class="hero__promos">
+            <a href="#products" class="promo promo--a reveal" data-filter-link="electronics">
+              <img src="img/promo-electronics.jpg" width="360" height="220" loading="lazy" alt="Wireless earbuds and a smart speaker on a teal backdrop">
+              <div class="promo__body">
+                <span class="promo__kicker">New tech in</span>
+                <span class="promo__title">Electronics from $19</span>
+                <span class="promo__link">Shop now →</span>
+              </div>
+            </a>
+            <a href="#products" class="promo promo--b reveal" data-filter-link="home">
+              <img src="img/promo-home.jpg" width="360" height="220" loading="lazy" alt="A styled shelf with a ceramic lamp, mugs and folded linens">
+              <div class="promo__body">
+                <span class="promo__kicker">Refresh your space</span>
+                <span class="promo__title">Home &amp; Living up to 30% off</span>
+                <span class="promo__link">Shop now →</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
 
-    <!-- FOOTER PRINCIPAL -->
-    <footer class="footer">
-        <div class="footer-col" id="footer-col-1">
-            <button class="edit-footer-btn" onclick="openFooterModal(1)">✎</button>
-            <h3>PRODUCTOS</h3>
-            <a onclick="navigateToCategory('PROTECTORES')">Guantes de Boxeo</a>
-            <a onclick="navigateToCategory('PROTECTORES')">Tibiales y Cabezales</a>
-            <a onclick="navigateToCategory('ACCESORIOS')">Vendas y Bucales</a>
-            <a onclick="navigateToCategory('RECUPERACIÓN - FRIO/CALOR')">Tinas de Recuperación</a>
+      <!-- Shop by category -->
+      <section class="section" id="categories" aria-labelledby="cat-h">
+        <div class="container">
+          <div class="section__head">
+            <div>
+              <p class="eyebrow">Browse the store</p>
+              <h2 class="section__title" id="cat-h">Shop by category</h2>
+            </div>
+            <a href="#products" class="section__link">View all products →</a>
+          </div>
+          <div class="cats">
+            <a href="#products" class="cat reveal" data-filter-link="electronics">
+              <span class="cat__img"><img src="img/cat-electronics.jpg" width="200" height="200" loading="lazy" alt="Over-ear headphones"></span>
+              <span class="cat__name">Electronics</span>
+              <span class="cat__count">320+ items</span>
+            </a>
+            <a href="#products" class="cat reveal" data-filter-link="home">
+              <span class="cat__img"><img src="img/cat-home.jpg" width="200" height="200" loading="lazy" alt="A ceramic table lamp"></span>
+              <span class="cat__name">Home &amp; Living</span>
+              <span class="cat__count">540+ items</span>
+            </a>
+            <a href="#products" class="cat reveal" data-filter-link="fashion">
+              <span class="cat__img"><img src="img/cat-fashion.jpg" width="200" height="200" loading="lazy" alt="A folded leather wallet"></span>
+              <span class="cat__name">Fashion</span>
+              <span class="cat__count">780+ items</span>
+            </a>
+            <a href="#products" class="cat reveal" data-filter-link="sports">
+              <span class="cat__img"><img src="img/cat-sports.jpg" width="200" height="200" loading="lazy" alt="A pair of running shoes"></span>
+              <span class="cat__name">Sports</span>
+              <span class="cat__count">410+ items</span>
+            </a>
+            <a href="#products" class="cat reveal" data-filter-link="beauty">
+              <span class="cat__img"><img src="img/cat-beauty.jpg" width="200" height="200" loading="lazy" alt="A glass serum dropper bottle"></span>
+              <span class="cat__name">Beauty</span>
+              <span class="cat__count">260+ items</span>
+            </a>
+            <a href="#deals" class="cat cat--deal reveal">
+              <span class="cat__img"><img src="img/cat-deals.jpg" width="200" height="200" loading="lazy" alt="A gift box with a sale tag"></span>
+              <span class="cat__name">Deals</span>
+              <span class="cat__count">Save up to 40%</span>
+            </a>
+          </div>
         </div>
-        <div class="footer-col" id="footer-col-2">
-            <button class="edit-footer-btn" onclick="openFooterModal(2)">✎</button>
-            <h3>DEPORTES</h3>
-            <a onclick="navigateToCategory('Boxeo')">Boxeo</a>
-            <a onclick="navigateToCategory('Kickboxing')">Kickboxing</a>
-            <a onclick="navigateToCategory('Muay Thai')">Muay Thai</a>
-            <a onclick="navigateToCategory('Fitness')">Fitness</a>
+      </section>
+
+      <!-- Deal of the day -->
+      <section class="section deal" id="deals" aria-labelledby="deal-h">
+        <div class="container">
+          <div class="deal__card reveal">
+            <div class="deal__media">
+              <img src="img/deal-earbuds.jpg" width="520" height="440" loading="lazy" alt="Orbit Pro wireless earbuds with charging case">
+              <span class="deal__flag">Deal of the day</span>
+            </div>
+            <div class="deal__body">
+              <p class="eyebrow eyebrow--light">Today only · while stocks last</p>
+              <h2 class="deal__title" id="deal-h">Orbit Pro Wireless Earbuds</h2>
+              <div class="deal__rating" aria-label="Rated 4.9 out of 5">
+                <span class="stars" style="--rate:98%" aria-hidden="true"></span>
+                <span class="deal__reviews">4.9 (2,140 reviews)</span>
+              </div>
+              <p class="deal__desc">Active noise cancelling, 36-hour battery with the case, and a secure sport fit. Our lowest price of the season — only for the next few hours.</p>
+              <div class="deal__price">
+                <span class="price-now">$59.00</span>
+                <span class="price-was">$99.00</span>
+                <span class="price-save">Save 40%</span>
+              </div>
+              <div class="deal__count" role="timer" aria-live="off" aria-label="Time remaining on this deal">
+                <div class="cd" data-countdown>
+                  <span class="cd__unit"><b data-cd="hours">00</b><small>Hrs</small></span>
+                  <span class="cd__sep">:</span>
+                  <span class="cd__unit"><b data-cd="minutes">00</b><small>Min</small></span>
+                  <span class="cd__sep">:</span>
+                  <span class="cd__unit"><b data-cd="seconds">00</b><small>Sec</small></span>
+                </div>
+              </div>
+              <div class="deal__stock">
+                <div class="deal__stockbar"><span style="width:38%"></span></div>
+                <p><strong>76 sold</strong> · only 24 left in stock</p>
+              </div>
+              <button class="btn-emp btn-emp--primary btn-emp--lg" type="button"
+                data-add-to-cart
+                data-id="orbit-pro"
+                data-name="Orbit Pro Wireless Earbuds"
+                data-price="59.00"
+                data-img="img/deal-earbuds.jpg">Add to cart · $59.00</button>
+            </div>
+          </div>
         </div>
-        <div class="footer-col" id="footer-col-3">
-            <button class="edit-footer-btn" onclick="openFooterModal(3)">✎</button>
-            <h3>ASISTENCIA</h3>
-            <a href="#">Contacto</a>
-            <a href="#">Preguntas Frecuentes</a>
-            <a href="#">Cambios y Devoluciones</a>
+      </section>
+
+      <!-- Featured products -->
+      <section class="section" id="products" aria-labelledby="prod-h">
+        <div class="container">
+          <div class="section__head">
+            <div>
+              <p class="eyebrow">Handpicked this week</p>
+              <h2 class="section__title" id="prod-h">Featured products</h2>
+            </div>
+          </div>
+
+          <div class="filters" role="tablist" aria-label="Filter products by category">
+            <button class="filter is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+            <button class="filter" data-filter="electronics" role="tab" aria-selected="false">Electronics</button>
+            <button class="filter" data-filter="home" role="tab" aria-selected="false">Home &amp; Living</button>
+            <button class="filter" data-filter="fashion" role="tab" aria-selected="false">Fashion</button>
+            <button class="filter" data-filter="sports" role="tab" aria-selected="false">Sports</button>
+            <button class="filter" data-filter="beauty" role="tab" aria-selected="false">Beauty</button>
+          </div>
+
+          <div class="pgrid" data-products>
+
+            <!-- 1 -->
+            <article class="pcard reveal" data-category="electronics">
+              <div class="pcard__media">
+                <span class="badge-emp badge-emp--sale">Sale</span>
+                <button class="pcard__wish" type="button" aria-label="Add Aurora Wireless Headphones to wishlist" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="product.html" class="pcard__imglink"><img src="img/product-headphones.jpg" width="300" height="300" loading="lazy" alt="Aurora over-ear wireless headphones in charcoal"></a>
+                <button class="pcard__quick" type="button"
+                  data-add-to-cart data-id="aurora-hp" data-name="Aurora Wireless Headphones" data-price="129.00" data-img="img/product-headphones.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Electronics</span>
+                <h3 class="pcard__title"><a href="product.html">Aurora Wireless Headphones</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:96%" aria-hidden="true"></span><span class="pcard__rnum">4.8</span></div>
+                <div class="pcard__price"><span class="price-now">$129.00</span><span class="price-was">$179.00</span></div>
+              </div>
+            </article>
+
+            <!-- 2 -->
+            <article class="pcard reveal" data-category="electronics">
+              <div class="pcard__media">
+                <span class="badge-emp badge-emp--best">Bestseller</span>
+                <button class="pcard__wish" type="button" aria-label="Add PulseFit Smart Watch to wishlist" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="product.html" class="pcard__imglink"><img src="img/product-watch.jpg" width="300" height="300" loading="lazy" alt="PulseFit fitness smart watch with a black band"></a>
+                <button class="pcard__quick" type="button"
+                  data-add-to-cart data-id="pulsefit" data-name="PulseFit Smart Watch" data-price="89.00" data-img="img/product-watch.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Electronics</span>
+                <h3 class="pcard__title"><a href="product.html">PulseFit Smart Watch</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:92%" aria-hidden="true"></span><span class="pcard__rnum">4.6</span></div>
+                <div class="pcard__price"><span class="price-now">$89.00</span><span class="price-was">$119.00</span></div>
+              </div>
+            </article>
+
+            <!-- 3 -->
+            <article class="pcard reveal" data-category="home">
+              <div class="pcard__media">
+                <button class="pcard__wish" type="button" aria-label="Add NordHome Ceramic Mug Set to wishlist" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="product.html" class="pcard__imglink"><img src="img/product-mugs.jpg" width="300" height="300" loading="lazy" alt="A set of four stoneware ceramic mugs in earth tones"></a>
+                <button class="pcard__quick" type="button"
+                  data-add-to-cart data-id="nordhome-mugs" data-name="NordHome Ceramic Mug Set" data-price="34.00" data-img="img/product-mugs.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Home &amp; Living</span>
+                <h3 class="pcard__title"><a href="product.html">NordHome Ceramic Mug Set</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:94%" aria-hidden="true"></span><span class="pcard__rnum">4.7</span></div>
+                <div class="pcard__price"><span class="price-now">$34.00</span></div>
+              </div>
+            </article>
+
+            <!-- 4 -->
+            <article class="pcard reveal" data-category="electronics">
+              <div class="pcard__media">
+                <span class="badge-emp badge-emp--sale">Sale</span>
+                <button class="pcard__wish" type="button" aria-label="Add Atlas 4K Action Camera to wishlist" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="product.html" class="pcard__imglink"><img src="img/product-camera.jpg" width="300" height="300" loading="lazy" alt="Atlas compact 4K action camera in a rugged housing"></a>
+                <button class="pcard__quick" type="button"
+                  data-add-to-cart data-id="atlas-cam" data-name="Atlas 4K Action Camera" data-price="199.00" data-img="img/product-camera.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Electronics</span>
+                <h3 class="pcard__title"><a href="product.html">Atlas 4K Action Camera</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:90%" aria-hidden="true"></span><span class="pcard__rnum">4.5</span></div>
+                <div class="pcard__price"><span class="price-now">$199.00</span><span class="price-was">$249.00</span></div>
+              </div>
+            </article>
+
+            <!-- 5 -->
+            <article class="pcard reveal" data-category="sports">
+              <div class="pcard__media">
+                <span class="badge-emp badge-emp--sale">Sale</span>
+                <button class="pcard__wish" type="button" aria-label="Add Cloudstep Running Shoes to wishlist" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="product.html" class="pcard__imglink"><img src="img/product-shoes.jpg" width="300" height="300" loading="lazy" alt="Cloudstep lightweight running shoes in mint and white"></a>
+                <button class="pcard__quick" type="button"
+                  data-add-to-cart data-id="cloudstep" data-name="Cloudstep Running Shoes" data-price="74.00" data-img="img/product-shoes.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Sports</span>
+                <h3 class="pcard__title"><a href="product.html">Cloudstep Running Shoes</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:88%" aria-hidden="true"></span><span class="pcard__rnum">4.4</span></div>
+                <div class="pcard__price"><span class="price-now">$74.00</span><span class="price-was">$95.00</span></div>
+              </div>
+            </article>
+
+            <!-- 6 -->
+            <article class="pcard reveal" data-category="home">
+              <div class="pcard__media">
+                <span class="badge-emp badge-emp--new">New</span>
+                <button class="pcard__wish" type="button" aria-label="Add Lumen Desk Lamp to wishlist" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="product.html" class="pcard__imglink"><img src="img/product-lamp.jpg" width="300" height="300" loading="lazy" alt="Lumen minimalist LED desk lamp in matte sage"></a>
+                <button class="pcard__quick" type="button"
+                  data-add-to-cart data-id="lumen-lamp" data-name="Lumen Desk Lamp" data-price="49.00" data-img="img/product-lamp.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Home &amp; Living</span>
+                <h3 class="pcard__title"><a href="product.html">Lumen Desk Lamp</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:98%" aria-hidden="true"></span><span class="pcard__rnum">4.9</span></div>
+                <div class="pcard__price"><span class="price-now">$49.00</span></div>
+              </div>
+            </article>
+
+            <!-- 7 -->
+            <article class="pcard reveal" data-category="beauty">
+              <div class="pcard__media">
+                <button class="pcard__wish" type="button" aria-label="Add Verde Glow Vitamin C Serum to wishlist" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="product.html" class="pcard__imglink"><img src="img/product-serum.jpg" width="300" height="300" loading="lazy" alt="Verde Glow vitamin C serum in an amber glass dropper bottle"></a>
+                <button class="pcard__quick" type="button"
+                  data-add-to-cart data-id="verde-serum" data-name="Verde Glow Vitamin C Serum" data-price="28.00" data-img="img/product-serum.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Beauty</span>
+                <h3 class="pcard__title"><a href="product.html">Verde Glow Vitamin C Serum</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:92%" aria-hidden="true"></span><span class="pcard__rnum">4.6</span></div>
+                <div class="pcard__price"><span class="price-now">$28.00</span></div>
+              </div>
+            </article>
+
+            <!-- 8 -->
+            <article class="pcard reveal" data-category="sports">
+              <div class="pcard__media">
+                <span class="badge-emp badge-emp--deal">Deal</span>
+                <button class="pcard__wish" type="button" aria-label="Add TrailPro Yoga Mat to wishlist" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="product.html" class="pcard__imglink"><img src="img/product-yogamat.jpg" width="300" height="300" loading="lazy" alt="TrailPro rolled yoga mat in deep teal with a carry strap"></a>
+                <button class="pcard__quick" type="button"
+                  data-add-to-cart data-id="trailpro-mat" data-name="TrailPro Yoga Mat" data-price="39.00" data-img="img/product-yogamat.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Sports</span>
+                <h3 class="pcard__title"><a href="product.html">TrailPro Yoga Mat</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:94%" aria-hidden="true"></span><span class="pcard__rnum">4.7</span></div>
+                <div class="pcard__price"><span class="price-now">$39.00</span><span class="price-was">$52.00</span></div>
+              </div>
+            </article>
+
+            <!-- 9 -->
+            <article class="pcard reveal" data-category="fashion">
+              <div class="pcard__media">
+                <button class="pcard__wish" type="button" aria-label="Add Meridian Leather Wallet to wishlist" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="product.html" class="pcard__imglink"><img src="img/product-wallet.jpg" width="300" height="300" loading="lazy" alt="Meridian slim bifold leather wallet in tan"></a>
+                <button class="pcard__quick" type="button"
+                  data-add-to-cart data-id="meridian-wallet" data-name="Meridian Leather Wallet" data-price="45.00" data-img="img/product-wallet.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Fashion</span>
+                <h3 class="pcard__title"><a href="product.html">Meridian Leather Wallet</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:90%" aria-hidden="true"></span><span class="pcard__rnum">4.5</span></div>
+                <div class="pcard__price"><span class="price-now">$45.00</span></div>
+              </div>
+            </article>
+
+            <!-- 10 -->
+            <article class="pcard reveal" data-category="home">
+              <div class="pcard__media">
+                <span class="badge-emp badge-emp--best">Bestseller</span>
+                <button class="pcard__wish" type="button" aria-label="Add AeroBrew Coffee Maker to wishlist" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="product.html" class="pcard__imglink"><img src="img/product-coffee.jpg" width="300" height="300" loading="lazy" alt="AeroBrew drip coffee maker in brushed steel"></a>
+                <button class="pcard__quick" type="button"
+                  data-add-to-cart data-id="aerobrew" data-name="AeroBrew Coffee Maker" data-price="109.00" data-img="img/product-coffee.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Home &amp; Living</span>
+                <h3 class="pcard__title"><a href="product.html">AeroBrew Coffee Maker</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:96%" aria-hidden="true"></span><span class="pcard__rnum">4.8</span></div>
+                <div class="pcard__price"><span class="price-now">$109.00</span><span class="price-was">$139.00</span></div>
+              </div>
+            </article>
+
+          </div>
+          <p class="pgrid__empty" data-empty hidden>No products in this category yet — check back soon.</p>
         </div>
-        <div class="footer-col" id="footer-col-4">
-            <button class="edit-footer-btn" onclick="openFooterModal(4)">✎</button>
-            <h3>INFORMACIÓN</h3>
-            <a href="#">Trabaja con Nosotros</a>
-            <a href="#">Puntos de Retiro</a>
+      </section>
+
+      <!-- Best sellers scroll row -->
+      <section class="section section--tint" aria-labelledby="best-h">
+        <div class="container">
+          <div class="section__head">
+            <div>
+              <p class="eyebrow">Loved by shoppers</p>
+              <h2 class="section__title" id="best-h">This week's best sellers</h2>
+            </div>
+            <div class="scroller__nav" aria-hidden="true">
+              <button class="scroller__btn" type="button" data-scroll="prev" aria-label="Scroll best sellers left">‹</button>
+              <button class="scroller__btn" type="button" data-scroll="next" aria-label="Scroll best sellers right">›</button>
+            </div>
+          </div>
+          <div class="scroller" data-scroller tabindex="0" role="group" aria-label="Best sellers, scrollable">
+            <article class="scard">
+              <a href="product.html" class="scard__img"><img src="img/best-speaker.jpg" width="240" height="240" loading="lazy" alt="Portable Bluetooth speaker in forest green"></a>
+              <div class="scard__body">
+                <h3 class="scard__title"><a href="product.html">Boom Mini Speaker</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:96%" aria-hidden="true"></span><span class="pcard__rnum">4.8</span></div>
+                <span class="price-now">$45.00</span>
+              </div>
+            </article>
+            <article class="scard">
+              <a href="product.html" class="scard__img"><img src="img/best-backpack.jpg" width="240" height="240" loading="lazy" alt="Everyday commuter backpack in slate grey"></a>
+              <div class="scard__body">
+                <h3 class="scard__title"><a href="product.html">Transit Commuter Backpack</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:94%" aria-hidden="true"></span><span class="pcard__rnum">4.7</span></div>
+                <span class="price-now">$68.00</span>
+              </div>
+            </article>
+            <article class="scard">
+              <a href="product.html" class="scard__img"><img src="img/best-bottle.jpg" width="240" height="240" loading="lazy" alt="Insulated stainless steel water bottle"></a>
+              <div class="scard__body">
+                <h3 class="scard__title"><a href="product.html">Hydra Insulated Bottle</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:92%" aria-hidden="true"></span><span class="pcard__rnum">4.6</span></div>
+                <span class="price-now">$24.00</span>
+              </div>
+            </article>
+            <article class="scard">
+              <a href="product.html" class="scard__img"><img src="img/best-keyboard.jpg" width="240" height="240" loading="lazy" alt="Compact mechanical keyboard in white and grey"></a>
+              <div class="scard__body">
+                <h3 class="scard__title"><a href="product.html">Clack Mechanical Keyboard</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:98%" aria-hidden="true"></span><span class="pcard__rnum">4.9</span></div>
+                <span class="price-now">$79.00</span>
+              </div>
+            </article>
+            <article class="scard">
+              <a href="product.html" class="scard__img"><img src="img/best-planter.jpg" width="240" height="240" loading="lazy" alt="Ceramic planter with a small potted plant"></a>
+              <div class="scard__body">
+                <h3 class="scard__title"><a href="product.html">Terra Ceramic Planter</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:90%" aria-hidden="true"></span><span class="pcard__rnum">4.5</span></div>
+                <span class="price-now">$32.00</span>
+              </div>
+            </article>
+            <article class="scard">
+              <a href="product.html" class="scard__img"><img src="img/best-sunglasses.jpg" width="240" height="240" loading="lazy" alt="Classic tortoiseshell sunglasses"></a>
+              <div class="scard__body">
+                <h3 class="scard__title"><a href="product.html">Cove Polarized Sunglasses</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:94%" aria-hidden="true"></span><span class="pcard__rnum">4.7</span></div>
+                <span class="price-now">$52.00</span>
+              </div>
+            </article>
+          </div>
         </div>
-        <div class="footer-col">
-            <span class="ssl-badge" style="font-size:11px; font-weight:bold; color:#16a34a; border:1px solid #16a34a; padding:4px 8px; border-radius:4px; display:inline-flex; align-items:center; gap:4px;">🔒 SITIO SEGURO</span>
+      </section>
+
+      <!-- Brand trust bar -->
+      <section class="trust" aria-label="Why shop with Emporium">
+        <div class="container">
+          <ul class="trust__list">
+            <li class="trust__item reveal">
+              <span class="trust__icon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M2 7h11v9H2zM13 10h5l3 3v3h-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="6" cy="18" r="1.8" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="18" r="1.8" stroke="currentColor" stroke-width="1.8"/></svg></span>
+              <span class="trust__txt"><strong>Free shipping</strong>On all orders over $49</span>
+            </li>
+            <li class="trust__item reveal">
+              <span class="trust__icon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.4-3 7.8-7 9-4-1.2-7-4.6-7-9V6l7-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="trust__txt"><strong>Secure checkout</strong>256-bit SSL encryption</span>
+            </li>
+            <li class="trust__item reveal">
+              <span class="trust__icon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M20 12a8 8 0 1 1-2.3-5.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M20 4v4h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="trust__txt"><strong>Easy returns</strong>30-day money-back promise</span>
+            </li>
+            <li class="trust__item reveal">
+              <span class="trust__icon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3a7 7 0 0 0-7 7v3a3 3 0 0 0 3 3h1v-6H7v-.5a5 5 0 0 1 10 0V13h-2v6h1a3 3 0 0 0 3-3v-3a7 7 0 0 0-7-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+              <span class="trust__txt"><strong>24/7 support</strong>Real people, any time zone</span>
+            </li>
+          </ul>
         </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section class="section" aria-labelledby="rev-h">
+        <div class="container">
+          <div class="section__head section__head--center">
+            <div>
+              <p class="eyebrow">What customers say</p>
+              <h2 class="section__title" id="rev-h">Over 40,000 five-star reviews</h2>
+            </div>
+          </div>
+          <div class="tgrid">
+            <figure class="tcard reveal">
+              <div class="pcard__rate"><span class="stars" style="--rate:100%" aria-hidden="true"></span></div>
+              <blockquote class="tcard__quote">“Ordered a lamp and a coffee maker on Sunday and both arrived Tuesday. Everything was packed properly and the prices genuinely beat the big marketplaces.”</blockquote>
+              <figcaption class="tcard__who">
+                <img src="img/person-1.jpg" width="52" height="52" loading="lazy" alt="Portrait of Danielle Osei">
+                <span><strong>Danielle Osei</strong>Verified buyer · Home &amp; Living</span>
+              </figcaption>
+            </figure>
+            <figure class="tcard reveal">
+              <div class="pcard__rate"><span class="stars" style="--rate:100%" aria-hidden="true"></span></div>
+              <blockquote class="tcard__quote">“The Orbit earbuds were the deal of the day and I almost missed the countdown. So glad I didn't — the noise cancelling is better than pairs twice the price.”</blockquote>
+              <figcaption class="tcard__who">
+                <img src="img/person-2.jpg" width="52" height="52" loading="lazy" alt="Portrait of Marcus Feld">
+                <span><strong>Marcus Feld</strong>Verified buyer · Electronics</span>
+              </figcaption>
+            </figure>
+            <figure class="tcard reveal">
+              <div class="pcard__rate"><span class="stars" style="--rate:90%" aria-hidden="true"></span></div>
+              <blockquote class="tcard__quote">“Returns were painless. A size didn't fit, I printed the label from my account, and the refund was back on my card within three days. That's why I keep coming back.”</blockquote>
+              <figcaption class="tcard__who">
+                <img src="img/person-3.jpg" width="52" height="52" loading="lazy" alt="Portrait of Priya Raman">
+                <span><strong>Priya Raman</strong>Verified buyer · Fashion</span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- Newsletter -->
+      <section class="news" aria-labelledby="news-h">
+        <div class="container">
+          <div class="news__card reveal">
+            <div class="news__copy">
+              <h2 class="news__title" id="news-h">Get $10 off your first order</h2>
+              <p class="news__lead">Join the list for early access to deals, restock alerts and members-only prices. One email a week, unsubscribe any time.</p>
+            </div>
+            <form class="news__form" novalidate data-newsletter>
+              <div class="news__field">
+                <label for="news-email" class="visually-hidden">Email address</label>
+                <input id="news-email" type="email" name="email" class="news__input" placeholder="you@example.com" required aria-describedby="news-msg">
+                <button type="submit" class="btn-emp btn-emp--primary">Subscribe</button>
+              </div>
+              <p class="news__msg" id="news-msg" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="foot">
+      <div class="container">
+        <div class="foot__top">
+          <div class="foot__brandcol">
+            <a class="emp-brand emp-brand--foot" href="index.html" aria-label="Emporium home">
+              <span class="emp-brand__mark" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 26 26" fill="none"><path d="M4 8h18l-1.6 9.2a2 2 0 0 1-2 1.6H7.6a2 2 0 0 1-2-1.6L4 8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 8V6.5a4 4 0 0 1 8 0V8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </span>
+              <span class="emp-brand__name">Emporium</span>
+            </a>
+            <p class="foot__blurb">The everything store for people who like a good deal — electronics, home, fashion, sports and beauty, shipped fast and fairly priced.</p>
+            <ul class="foot__social" aria-label="Social media">
+              <li><a href="#" aria-label="Emporium on X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.3 8.4L23 22h-6.8l-5.3-6.9L4.8 22H2l7.8-9L1.5 2h6.9l4.8 6.3L18.9 2Zm-2.4 18h1.9L7.6 4H5.6l10.9 16Z"/></svg></a></li>
+              <li><a href="#" aria-label="Emporium on Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></a></li>
+              <li><a href="#" aria-label="Emporium on Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V5.5h-3c-2.2 0-4 1.8-4 4V12H7v3.5h3V22h3.5v-6.5H16l.5-3.5h-3v-1.7c0-.7.5-1.3 1.3-1.3Z"/></svg></a></li>
+              <li><a href="#" aria-label="Emporium on YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M11 9.5v5l4-2.5-4-2.5Z" fill="currentColor"/></svg></a></li>
+            </ul>
+          </div>
+          <div class="foot__links">
+            <div class="foot__col">
+              <h3>Shop</h3>
+              <ul>
+                <li><a href="#products" data-filter-link="electronics">Electronics</a></li>
+                <li><a href="#products" data-filter-link="home">Home &amp; Living</a></li>
+                <li><a href="#products" data-filter-link="fashion">Fashion</a></li>
+                <li><a href="#products" data-filter-link="sports">Sports</a></li>
+                <li><a href="#deals">Today's deals</a></li>
+              </ul>
+            </div>
+            <div class="foot__col">
+              <h3>Help</h3>
+              <ul>
+                <li><a href="#">Track your order</a></li>
+                <li><a href="#">Shipping &amp; delivery</a></li>
+                <li><a href="#">Returns &amp; refunds</a></li>
+                <li><a href="#">Size guides</a></li>
+                <li><a href="#">Contact support</a></li>
+              </ul>
+            </div>
+            <div class="foot__col">
+              <h3>Company</h3>
+              <ul>
+                <li><a href="#">About Emporium</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Sustainability</a></li>
+                <li><a href="#">Affiliates</a></li>
+                <li><a href="#">Press</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="foot__bottom">
+          <p>&copy; 2026 Emporium. All rights reserved. Free <a href="https://uicookies.com/free-html-website-templates/">Bootstrap templates</a> by uiCookies.</p>
+          <ul class="foot__pay" aria-label="Accepted payment methods">
+            <li>Visa</li><li>Mastercard</li><li>Amex</li><li>PayPal</li><li>Apple&nbsp;Pay</li>
+          </ul>
+        </div>
+      </div>
     </footer>
 
-    <!-- BOTÓN FLOTANTE WHATSAPP -->
-    <a href="https://wa.me/59893418239" class="wp-float" target="_blank" title="Contactar por WhatsApp">✆</a>
-
-    <!-- PANEL LATERAL DEL CARRITO -->
-    <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)"></div>
-    <div id="cart-drawer">
-        <div class="cart-header">
-            <div class="cart-header-title"><span>🛒 Tu Carrito</span></div>
-            <button class="cart-close-btn" onclick="toggleCartDrawer(false)" title="Cerrar Carrito">✕</button>
+    <!-- Cart drawer -->
+    <div class="cart-overlay" data-cart-overlay hidden></div>
+    <aside class="cart" id="cartDrawer" aria-label="Shopping cart" aria-modal="true" role="dialog" aria-hidden="true" tabindex="-1">
+      <div class="cart__head">
+        <h2 class="cart__title">Your cart <span data-cart-count-text>(0)</span></h2>
+        <button type="button" class="cart__close" data-cart-close aria-label="Close cart">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="cart__ship" data-ship-wrap>
+        <p class="cart__shipmsg" data-ship-msg>Add <strong>$49.00</strong> more for free shipping</p>
+        <div class="cart__shipbar"><span data-ship-bar style="width:0%"></span></div>
+      </div>
+      <ul class="cart__items" data-cart-items></ul>
+      <div class="cart__empty" data-cart-empty>
+        <p>Your cart is empty.</p>
+        <button type="button" class="btn-emp btn-emp--ghost" data-cart-close>Start shopping</button>
+      </div>
+      <div class="cart__foot" data-cart-foot hidden>
+        <div class="cart__subtotal">
+          <span>Subtotal</span>
+          <strong data-cart-subtotal>$0.00</strong>
         </div>
-        <div class="cart-body" id="cart-drawer-body"></div>
-        <div class="cart-footer" id="cart-drawer-footer"></div>
-    </div>
+        <p class="cart__note">Shipping &amp; taxes calculated at checkout.</p>
+        <button type="button" class="btn-emp btn-emp--primary btn-emp--block">Checkout</button>
+        <button type="button" class="cart__continue" data-cart-close>Continue shopping</button>
+      </div>
+    </aside>
 
-    <!-- MODAL SELECCIONAR VARIANTE -->
-    <div class="simple-modal-overlay" id="variant-modal-overlay">
-        <div class="variant-modal-content">
-            <button class="simple-modal-close" onclick="closeVariantModal()">✕</button>
-            <div class="simple-modal-title">Seleccionar Variante</div>
-            <p id="variant-modal-prod-title" style="font-size:13px; color:#475569; font-weight:700; margin-bottom:10px;"></p>
-            <p style="font-size:12px; color:#64748b;">Elegí el talle o peso en onzas deseado para agregar al carrito:</p>
-            <div class="variant-options-grid" id="variant-modal-options"></div>
-        </div>
-    </div>
+    <!-- Toasts -->
+    <div class="toasts" data-toasts aria-live="polite" aria-atomic="false"></div>
 
-    <!-- ==================== MODAL ZOOM / LIGHTBOX DE IMÁGENES ==================== -->
-    <div class="simple-modal-overlay" id="zoom-lightbox-modal" style="background: rgba(0,0,0,0.9); z-index: 20000;" onclick="closeZoomLightbox()">
-        <div style="position: relative; max-width: 90vw; max-height: 90vh; display: flex; align-items: center; justify-content: center;" onclick="event.stopPropagation()">
-            <button class="simple-modal-close" onclick="closeZoomLightbox()" style="position: absolute; top: -40px; right: 0; color: #fff; font-size: 28px; background: none; border: none; cursor: pointer;">✕</button>
-            <button class="card-arrow card-arrow-left" onclick="changeZoomImage(-1)" style="font-size: 24px; padding: 12px 18px; left: -60px;">❮</button>
-            <img id="zoom-lightbox-img" src="" alt="Zoom Producto" style="max-width: 80vw; max-height: 80vh; object-fit: contain; border-radius: 4px;">
-            <button class="card-arrow card-arrow-right" onclick="changeZoomImage(1)" style="font-size: 24px; padding: 12px 18px; right: -60px;">❯</button>
-        </div>
-    </div>
-
-    <!-- ==================== PANEL CONTROL OMEGA (ADMIN MODO) ==================== -->
-    <div id="admin-panel">
-        <div class="admin-header">
-            <span>Control Omega</span>
-            <button class="btn-close" onclick="toggleAdminMode(false)">X</button>
-        </div>
-
-        <div class="section-box">
-            <div class="section-title">CARRUSEL DESTACADOS (INICIO)</div>
-            <div class="admin-group">
-                <label>Selecciona los productos a mostrar:</label>
-                <div class="checkboxes-box" id="admin-carousel-products" style="max-height: 200px; overflow-y: auto;"></div>
-            </div>
-        </div>
-
-        <div class="section-box">
-            <div class="section-title">BARRA SUPERIOR (HEADER INFO)</div>
-            <div class="admin-group">
-                <label>Texto Informativo</label>
-                <input type="text" id="edit-fub-bar" value="¡BIENVENIDOS A LA TIENDA OFICIAL DE PHENOM!" oninput="applyTopBarSettings()">
-            </div>
-            <div class="two-cols">
-                <div class="simple-group"><label>Color Fondo</label><input type="color" id="tb-bg-color" value="#000000" oninput="applyTopBarSettings()"></div>
-                <div class="simple-group"><label>Opacidad (0-1)</label><input type="number" id="tb-opacity" value="1" min="0" max="1" step="0.1" oninput="applyTopBarSettings()"></div>
-            </div>
-            <div class="two-cols">
-                <div class="simple-group"><label>Borde (px)</label><input type="number" id="tb-border-w" value="0" min="0" oninput="applyTopBarSettings()"></div>
-                <div class="simple-group"><label>Color Borde</label><input type="color" id="tb-border-c" value="#ca8a04" oninput="applyTopBarSettings()"></div>
-            </div>
-            <div class="admin-group">
-                <label>Curvatura Bordes (px)</label>
-                <input type="number" id="tb-border-r" value="0" min="0" oninput="applyTopBarSettings()">
-            </div>
-        </div>
-
-        <div class="section-box">
-            <div class="section-title">BARRA DE NAVEGACIÓN (MENÚ)</div>
-            <div class="two-cols">
-                <div class="simple-group"><label>Fondo Menú</label><input type="color" id="nav-bg-color" value="#ffffff" oninput="applyNavSettings()"></div>
-                <div class="simple-group"><label>Color Texto</label><input type="color" id="nav-text-color" value="#000000" oninput="applyNavSettings()"></div>
-            </div>
-            <div class="admin-group">
-                <label>Fuente Pestañas</label>
-                <select id="nav-font" onchange="applyNavSettings()">
-                    <option value="'Segoe UI', sans-serif">Segoe UI</option>
-                    <option value="'Impact', sans-serif">Impact</option>
-                    <option value="'Arial', sans-serif">Arial</option>
-                    <option value="'Montserrat', sans-serif">Montserrat</option>
-                    <option value="'Oswald', sans-serif">Oswald</option>
-                    <option value="'Roboto', sans-serif">Roboto</option>
-                    <option value="'Poppins', sans-serif">Poppins</option>
-                </select>
-            </div>
-            <div class="two-cols">
-                <div class="simple-group"><label>Tamaño Fuente (px)</label><input type="number" id="nav-font-size" value="13" oninput="applyNavSettings()"></div>
-                <div class="simple-group"><label>Espacio Botones (px)</label><input type="number" id="nav-gap" value="25" oninput="applyNavSettings()"></div>
-            </div>
-            <div class="admin-group">
-                <label>Afinar Barra (Padding vertical px)</label>
-                <input type="number" id="header-padding-v" value="15" oninput="applyNavSettings()">
-            </div>
-        </div>
-
-        <div class="section-box">
-            <div class="section-title">LOGO & TEXTO ADYACENTE</div>
-            <div class="admin-group"><label>Logo de la Marca (Imagen)</label><input type="file" id="edit-logo-file" accept="image/*" class="file-upload-input"></div>
-            <div class="admin-group"><label>Ancho del Logo (px)</label><input type="number" id="logo-width" value="170" min="20" oninput="applyLogoTextSettings()"></div>
-            <div class="admin-group"><label>Texto al Lado del Logo</label><input type="text" id="logo-adj-text-input" placeholder="Ej: URUGUAY" oninput="applyLogoTextSettings()"></div>
-            <div class="admin-group">
-                <label>Fuente del Texto</label>
-                <select id="logo-adj-font" onchange="applyLogoTextSettings()">
-                    <option value="'Impact', sans-serif">Impact</option>
-                    <option value="'Segoe UI', sans-serif">Segoe UI</option>
-                    <option value="'Montserrat', sans-serif">Montserrat</option>
-                    <option value="'Oswald', sans-serif">Oswald</option>
-                    <option value="'Roboto', sans-serif">Roboto</option>
-                </select>
-            </div>
-            <div class="two-cols">
-                <div class="simple-group"><label>Color</label><input type="color" id="logo-adj-color" value="#000000" oninput="applyLogoTextSettings()"></div>
-                <div class="simple-group"><label>Espaciado (px)</label><input type="number" id="logo-adj-spacing" value="0" oninput="applyLogoTextSettings()"></div>
-            </div>
-            <div class="text-format-group">
-                <button type="button" class="btn-fmt" id="fmt-logo-b" onclick="toggleLogoFormat('bold')">B</button>
-                <button type="button" class="btn-fmt" id="fmt-logo-i" onclick="toggleLogoFormat('italic')">I</button>
-                <button type="button" class="btn-fmt" id="fmt-logo-s" onclick="toggleLogoFormat('underline')">S</button>
-            </div>
-        </div>
-
-        <div class="section-box">
-            <div class="section-title">FONDOS DE PANTALLA</div>
-            <div class="admin-group"><label>Pantalla a Editar</label><select id="bg-target-screen" onchange="loadScreenBgSettings()"></select></div>
-            <div class="admin-group"><label>Cargar Imagen de Fondo</label><input type="file" id="bg-file-input" accept="image/*" class="file-upload-input"></div>
-            <div class="admin-group"><label>Ajuste de Fondo</label><select id="bg-fit-mode" onchange="applyBackgroundSettings()"><option value="cover">Pantalla Completa</option><option value="contain">Ajustar al Centro</option><option value="100% 100%">Estirado (100% 100%)</option><option value="repeat">Repetir</option></select></div>
-            <div class="two-cols">
-                <div class="simple-group"><label>Transp. Tarjeta (0-1)</label><input type="number" id="card-transparency" min="0" max="1" step="0.1" value="0" oninput="applyBackgroundSettings()"></div>
-                <div class="simple-group"><label>Oscuridad Fondo (0-1)</label><input type="number" id="bg-overlay-alpha" min="0" max="1" step="0.1" value="0" oninput="applyBackgroundSettings()"></div>
-            </div>
-        </div>
-
-        <div class="section-box">
-            <div class="section-title">TÍTULOS DE PANTALLA</div>
-            <div class="admin-group"><label>Texto del Título</label><input type="text" id="title-text-input" oninput="applyTitleSettings()"></div>
-            <div class="admin-group"><label>Fuente</label><select id="title-font-family" onchange="applyTitleSettings()"><option value="'Segoe UI', sans-serif">Segoe UI</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Oswald', sans-serif">Oswald</option><option value="'Roboto', sans-serif">Roboto</option><option value="'Impact', sans-serif">Impact</option></select></div>
-            <div class="two-cols">
-                <div class="simple-group"><label>Color</label><input type="color" id="title-color-input" value="#000000" oninput="applyTitleSettings()"></div>
-                <div class="simple-group"><label>Espaciado (px)</label><input type="number" id="title-letter-spacing" value="0" oninput="applyTitleSettings()"></div>
-            </div>
-            <div class="text-format-group">
-                <button type="button" class="btn-fmt" id="fmt-b" onclick="toggleFormat('bold')">B</button>
-                <button type="button" class="btn-fmt" id="fmt-i" onclick="toggleFormat('italic')">I</button>
-                <button type="button" class="btn-fmt" id="fmt-s" onclick="toggleFormat('underline')">S</button>
-            </div>
-        </div>
-
-        <div class="section-box">
-            <div class="section-title">PESTAÑAS DE NAVEGACIÓN</div>
-            <div id="header-tabs-list"></div>
-            <button type="button" class="btn-add-tab" onclick="addNewHeaderTab()">+ Agregar Pestaña</button>
-        </div>
-
-        <button class="btn-save" onclick="saveAllSettings()">GUARDAR CAMBIOS</button>
-    </div>
-
-    <!-- MODAL CARGAR NUEVO PRODUCTO -->
-    <div class="dark-modal-overlay" id="dark-product-modal">
-        <div class="dark-modal-content">
-            <button class="simple-modal-close" onclick="closeDarkModal()" style="color:#fff;">✕</button>
-            <div class="dark-modal-title" id="dark-modal-title-text">Cargar Nuevo Producto</div>
-            <input type="hidden" id="dark-prod-id">
-            <label>Título del Producto</label>
-            <input type="text" id="dark-title" placeholder="Ej: Guantes Pro Blanco/Dorado">
-            <label>Talles / Onzas Disponibles</label>
-            <div class="checkboxes-box">
-                <label><input type="checkbox" value="6oz" class="chk-oz"> 6oz</label>
-                <label><input type="checkbox" value="8oz" class="chk-oz"> 8oz</label>
-                <label><input type="checkbox" value="10oz" class="chk-oz"> 10oz</label>
-                <label><input type="checkbox" value="12oz" class="chk-oz"> 12oz</label>
-                <label><input type="checkbox" value="14oz" class="chk-oz"> 14oz</label>
-                <label><input type="checkbox" value="16oz" class="chk-oz"> 16oz</label>
-            </div>
-            <div class="two-cols">
-                <div class="simple-group"><label>Precio Tachado (UYU)</label><input type="text" id="dark-reg-price" placeholder="$2.500"></div>
-                <div class="simple-group"><label>Precio Actual (UYU)</label><input type="text" id="dark-price" placeholder="$2.090"></div>
-            </div>
-            <label>Link Mercado Pago (Opcional)</label>
-            <input type="text" id="dark-mp-link" placeholder="https://mpago.la/tu-link">
-            <label>Cargar Fotos (Desde PC)</label>
-            <input type="file" id="dark-photos-input" class="file-upload-input" accept="image/*" multiple onchange="handleDarkFiles(this, 'photo')">
-            <label>Archivos Cargados:</label>
-            <div class="files-preview-box" id="files-preview-container">Sin archivos</div>
-            <button type="button" class="btn-save-gold" onclick="saveDarkProduct()">Guardar Publicación</button>
-        </div>
-    </div>
-
-    <!-- MODALES VARIOS -->
-    <div class="simple-modal-overlay" id="edit-header-tab-modal">
-        <div class="simple-modal-content">
-            <button class="simple-modal-close" onclick="closeHeaderTabModal()">✕</button>
-            <div class="simple-modal-title">EDITAR PESTAÑA</div>
-            <input type="hidden" id="edit-tab-index">
-            <div class="simple-group"><label>Texto Pestaña</label><input type="text" id="edit-tab-text"></div>
-            <div class="simple-group"><label><input type="checkbox" id="edit-tab-highlight"> Destacar (Red)</label></div>
-            <button class="btn-apply" onclick="applyHeaderTabChanges()">MODIFICAR</button>
-            <button class="btn-apply" style="background:#dc3545;" onclick="deleteHeaderTab()">ELIMINAR</button>
-        </div>
-    </div>
-
-    <div class="simple-modal-overlay" id="edit-hero-modal">
-        <div class="simple-modal-content">
-            <button class="simple-modal-close" onclick="closeHeroModal()">✕</button>
-            <div class="simple-modal-title" id="hero-modal-title">EDITAR COLUMNA HERO</div>
-            <div class="simple-group"><label>Cargar Imagen Local</label><input type="file" id="edit-hero-file" accept="image/*"></div>
-            <div class="simple-group"><label>Título Principal</label><input type="text" id="hero-mod-title"></div>
-            <div class="simple-group"><label>Subtítulo</label><input type="text" id="hero-mod-sub"></div>
-            <button class="btn-apply" onclick="applyHeroChanges()">APLICAR CAMBIOS</button>
-        </div>
-    </div>
-
-    <div class="simple-modal-overlay" id="edit-info-modal">
-        <div class="simple-modal-content">
-            <button class="simple-modal-close" onclick="closeInfoModal()">✕</button>
-            <div class="simple-modal-title" id="info-modal-title">EDITAR INFO</div>
-            <div class="simple-group"><label>Título</label><input type="text" id="info-mod-title"></div>
-            <div class="simple-group"><label>Descripción</label><textarea id="info-mod-desc" rows="6"></textarea></div>
-            <button class="btn-apply" onclick="applyInfoChanges()">APLICAR CAMBIOS</button>
-        </div>
-    </div>
-
-    <div class="simple-modal-overlay" id="edit-news-modal">
-        <div class="simple-modal-content">
-            <button class="simple-modal-close" onclick="closeNewsModal()">✕</button>
-            <div class="simple-modal-title">EDITAR NEWSLETTER</div>
-            <div class="simple-group"><label>Título</label><input type="text" id="news-mod-title"></div>
-            <button class="btn-apply" onclick="applyNewsChanges()">APLICAR CAMBIOS</button>
-        </div>
-    </div>
-
-    <div class="simple-modal-overlay" id="edit-footer-modal">
-        <div class="simple-modal-content">
-            <button class="simple-modal-close" onclick="closeFooterModal()">✕</button>
-            <div class="simple-modal-title" id="footer-modal-title">EDITAR FOOTER</div>
-            <div class="simple-group"><label>Contenido HTML</label><textarea id="footer-mod-html" rows="6"></textarea></div>
-            <button class="btn-apply" onclick="applyFooterChanges()">APLICAR CAMBIOS</button>
-        </div>
-    </div>
-
-    <div class="simple-modal-overlay" id="newsletter-form-modal">
-        <div class="simple-modal-content">
-            <button class="simple-modal-close" onclick="closeNewsletterForm()">✕</button>
-            <div class="simple-modal-title">REGISTRO NEWSLETTER</div>
-            <form onsubmit="submitNewsletter(event)">
-                <div class="simple-group"><label>Nombre</label><input type="text" id="nl-name" required></div>
-                <div class="simple-group"><label>WhatsApp</label><input type="text" id="nl-wp" required></div>
-                <button type="submit" class="btn-apply">REGISTRARME</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- NOTIFICACIÓN TOAST -->
-    <div id="toast-success">¡CAMBIOS GUARDADOS Y PERSISTIDOS! ✓</div>
-
-    <!-- SCRIPT DE CONTROL ZOOM LIGHTBOX -->
-    <script>
-        let currentZoomProductId = null;
-        let currentZoomIndex = 0;
-
-        function openZoomLightbox(productId, event) {
-            if (event) event.stopPropagation();
-            const product = productsData.find(p => p.id === productId);
-            if (!product || !product.media || product.media.length === 0) return;
-
-            currentZoomProductId = productId;
-            currentZoomIndex = window.activeImageIndices && window.activeImageIndices[productId] !== undefined ? window.activeImageIndices[productId] : 0;
-            
-            updateZoomImageSrc();
-            document.getElementById('zoom-lightbox-modal').classList.add('active');
-        }
-
-        function closeZoomLightbox() {
-            document.getElementById('zoom-lightbox-modal').classList.remove('active');
-        }
-
-        function changeZoomImage(direction) {
-            const product = productsData.find(p => p.id === currentZoomProductId);
-            if (!product || !product.media || product.media.length === 0) return;
-
-            currentZoomIndex += direction;
-            if (currentZoomIndex < 0) currentZoomIndex = product.media.length - 1;
-            if (currentZoomIndex >= product.media.length) currentZoomIndex = 0;
-
-            updateZoomImageSrc();
-        }
-
-        function updateZoomImageSrc() {
-            const product = productsData.find(p => p.id === currentZoomProductId);
-            if (product && product.media && product.media[currentZoomIndex]) {
-                document.getElementById('zoom-lightbox-img').src = product.media[currentZoomIndex];
-            }
-        }
-    </script>
-
-    <!-- MÓDULOS JAVASCRIPT -->
-    <script src="db.js"></script>
-    <script src="app.js"></script>
-    <script src="cart.js"></script>
-    <script src="admin.js"></script>
-</body>
+    <script src="js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
 </html>
