@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>document.documentElement.classList.add('js')</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aurora Wireless Headphones &mdash; Emporium</title>
+    <meta name="description" content="Aurora Wireless Headphones — 40-hour battery, adaptive noise cancelling and plush memory-foam cushions. Part of the free Emporium Bootstrap 5 e-commerce template by uiCookies.">
+    <meta name="theme-color" content="#0c6b58">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Announcement bar -->
+    <div class="announce" role="region" aria-label="Store announcements">
+      <div class="container announce__inner">
+        <p class="announce__msg"><span aria-hidden="true">✦</span> Free shipping on orders over <strong>$49</strong> — Summer Sale ends soon</p>
+        <div class="announce__links">
+          <a href="#">Track order</a>
+          <a href="#">Help</a>
+          <span class="announce__cc" aria-label="Currency">USD $</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="site-header" id="site-header">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg emp-nav" aria-label="Main navigation">
+          <a class="navbar-brand emp-brand" href="index.html" aria-label="Emporium home">
+            <span class="emp-brand__mark" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 8h18l-1.6 9.2a2 2 0 0 1-2 1.6H7.6a2 2 0 0 1-2-1.6L4 8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M9 8V6.5a4 4 0 0 1 8 0V8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="emp-brand__name">Emporium</span>
+          </a>
+
+          <form class="emp-search" role="search" aria-label="Search products">
+            <label for="q" class="visually-hidden">Search products</label>
+            <input id="q" type="search" class="emp-search__input" placeholder="Search for products, brands and more…" autocomplete="off">
+            <button type="submit" class="emp-search__btn" aria-label="Search">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </form>
+
+          <div class="emp-nav__actions">
+            <a href="#" class="emp-iconlink" aria-label="Wishlist">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              <span class="visually-hidden">Wishlist</span>
+            </a>
+            <a href="#" class="emp-iconlink" aria-label="Account">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.3 3.1-5.5 7-5.5s7 2.2 7 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <span class="visually-hidden">Account</span>
+            </a>
+            <button type="button" class="emp-cartpill" data-cart-open aria-label="Open cart">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16l-1.4 8.1a2 2 0 0 1-2 1.7H7.4a2 2 0 0 1-2-1.7L4 6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.4" fill="currentColor"/><circle cx="17" cy="20" r="1.4" fill="currentColor"/></svg>
+              <span class="emp-cartpill__label">Cart</span>
+              <span class="emp-cartpill__count" data-cart-count>0</span>
+            </button>
+            <button class="emp-burger" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu" data-menu-toggle>
+              <span></span><span></span><span></span>
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      <div class="emp-catbar">
+        <div class="container">
+          <ul class="emp-catbar__list" aria-label="Shop categories">
+            <li><a href="index.html#categories" class="is-current"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> All Categories</a></li>
+            <li><a href="index.html#products">Electronics</a></li>
+            <li><a href="index.html#products">Home &amp; Living</a></li>
+            <li><a href="index.html#products">Fashion</a></li>
+            <li><a href="index.html#products">Sports</a></li>
+            <li><a href="index.html#products">Beauty</a></li>
+            <li><a href="index.html#deals" class="emp-catbar__deal">Deals</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile menu -->
+    <div class="emp-mobile" id="mobileMenu" hidden>
+      <form class="emp-search emp-search--mobile" role="search" aria-label="Search products">
+        <label for="qm" class="visually-hidden">Search products</label>
+        <input id="qm" type="search" class="emp-search__input" placeholder="Search products…" autocomplete="off">
+        <button type="submit" class="emp-search__btn" aria-label="Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </form>
+      <nav aria-label="Mobile categories">
+        <ul class="emp-mobile__list">
+          <li><a href="index.html#categories">All Categories</a></li>
+          <li><a href="index.html#products">Electronics</a></li>
+          <li><a href="index.html#products">Home &amp; Living</a></li>
+          <li><a href="index.html#products">Fashion</a></li>
+          <li><a href="index.html#products">Sports</a></li>
+          <li><a href="index.html#products">Beauty</a></li>
+          <li><a href="index.html#deals">Deals</a></li>
+        </ul>
+      </nav>
+      <div class="emp-mobile__foot">
+        <a href="#" class="btn-line">My account</a>
+        <a href="#" class="btn-line">Wishlist</a>
+      </div>
+    </div>
+
+    <main id="main">
+      <div class="container">
+
+        <!-- Breadcrumb -->
+        <nav class="crumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#products">Electronics</a></li>
+            <li><a href="index.html#products">Headphones</a></li>
+            <li aria-current="page">Aurora Wireless Headphones</li>
+          </ol>
+        </nav>
+
+        <!-- Product -->
+        <section class="pdp" aria-labelledby="pdp-title">
+
+          <!-- Gallery -->
+          <div class="pdp__gallery">
+            <div class="gallery">
+              <div class="gallery__main">
+                <span class="badge-emp badge-emp--sale">Save 28%</span>
+                <button class="gallery__zoom" type="button" data-lightbox-open aria-label="View larger image">
+                  <img src="img/product-headphones.jpg" width="640" height="640" alt="Aurora over-ear wireless headphones in charcoal, front view" data-main-image fetchpriority="high">
+                </button>
+              </div>
+              <ul class="gallery__thumbs" role="tablist" aria-label="Product images">
+                <li>
+                  <button class="gallery__thumb is-active" type="button" role="tab" aria-selected="true"
+                    data-thumb data-full="img/product-headphones.jpg">
+                    <img src="img/product-headphones.jpg" width="80" height="80" loading="lazy" alt="Front view of the Aurora headphones">
+                  </button>
+                </li>
+                <li>
+                  <button class="gallery__thumb" type="button" role="tab" aria-selected="false"
+                    data-thumb data-full="img/product-headphones-2.jpg">
+                    <img src="img/product-headphones-2.jpg" width="80" height="80" loading="lazy" alt="Side profile of the Aurora headphones">
+                  </button>
+                </li>
+                <li>
+                  <button class="gallery__thumb" type="button" role="tab" aria-selected="false"
+                    data-thumb data-full="img/product-headphones-3.jpg">
+                    <img src="img/product-headphones-3.jpg" width="80" height="80" loading="lazy" alt="Aurora headphones folded flat in the carry case">
+                  </button>
+                </li>
+                <li>
+                  <button class="gallery__thumb" type="button" role="tab" aria-selected="false"
+                    data-thumb data-full="img/product-headphones-4.jpg">
+                    <img src="img/product-headphones-4.jpg" width="80" height="80" loading="lazy" alt="Close-up of the memory-foam ear cushions">
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div class="pdp__info">
+            <p class="pdp__brand">Aurora Audio</p>
+            <h1 class="pdp__title" id="pdp-title">Aurora Wireless Headphones</h1>
+            <div class="pdp__meta">
+              <div class="pcard__rate"><span class="stars" style="--rate:96%" aria-hidden="true"></span><span class="pcard__rnum">4.8</span></div>
+              <a href="#reviews" class="pdp__reviewlink">1,284 reviews</a>
+              <span class="pdp__sku">SKU: AUR-HP-01</span>
+              <span class="pdp__instock">In stock</span>
+            </div>
+
+            <div class="pdp__price">
+              <span class="price-now">$129.00</span>
+              <span class="price-was">$179.00</span>
+              <span class="price-save">Save $50</span>
+            </div>
+
+            <p class="pdp__lead">Adaptive noise cancelling, 40 hours of playback and plush memory-foam cushions that stay comfortable through the longest flights. Bluetooth 5.3 with multipoint pairing so you can jump between laptop and phone without missing a beat.</p>
+
+            <!-- Variants: colour -->
+            <div class="variant" data-variant="colour">
+              <span class="variant__label">Colour: <strong data-variant-value="colour">Charcoal</strong></span>
+              <div class="variant__opts" role="radiogroup" aria-label="Choose a colour">
+                <button type="button" class="swatch is-active" role="radio" aria-checked="true" data-variant-opt="Charcoal" style="--sw:#2f3437" aria-label="Charcoal"></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" data-variant-opt="Sandstone" style="--sw:#d9c7a8" aria-label="Sandstone"></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" data-variant-opt="Forest" style="--sw:#2f5d4c" aria-label="Forest"></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" data-variant-opt="Ivory" style="--sw:#f1ede4" aria-label="Ivory"></button>
+              </div>
+            </div>
+
+            <!-- Variants: storage/pack -->
+            <div class="variant" data-variant="bundle">
+              <span class="variant__label">Bundle: <strong data-variant-value="bundle">Headphones only</strong></span>
+              <div class="variant__opts variant__opts--pills" role="radiogroup" aria-label="Choose a bundle">
+                <button type="button" class="pill is-active" role="radio" aria-checked="true" data-variant-opt="Headphones only">Headphones only</button>
+                <button type="button" class="pill" role="radio" aria-checked="false" data-variant-opt="With travel case">With travel case</button>
+                <button type="button" class="pill" role="radio" aria-checked="false" data-variant-opt="With stand + case">With stand + case</button>
+              </div>
+            </div>
+
+            <!-- Qty + add -->
+            <div class="pdp__buy">
+              <div class="stepper" data-stepper>
+                <button type="button" class="stepper__btn" data-step="-1" aria-label="Decrease quantity">−</button>
+                <input type="text" inputmode="numeric" class="stepper__input" value="1" data-qty aria-label="Quantity">
+                <button type="button" class="stepper__btn" data-step="1" aria-label="Increase quantity">+</button>
+              </div>
+              <button type="button" class="btn-emp btn-emp--primary btn-emp--lg"
+                data-add-to-cart data-id="aurora-hp" data-name="Aurora Wireless Headphones" data-price="129.00" data-img="img/product-headphones.jpg" data-qty-source>
+                Add to cart
+              </button>
+              <button type="button" class="pdp__wish" aria-label="Add to wishlist" aria-pressed="false">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.35-9.2-8.3C1.1 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.9 3.4 3.2 6.7C19 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+
+            <ul class="pdp__assure">
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2 7h11v9H2zM13 10h5l3 3v3h-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg> Free shipping over $49 · dispatched within 24h</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M20 4v4h-4" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg> 30-day free returns · 2-year warranty</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 7.8-7 9-4-1.2-7-4.6-7-9V6l7-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg> Secure checkout · pay your way</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Tabs -->
+        <section class="ptabs" aria-label="Product details">
+          <div class="ptabs__nav" role="tablist" aria-label="Product information">
+            <button class="ptab is-active" role="tab" id="tab-desc" aria-controls="panel-desc" aria-selected="true" tabindex="0">Description</button>
+            <button class="ptab" role="tab" id="tab-specs" aria-controls="panel-specs" aria-selected="false" tabindex="-1">Specifications</button>
+            <button class="ptab" role="tab" id="tab-reviews" aria-controls="panel-reviews" aria-selected="false" tabindex="-1">Reviews <span class="ptab__n">1,284</span></button>
+          </div>
+
+          <div class="ptabs__panels">
+            <div class="ppanel is-active" id="panel-desc" role="tabpanel" aria-labelledby="tab-desc" tabindex="0">
+              <div class="prose">
+                <p>The Aurora Wireless Headphones are built for people who want studio-grade sound without the studio-grade fuss. Three microphones per cup power an adaptive noise-cancelling system that reads your surroundings 200 times a second, dialling the hush up on a plane and easing off when you're walking a city street.</p>
+                <p>A single charge runs 40 hours with ANC on, and a 10-minute fast charge gives you five more hours when you're rushing out the door. The 40&nbsp;mm bio-cellulose drivers are tuned for a warm, balanced signature — deep but controlled bass, clear mids and airy highs that never turn harsh.</p>
+                <h3>In the box</h3>
+                <ul>
+                  <li>Aurora Wireless Headphones</li>
+                  <li>USB-C charging cable and 3.5&nbsp;mm audio cable</li>
+                  <li>Quick-start guide and warranty card</li>
+                  <li>Fabric travel pouch (hard case available as a bundle)</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="ppanel" id="panel-specs" role="tabpanel" aria-labelledby="tab-specs" tabindex="0" hidden>
+              <table class="spec">
+                <tbody>
+                  <tr><th scope="row">Driver</th><td>40&nbsp;mm bio-cellulose dynamic</td></tr>
+                  <tr><th scope="row">Battery life</th><td>40 hours (ANC on), 55 hours (ANC off)</td></tr>
+                  <tr><th scope="row">Fast charge</th><td>10 min = 5 hours playback</td></tr>
+                  <tr><th scope="row">Connectivity</th><td>Bluetooth 5.3, multipoint, 3.5&nbsp;mm wired</td></tr>
+                  <tr><th scope="row">Codecs</th><td>SBC, AAC, LDAC</td></tr>
+                  <tr><th scope="row">Noise cancelling</th><td>Adaptive hybrid ANC + transparency mode</td></tr>
+                  <tr><th scope="row">Weight</th><td>248 g</td></tr>
+                  <tr><th scope="row">Warranty</th><td>2 years</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="ppanel" id="panel-reviews" role="tabpanel" aria-labelledby="tab-reviews" tabindex="0" hidden>
+              <div class="revsum">
+                <div class="revsum__score">
+                  <strong>4.8</strong>
+                  <span class="stars" style="--rate:96%" aria-hidden="true"></span>
+                  <span class="revsum__based">Based on 1,284 reviews</span>
+                </div>
+                <ul class="revsum__bars">
+                  <li><span>5★</span><span class="revbar"><span style="width:82%"></span></span><span>82%</span></li>
+                  <li><span>4★</span><span class="revbar"><span style="width:12%"></span></span><span>12%</span></li>
+                  <li><span>3★</span><span class="revbar"><span style="width:4%"></span></span><span>4%</span></li>
+                  <li><span>2★</span><span class="revbar"><span style="width:1%"></span></span><span>1%</span></li>
+                  <li><span>1★</span><span class="revbar"><span style="width:1%"></span></span><span>1%</span></li>
+                </ul>
+              </div>
+              <ul class="revlist">
+                <li class="rev">
+                  <div class="rev__head">
+                    <img src="img/person-2.jpg" width="44" height="44" loading="lazy" alt="Portrait of Marcus Feld">
+                    <div>
+                      <strong>Marcus Feld</strong>
+                      <span class="rev__verified">Verified purchase</span>
+                    </div>
+                    <span class="stars" style="--rate:100%" aria-label="Rated 5 out of 5"></span>
+                  </div>
+                  <p class="rev__body">These replaced a pair that cost twice as much and I honestly can't tell the difference — except the battery lasts my whole week of commuting. The ANC on the train is unreal.</p>
+                </li>
+                <li class="rev">
+                  <div class="rev__head">
+                    <img src="img/person-1.jpg" width="44" height="44" loading="lazy" alt="Portrait of Danielle Osei">
+                    <div>
+                      <strong>Danielle Osei</strong>
+                      <span class="rev__verified">Verified purchase</span>
+                    </div>
+                    <span class="stars" style="--rate:100%" aria-label="Rated 5 out of 5"></span>
+                  </div>
+                  <p class="rev__body">Comfortable enough that I forget I'm wearing them on long calls. The multipoint pairing between my laptop and phone just works, which is more than I can say for my last set.</p>
+                </li>
+                <li class="rev">
+                  <div class="rev__head">
+                    <img src="img/person-3.jpg" width="44" height="44" loading="lazy" alt="Portrait of Priya Raman">
+                    <div>
+                      <strong>Priya Raman</strong>
+                      <span class="rev__verified">Verified purchase</span>
+                    </div>
+                    <span class="stars" style="--rate:80%" aria-label="Rated 4 out of 5"></span>
+                  </div>
+                  <p class="rev__body">Sound and battery are excellent. Knocking one star only because the travel pouch is soft — I'd buy the case bundle if I were ordering again. Otherwise a genuine bargain at this price.</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Related -->
+        <section class="section" aria-labelledby="rel-h">
+          <div class="section__head">
+            <div>
+              <p class="eyebrow">You might also like</p>
+              <h2 class="section__title" id="rel-h">Related products</h2>
+            </div>
+          </div>
+          <div class="pgrid pgrid--rel">
+            <article class="pcard">
+              <div class="pcard__media">
+                <span class="badge-emp badge-emp--best">Bestseller</span>
+                <a href="product.html" class="pcard__imglink"><img src="img/product-watch.jpg" width="300" height="300" loading="lazy" alt="PulseFit fitness smart watch with a black band"></a>
+                <button class="pcard__quick" type="button" data-add-to-cart data-id="pulsefit" data-name="PulseFit Smart Watch" data-price="89.00" data-img="img/product-watch.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Electronics</span>
+                <h3 class="pcard__title"><a href="product.html">PulseFit Smart Watch</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:92%" aria-hidden="true"></span><span class="pcard__rnum">4.6</span></div>
+                <div class="pcard__price"><span class="price-now">$89.00</span><span class="price-was">$119.00</span></div>
+              </div>
+            </article>
+            <article class="pcard">
+              <div class="pcard__media">
+                <a href="product.html" class="pcard__imglink"><img src="img/best-speaker.jpg" width="300" height="300" loading="lazy" alt="Portable Bluetooth speaker in forest green"></a>
+                <button class="pcard__quick" type="button" data-add-to-cart data-id="boom-mini" data-name="Boom Mini Speaker" data-price="45.00" data-img="img/best-speaker.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Electronics</span>
+                <h3 class="pcard__title"><a href="product.html">Boom Mini Speaker</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:96%" aria-hidden="true"></span><span class="pcard__rnum">4.8</span></div>
+                <div class="pcard__price"><span class="price-now">$45.00</span></div>
+              </div>
+            </article>
+            <article class="pcard">
+              <div class="pcard__media">
+                <span class="badge-emp badge-emp--sale">Deal</span>
+                <a href="product.html" class="pcard__imglink"><img src="img/deal-earbuds.jpg" width="300" height="300" loading="lazy" alt="Orbit Pro wireless earbuds with charging case"></a>
+                <button class="pcard__quick" type="button" data-add-to-cart data-id="orbit-pro" data-name="Orbit Pro Wireless Earbuds" data-price="59.00" data-img="img/deal-earbuds.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Electronics</span>
+                <h3 class="pcard__title"><a href="product.html">Orbit Pro Wireless Earbuds</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:98%" aria-hidden="true"></span><span class="pcard__rnum">4.9</span></div>
+                <div class="pcard__price"><span class="price-now">$59.00</span><span class="price-was">$99.00</span></div>
+              </div>
+            </article>
+            <article class="pcard">
+              <div class="pcard__media">
+                <span class="badge-emp badge-emp--new">New</span>
+                <a href="product.html" class="pcard__imglink"><img src="img/best-keyboard.jpg" width="300" height="300" loading="lazy" alt="Compact mechanical keyboard in white and grey"></a>
+                <button class="pcard__quick" type="button" data-add-to-cart data-id="clack-kb" data-name="Clack Mechanical Keyboard" data-price="79.00" data-img="img/best-keyboard.jpg">Quick add</button>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__cat">Electronics</span>
+                <h3 class="pcard__title"><a href="product.html">Clack Mechanical Keyboard</a></h3>
+                <div class="pcard__rate"><span class="stars" style="--rate:98%" aria-hidden="true"></span><span class="pcard__rnum">4.9</span></div>
+                <div class="pcard__price"><span class="price-now">$79.00</span></div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="foot">
+      <div class="container">
+        <div class="foot__top">
+          <div class="foot__brandcol">
+            <a class="emp-brand emp-brand--foot" href="index.html" aria-label="Emporium home">
+              <span class="emp-brand__mark" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 26 26" fill="none"><path d="M4 8h18l-1.6 9.2a2 2 0 0 1-2 1.6H7.6a2 2 0 0 1-2-1.6L4 8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 8V6.5a4 4 0 0 1 8 0V8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </span>
+              <span class="emp-brand__name">Emporium</span>
+            </a>
+            <p class="foot__blurb">The everything store for people who like a good deal — electronics, home, fashion, sports and beauty, shipped fast and fairly priced.</p>
+            <ul class="foot__social" aria-label="Social media">
+              <li><a href="#" aria-label="Emporium on X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.3 8.4L23 22h-6.8l-5.3-6.9L4.8 22H2l7.8-9L1.5 2h6.9l4.8 6.3L18.9 2Zm-2.4 18h1.9L7.6 4H5.6l10.9 16Z"/></svg></a></li>
+              <li><a href="#" aria-label="Emporium on Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></a></li>
+              <li><a href="#" aria-label="Emporium on Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V5.5h-3c-2.2 0-4 1.8-4 4V12H7v3.5h3V22h3.5v-6.5H16l.5-3.5h-3v-1.7c0-.7.5-1.3 1.3-1.3Z"/></svg></a></li>
+              <li><a href="#" aria-label="Emporium on YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M11 9.5v5l4-2.5-4-2.5Z" fill="currentColor"/></svg></a></li>
+            </ul>
+          </div>
+          <div class="foot__links">
+            <div class="foot__col">
+              <h3>Shop</h3>
+              <ul>
+                <li><a href="index.html#products">Electronics</a></li>
+                <li><a href="index.html#products">Home &amp; Living</a></li>
+                <li><a href="index.html#products">Fashion</a></li>
+                <li><a href="index.html#products">Sports</a></li>
+                <li><a href="index.html#deals">Today's deals</a></li>
+              </ul>
+            </div>
+            <div class="foot__col">
+              <h3>Help</h3>
+              <ul>
+                <li><a href="#">Track your order</a></li>
+                <li><a href="#">Shipping &amp; delivery</a></li>
+                <li><a href="#">Returns &amp; refunds</a></li>
+                <li><a href="#">Size guides</a></li>
+                <li><a href="#">Contact support</a></li>
+              </ul>
+            </div>
+            <div class="foot__col">
+              <h3>Company</h3>
+              <ul>
+                <li><a href="#">About Emporium</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Sustainability</a></li>
+                <li><a href="#">Affiliates</a></li>
+                <li><a href="#">Press</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="foot__bottom">
+          <p>&copy; 2026 Emporium. All rights reserved. Free <a href="https://uicookies.com/free-html-website-templates/">Bootstrap templates</a> by uiCookies.</p>
+          <ul class="foot__pay" aria-label="Accepted payment methods">
+            <li>Visa</li><li>Mastercard</li><li>Amex</li><li>PayPal</li><li>Apple&nbsp;Pay</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Cart drawer -->
+    <div class="cart-overlay" data-cart-overlay hidden></div>
+    <aside class="cart" id="cartDrawer" aria-label="Shopping cart" aria-modal="true" role="dialog" aria-hidden="true" tabindex="-1">
+      <div class="cart__head">
+        <h2 class="cart__title">Your cart <span data-cart-count-text>(0)</span></h2>
+        <button type="button" class="cart__close" data-cart-close aria-label="Close cart">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="cart__ship" data-ship-wrap>
+        <p class="cart__shipmsg" data-ship-msg>Add <strong>$49.00</strong> more for free shipping</p>
+        <div class="cart__shipbar"><span data-ship-bar style="width:0%"></span></div>
+      </div>
+      <ul class="cart__items" data-cart-items></ul>
+      <div class="cart__empty" data-cart-empty>
+        <p>Your cart is empty.</p>
+        <button type="button" class="btn-emp btn-emp--ghost" data-cart-close>Start shopping</button>
+      </div>
+      <div class="cart__foot" data-cart-foot hidden>
+        <div class="cart__subtotal">
+          <span>Subtotal</span>
+          <strong data-cart-subtotal>$0.00</strong>
+        </div>
+        <p class="cart__note">Shipping &amp; taxes calculated at checkout.</p>
+        <button type="button" class="btn-emp btn-emp--primary btn-emp--block">Checkout</button>
+        <button type="button" class="cart__continue" data-cart-close>Continue shopping</button>
+      </div>
+    </aside>
+
+    <!-- Lightbox -->
+    <div class="lightbox" data-lightbox hidden role="dialog" aria-modal="true" aria-label="Product image viewer">
+      <button class="lightbox__close" type="button" data-lightbox-close aria-label="Close image viewer">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <img src="img/product-headphones.jpg" width="900" height="900" alt="Enlarged product image" data-lightbox-img>
+    </div>
+
+    <!-- Toasts -->
+    <div class="toasts" data-toasts aria-live="polite" aria-atomic="false"></div>
+
+    <script src="js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
